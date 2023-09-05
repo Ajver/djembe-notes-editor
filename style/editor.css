@@ -1,0 +1,35 @@
+
+body {
+    background-color: #48404d;
+    font-family: 'Montserrat', sans-serif;
+    padding: 50px 0;
+}
+
+/* Styles for div to print ONLY in editor! */
+.to-print {
+    box-shadow: 0 0 20px #000;
+}
+
+button {
+    width: 180px;
+    background-color: #09a66f;
+    color: #eee;
+    padding: 5px 0;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+
+    transition: background-color .1s;
+}
+
+button:hover {
+    background-color: #10b750;
+}
+
+.bottom-section {
+    width: 21cm;
+    margin: 20px auto;
+    display: flex;
+    justify-content: end;
+}

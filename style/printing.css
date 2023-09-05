@@ -1,0 +1,39 @@
+.to-print {
+    font-family: 'Indie Flower', cursive;
+    width: 21cm;
+    height: 29.7cm;
+    background-color: #fff;
+    margin: auto;
+    padding: 15px;
+}
+
+* {
+    font-size: 24px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    font-size: 40px;
+    margin-top: 0;
+}
+
+.tempo {
+    font-size: 20px;
+}
+
+.row {
+    display: flex;
+}
+
+.bit {
+    font-family: 'Montserrat', sans-serif;
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+}
+
+.bit img {
+    width: 100%;
+    height: 100%;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Djembe notes editor</title>
+
+    <link rel="stylesheet" href="style/editor.css">
+</head>
+
+<body>
+    <div id="to-print" class="to-print">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat&display=swap"
+            rel="stylesheet">
+
+        <link rel="stylesheet" href="style/printing.css">
+
+        <h1>Test title</h1>
+        <p id="tempo" class="tempo">120 bpm</p>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque facilis deserunt animi. Accusantium sequi
+            commodi dolorem soluta sit quaerat debitis velit culpa quis, ad iste id eveniet. Ducimus, ratione odio?</p>
+
+        <div class="row">
+            <div class="bit bass-bit"><img src="svg/b-letter.svg"></div>
+            <div class="bit tone-bit"><img src="svg/dot.svg"></div>
+            <div class="bit slap-bit"><img src="svg/cross.svg"></div>
+        </div>
+
+    </div>
+
+    <div class="bottom-section">
+        <button id="print-btn" class="print-btn">PRINT</button>
+    </div>
+
+    <script src="script/printing.js"></script>
+</body>
+
+</html>
