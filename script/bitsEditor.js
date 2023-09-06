@@ -39,8 +39,6 @@ const toggleNoteForBit = bitBtn => {
     bitBtn.setAttribute("note", note)
     const img = bitBtn.querySelector("img")
     img.src = IMG_URLS[note]
-
-    console.log("Note set: ", note)
 }
 
 addEventListener("keypress", event => {
