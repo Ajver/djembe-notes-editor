@@ -27,6 +27,7 @@ h1 {
 }
 
 .row {
+    position: relative;
     display: flex;
     width: 100%;
     justify-content: center;
@@ -38,6 +39,7 @@ h1 {
 }
 
 .bit {
+    position: relative;
     font-family: 'Montserrat', sans-serif;
     width: 40px;
     height: 40px;
@@ -53,7 +55,6 @@ h1 {
 
 .bit img {
     position: absolute;
-    /* right: 100%; */
     width: 40px;
     height: 40px;
     margin: 0;
@@ -62,9 +63,9 @@ h1 {
 .bit::before {
     content: "";
 
-    position: relative;
+    position: absolute;
     left: 45%;
-    bottom: 50%;
+    bottom: 80%;
 
     font-size: 0;
 
@@ -80,3 +81,6 @@ h1 {
     border-top: none;
 }
 
+.editor-only {
+    display: none;
+}
