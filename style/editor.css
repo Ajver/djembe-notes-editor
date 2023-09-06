@@ -2,16 +2,17 @@
 body {
     background-color: #48404d;
     font-family: 'Montserrat', sans-serif;
-    padding: 50px 0;
+    padding: 50px 0px;
 }
 
 .edit-view .editor-only {
     display: block;
 }
 
-/* Styles for div to print ONLY in editor! */
-.to-print {
+/* Styles for sheet to print ONLY in editor! */
+.sheet {
     box-shadow: 0 0 20px #000;
+    margin-top: 30px;
 }
 
 button {
@@ -62,6 +63,10 @@ button:hover {
 
 .delete-row-btn:hover {
     background-color: #e47575;
+}
+
+.sheet.full .add-row-btn {
+    display: none;
 }
 
 .add-row-btn {

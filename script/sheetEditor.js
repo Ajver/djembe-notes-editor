@@ -1,4 +1,9 @@
 
+let notesInBar = 4
+let barsInRow = 4
+let amountOfRows = 8
+
+
 const setupBitBtnListeners = bitBtn => {
     bitBtn.addEventListener("mouseenter", () => {
         if (!selectedBits.includes(bitBtn)) {
@@ -45,19 +50,19 @@ const createEmptyBar = notesInBar => {
     return bar
 }
 
-const createDeleteRowBtn = (row) => {
+const createDeleteRowBtn = (sheet, row) => {
     const btn = document.createElement("div")
     btn.classList.add("delete-row-btn")
     btn.classList.add("editor-only")
 
     btn.addEventListener("click", () => {
-        deleteRow(row)
+        deleteRowInSheet(sheet, row)
     })
 
     return btn
 }
 
-const createEmptyRow = (notesInBar, barsInRow) => {
+const createEmptyRow = (sheet, notesInBar, barsInRow) => {
     const row = document.createElement("div")
     row.classList.add("row")
 
@@ -66,48 +71,76 @@ const createEmptyRow = (notesInBar, barsInRow) => {
         row.appendChild(bar)
     }
 
-    const deleteRowBtn = createDeleteRowBtn(row)
+    const deleteRowBtn = createDeleteRowBtn(sheet, row)
     row.appendChild(deleteRowBtn)
 
     return row
 }
 
-const clearSheet = () => {
-    const sheet = document.querySelector("#sheet")
-    sheet.innerHTML = ""
+const clearRowsInSheet = (sheet) => {
+    sheet.querySelectorAll(".row").forEach(row => {
+        sheet.removeChild(row)
+    })
 }
 
 const createRowInSheet = (sheet, notesInBar, barsInRow) => {
-    const row = createEmptyRow(notesInBar, barsInRow)
+    const row = createEmptyRow(sheet, notesInBar, barsInRow)
     const addRowBtn = sheet.lastChild
     sheet.insertBefore(row, addRowBtn)
+    sheet.dispatchEvent(new Event("rowadded", {row: row}))
+}
+
+const canFitMoreRows = (sheet) => {
+    const firstSheet = Array.prototype.indexOf.call(sheet.parentNode.children, sheet) == 0
+    const rowsCount = sheet.querySelectorAll(".row").length
+    
+    if (firstSheet) {
+        return rowsCount < 10
+    }else {
+        return rowsCount < 11
+    }
+}
+
+const onRowAdded = (sheet, row) => {
+    console.log(sheet)
+    if (!canFitMoreRows(sheet)) {
+        sheet.classList.add("full")
+    }
 }
 
 const createEmptySheet = (notesInBar, barsInRow, amountOfRows) => {
-    clearSheet()
+    const sheet = document.createElement("div")
+    sheet.classList.add("sheet")
 
-    const sheet = document.querySelector("#sheet")
+    const container = document.querySelector("#sheets-container")
+    container.appendChild(sheet)
+
+    sheet.addEventListener("rowadded", (event) => {
+        onRowAdded(sheet, event.row)
+    })
 
     for (let i = 0; i < amountOfRows; i++) {
-        const row = createEmptyRow(notesInBar, barsInRow)
+        const row = createEmptyRow(sheet, notesInBar, barsInRow)
         sheet.appendChild(row)
+        sheet.dispatchEvent(new Event("rowadded", {row: row}))
     }
 
     const addRowBtn = document.createElement("div")
     addRowBtn.classList.add("add-row-btn")
     addRowBtn.classList.add("editor-only")
     addRowBtn.addEventListener("click", () => {
-        createRowInSheet(sheet, notesInBar, barsInRow)
+        if (canFitMoreRows(sheet)) {
+            createRowInSheet(sheet, notesInBar, barsInRow)
+        }
     })
 
     sheet.appendChild(addRowBtn)
 }
 
-const deleteRow = (row) => {
-    const sheet = document.querySelector("#sheet")
+const deleteRowInSheet = (sheet, row) => {
     sheet.removeChild(row)
 }
 
 window.addEventListener("load", () => {
-    createEmptySheet(4, 4, 2)
+    createEmptySheet(notesInBar, barsInRow, amountOfRows)
 })
