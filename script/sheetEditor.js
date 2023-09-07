@@ -51,13 +51,13 @@ const createEmptyBar = notesInBar => {
     return bar
 }
 
-const createDeleteRowBtn = (sheet, row) => {
+const createDeleteRowBtn = (row) => {
     const btn = document.createElement("div")
     btn.classList.add("delete-row-btn")
     btn.classList.add("editor-only")
 
     btn.addEventListener("click", () => {
-        deleteRowInSheet(sheet, row)
+        deleteRow(row)
     })
 
     return btn
@@ -72,7 +72,7 @@ const createEmptyRow = (sheet, notesInBar, barsInRow) => {
         row.appendChild(bar)
     }
 
-    const deleteRowBtn = createDeleteRowBtn(sheet, row)
+    const deleteRowBtn = createDeleteRowBtn(row)
     row.appendChild(deleteRowBtn)
 
     return row
@@ -145,7 +145,6 @@ const moveElementToNextSheet = (sheet, element) => {
 
 const onRowAdded = (sheet) => {
     const overflow = isSheetOverflow(sheet)
-    console.log("Is overflow: ", overflow)
 
     if (overflow) {
         const lastElement = sheet.lastChild
@@ -153,12 +152,42 @@ const onRowAdded = (sheet) => {
     }
 }
 
-const onRowRemoved = (sheet) => {
-    const overflow = isSheetOverflow(sheet)
-    console.log("Is overflow: ", overflow)
+const removeSheetIfEmpty = (sheet) => {
+    if (sheet.children.length === 0) {
+        sheet.parentNode.removeChild(sheet)
+    }
 }
 
-const deleteRowInSheet = (sheet, row) => {
+const onRowRemoved = (sheet) => {
+    const isThisLastSheet = sheet.parentNode.lastChild === sheet
+
+    if (isThisLastSheet) {
+        // It's the last sheet, nothing to move
+        removeSheetIfEmpty(sheet)
+        return
+    }
+
+    const thisSheetIdx = Array.prototype.indexOf.call(sheet.parentNode.children, sheet)
+    const nextSheet = sheet.parentNode.children[thisSheetIdx + 1]
+
+    const firstElementOfNextSheet = nextSheet.firstChild
+
+    if (!firstElementOfNextSheet) {
+        // Next sheet is empty
+        console.log("Next sheet is empty. Nothing to move!")
+        removeSheetIfEmpty(sheet)
+        return
+    }
+
+    // Move the first element of next sheet at the end of this sheet
+    reparentNode(firstElementOfNextSheet, sheet)
+
+    // Push event on the next sheet, so this moving flow can be recursively called on the next sheets
+    nextSheet.dispatchEvent(new Event("rowremoved"))
+}
+
+const deleteRow = (row) => {
+    const sheet = row.parentNode
     sheet.removeChild(row)
     sheet.dispatchEvent(new Event("rowremoved"))
 }
