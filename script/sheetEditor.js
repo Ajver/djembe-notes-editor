@@ -104,17 +104,6 @@ const reparentNode = (node, newParent, asFirst=false) => {
     }
 }
 
-const canFitMoreRows = (sheet) => {
-    const firstSheet = Array.prototype.indexOf.call(sheet.parentNode.children, sheet) == 0
-    const rowsCount = sheet.querySelectorAll(".row").length
-    
-    if (firstSheet) {
-        return rowsCount < 10
-    }else {
-        return rowsCount < 11
-    }
-}
-
 const isSheetOverflow = (sheet) => {
     const lastChild = sheet.lastChild
 
@@ -146,6 +135,8 @@ const moveElementToNextSheet = (sheet, element) => {
 const onRowAdded = (sheet) => {
     const overflow = isSheetOverflow(sheet)
 
+    console.log("overflow: ", overflow)
+
     if (overflow) {
         const lastElement = sheet.lastChild
         moveElementToNextSheet(sheet, lastElement)
@@ -159,6 +150,8 @@ const removeSheetIfEmpty = (sheet) => {
 }
 
 const onRowRemoved = (sheet) => {
+    console.log("Removed in ", sheet)
+
     const isThisLastSheet = sheet.parentNode.lastChild === sheet
 
     if (isThisLastSheet) {
@@ -198,7 +191,7 @@ const getNextSheetId = () => {
     return allSheets.length + 1
 }
 
-const createEmptySheet = (notesInBar, barsInRow, amountOfRows) => {
+const createEmptySheet = () => {
     const sheet = document.createElement("div")
     sheet.classList.add("sheet")
     
@@ -238,8 +231,26 @@ const createAddRowBtnInSheet = (sheet) => {
     sheet.appendChild(addRowBtn)
 }
 
+const createAndAddTitleInSheet = (sheet, content) => {
+    const title = document.createElement("h1")
+    title.innerHTML = content
+    sheet.appendChild(title)
+}
+
+const createAndAddTempoInSheet = (sheet, tempo) => {
+    const tempoElement = document.createElement("p")
+    tempoElement.classList.add("tempo")
+    tempoElement.id = "tempo"
+
+    tempoElement.innerHTML = tempo + " bmp"
+
+    sheet.appendChild(tempoElement)
+}
+
 window.addEventListener("load", () => {
     const sheet = createEmptySheet()
+    createAndAddTitleInSheet(sheet, "Title of your rythm")
+    createAndAddTempoInSheet(sheet, 120)
     fillSheetWithEmptyRows(sheet, notesInBar, barsInRow, amountOfRows)
     createAddRowBtnInSheet(sheet)
 })
