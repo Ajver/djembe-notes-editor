@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Djembe notes editor</title>
 
+    <link rel="stylesheet" href="style/main.css">
     <link rel="stylesheet" href="style/editor.css">
 </head>
 
@@ -26,10 +27,24 @@
         <button id="print-btn" class="print-btn">PRINT</button>
     </div>
 
+    <div class="tips-panel" id="tips-panel">
+        <div class="key-tips-container">
+            <div class="key-tip">`<img src="svg/dash.svg"></img></div>
+            <div class="key-tip">1<img src="svg/b-letter.svg"></img></div>
+            <div class="key-tip">2<img src="svg/dot.svg"></img></div>
+            <div class="key-tip">3<img src="svg/cross.svg"></img></div>
+            <div class="key-tip">Shift<p>multiselect</p></div>
+            <div class="mouse-button-tip"></div>
+        </div>
+
+        <button class="tips-panel-hide-btn" id="tips-panel-hide-btn">HIDE</button>
+    </div>
+
     <script src="script/printing.js"></script>
 
     <script src="script/bitsEditor.js"></script>
     <script src="script/sheetEditor.js"></script>
+    <script src="script/main.js"></script>
 </body>
 
 </html>
