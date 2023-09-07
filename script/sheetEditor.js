@@ -1,5 +1,7 @@
 
 // Global settings
+let rythmTitle = "Title of your rythm"
+let rythmTempo = 120
 let notesInBar = 4
 let barsInRow = 4
 let amountOfRows = 8
@@ -135,8 +137,6 @@ const moveElementToNextSheet = (sheet, element) => {
 const onRowAdded = (sheet) => {
     const overflow = isSheetOverflow(sheet)
 
-    console.log("overflow: ", overflow)
-
     if (overflow) {
         const lastElement = sheet.lastChild
         moveElementToNextSheet(sheet, lastElement)
@@ -150,8 +150,6 @@ const removeSheetIfEmpty = (sheet) => {
 }
 
 const onRowRemoved = (sheet) => {
-    console.log("Removed in ", sheet)
-
     const isThisLastSheet = sheet.parentNode.lastChild === sheet
 
     if (isThisLastSheet) {
@@ -249,8 +247,8 @@ const createTempoInSheet = (sheet, tempo) => {
 
 window.addEventListener("load", () => {
     const sheet = createEmptySheet()
-    createTitleInSheet(sheet, "Title of your rythm")
-    createTempoInSheet(sheet, 120)
+    createTitleInSheet(sheet, rythmTitle)
+    createTempoInSheet(sheet, rythmTempo)
     fillSheetWithEmptyRows(sheet, notesInBar, barsInRow, amountOfRows)
     createAddRowBtnInSheet(sheet)
 })
