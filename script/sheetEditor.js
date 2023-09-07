@@ -1,4 +1,5 @@
 
+// Global settings
 let notesInBar = 4
 let barsInRow = 4
 let amountOfRows = 8
@@ -90,6 +91,19 @@ const createRowInSheet = (sheet, notesInBar, barsInRow) => {
     sheet.dispatchEvent(new Event("rowadded", {row: row}))
 }
 
+/**
+ * Adds node to the new parent, at the end of the children list.
+ * if asFirst set to True - adds at the beggining of the children list
+ */
+const reparentNode = (node, newParent, asFirst=false) => {
+    
+    if (asFirst && newParent.children.length > 0) {
+        newParent.insertBefore(node, newParent.children[0])
+    }else {
+        newParent.appendChild(node)
+    }
+}
+
 const canFitMoreRows = (sheet) => {
     const firstSheet = Array.prototype.indexOf.call(sheet.parentNode.children, sheet) == 0
     const rowsCount = sheet.querySelectorAll(".row").length
@@ -101,46 +115,102 @@ const canFitMoreRows = (sheet) => {
     }
 }
 
-const onRowAdded = (sheet, row) => {
-    console.log(sheet)
-    if (!canFitMoreRows(sheet)) {
-        sheet.classList.add("full")
+const isSheetOverflow = (sheet) => {
+    const lastChild = sheet.lastChild
+
+    if (!lastChild) {
+        // No children found
+        return false
     }
+
+    const sheetTop = sheet.getBoundingClientRect().top
+    const lastChildBottom = lastChild.getBoundingClientRect().bottom
+    const offset = lastChildBottom - sheetTop
+
+    if (offset > sheet.offsetHeight) {
+        return true
+    }
+
+    return false
+}
+
+const moveElementToNextSheet = (sheet, element) => {
+    const isThisLastSheet = sheet.parentNode.lastChild === sheet
+
+    if (isThisLastSheet) {
+        const nextSheet = createEmptySheet()
+        reparentNode(element, nextSheet, true)
+    }
+}
+
+const onRowAdded = (sheet) => {
+    const overflow = isSheetOverflow(sheet)
+    console.log("Is overflow: ", overflow)
+
+    if (overflow) {
+        const lastElement = sheet.lastChild
+        moveElementToNextSheet(sheet, lastElement)
+    }
+}
+
+const onRowRemoved = (sheet) => {
+    const overflow = isSheetOverflow(sheet)
+    console.log("Is overflow: ", overflow)
+}
+
+const deleteRowInSheet = (sheet, row) => {
+    sheet.removeChild(row)
+    sheet.dispatchEvent(new Event("rowremoved"))
+}
+
+
+const getNextSheetId = () => {
+    const allSheets = document.querySelectorAll(".sheet")
+    return allSheets.length + 1
 }
 
 const createEmptySheet = (notesInBar, barsInRow, amountOfRows) => {
     const sheet = document.createElement("div")
     sheet.classList.add("sheet")
+    
+    sheet.id = "sheet" + getNextSheetId()
+
+    sheet.addEventListener("rowadded", (event) => {
+        onRowAdded(sheet)
+    })
+    sheet.addEventListener("rowremoved", (event) => {
+        onRowRemoved(sheet)
+    })
 
     const container = document.querySelector("#sheets-container")
     container.appendChild(sheet)
 
-    sheet.addEventListener("rowadded", (event) => {
-        onRowAdded(sheet, event.row)
-    })
+    return sheet
+}
 
+const fillSheetWithEmptyRows = (sheet, notesInBar, barsInRow, amountOfRows) => {
     for (let i = 0; i < amountOfRows; i++) {
         const row = createEmptyRow(sheet, notesInBar, barsInRow)
         sheet.appendChild(row)
         sheet.dispatchEvent(new Event("rowadded", {row: row}))
     }
+}
 
+const createAddRowBtnInSheet = (sheet) => {
     const addRowBtn = document.createElement("div")
     addRowBtn.classList.add("add-row-btn")
     addRowBtn.classList.add("editor-only")
     addRowBtn.addEventListener("click", () => {
-        if (canFitMoreRows(sheet)) {
-            createRowInSheet(sheet, notesInBar, barsInRow)
-        }
+        // Always get parent from btn, because button may be re-parented
+        const parentSheet = addRowBtn.parentNode
+        createRowInSheet(parentSheet, notesInBar, barsInRow)
     })
 
     sheet.appendChild(addRowBtn)
 }
 
-const deleteRowInSheet = (sheet, row) => {
-    sheet.removeChild(row)
-}
-
 window.addEventListener("load", () => {
-    createEmptySheet(notesInBar, barsInRow, amountOfRows)
+    const sheet = createEmptySheet()
+    fillSheetWithEmptyRows(sheet, notesInBar, barsInRow, amountOfRows)
+    createAddRowBtnInSheet(sheet)
 })
