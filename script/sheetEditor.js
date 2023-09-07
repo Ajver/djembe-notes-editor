@@ -24,6 +24,12 @@ const setupBitBtnListeners = bitBtn => {
     bitBtn.addEventListener("click", () => {
         toggleNoteForBit(bitBtn)
     })
+
+    bitBtn.addEventListener("contextmenu", (event) => {
+        event.preventDefault();
+        setNoteForBit(bitBtn, "empty")
+        return false
+    })
 }
 
 
@@ -35,6 +41,11 @@ const createBitBtn = note => {
 
     const img = document.createElement("img")
     img.src = IMG_URLS[note]
+
+    img.ondragstart = () => {
+        // Prevent dragging
+        return false
+    }
 
     bitBtn.appendChild(img)
 

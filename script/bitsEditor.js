@@ -16,11 +16,15 @@ const deselectAllBits = () => {
     selectedBits = []
 }
 
-const setNoteForBits = note => {
+const setNoteForBit = (bitBtn, note) => {
+    bitBtn.setAttribute("note", note)
+    const img = bitBtn.querySelector("img")
+    img.src = IMG_URLS[note]
+}
+
+const setNoteForSelectedBits = note => {
     selectedBits.forEach(bitBtn => {
-        bitBtn.setAttribute("note", note)
-        const img = bitBtn.querySelector("img")
-        img.src = IMG_URLS[note]
+        setNoteForBit(bitBtn, note)
     });
 
     console.log("Note set: ", note)
@@ -35,18 +39,15 @@ const toggleNoteForBit = bitBtn => {
         "slap": "empty",
     }
     const note = nextNotes[currentNote]
-
-    bitBtn.setAttribute("note", note)
-    const img = bitBtn.querySelector("img")
-    img.src = IMG_URLS[note]
+    setNoteForBit(bitBtn, note)
 }
 
 addEventListener("keypress", event => {
     const keyHandler = {
-        "`": () => setNoteForBits("empty"),
-        "1": () => setNoteForBits("bass"),
-        "2": () => setNoteForBits("tone"),
-        "3": () => setNoteForBits("slap"),
+        "`": () => setNoteForSelectedBits("empty"),
+        "1": () => setNoteForSelectedBits("bass"),
+        "2": () => setNoteForSelectedBits("tone"),
+        "3": () => setNoteForSelectedBits("slap"),
     }
 
     handler = keyHandler[event.key]
