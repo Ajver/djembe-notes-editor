@@ -63,7 +63,7 @@ const createDeleteRowBtn = (row) => {
     return btn
 }
 
-const createEmptyRow = (sheet, notesInBar, barsInRow) => {
+const createEmptyRow = (notesInBar, barsInRow) => {
     const row = document.createElement("div")
     row.classList.add("row")
 
@@ -85,7 +85,7 @@ const clearRowsInSheet = (sheet) => {
 }
 
 const createRowInSheet = (sheet, notesInBar, barsInRow) => {
-    const row = createEmptyRow(sheet, notesInBar, barsInRow)
+    const row = createEmptyRow(notesInBar, barsInRow)
     const addRowBtn = sheet.lastChild
     sheet.insertBefore(row, addRowBtn)
     sheet.dispatchEvent(new Event("rowadded", {row: row}))
@@ -212,7 +212,7 @@ const createEmptySheet = () => {
 
 const fillSheetWithEmptyRows = (sheet, notesInBar, barsInRow, amountOfRows) => {
     for (let i = 0; i < amountOfRows; i++) {
-        const row = createEmptyRow(sheet, notesInBar, barsInRow)
+        const row = createEmptyRow(notesInBar, barsInRow)
         sheet.appendChild(row)
         sheet.dispatchEvent(new Event("rowadded", {row: row}))
     }
@@ -231,13 +231,13 @@ const createAddRowBtnInSheet = (sheet) => {
     sheet.appendChild(addRowBtn)
 }
 
-const createAndAddTitleInSheet = (sheet, content) => {
+const createTitleInSheet = (sheet, content) => {
     const title = document.createElement("h1")
     title.innerHTML = content
     sheet.appendChild(title)
 }
 
-const createAndAddTempoInSheet = (sheet, tempo) => {
+const createTempoInSheet = (sheet, tempo) => {
     const tempoElement = document.createElement("p")
     tempoElement.classList.add("tempo")
     tempoElement.id = "tempo"
@@ -249,8 +249,8 @@ const createAndAddTempoInSheet = (sheet, tempo) => {
 
 window.addEventListener("load", () => {
     const sheet = createEmptySheet()
-    createAndAddTitleInSheet(sheet, "Title of your rythm")
-    createAndAddTempoInSheet(sheet, 120)
+    createTitleInSheet(sheet, "Title of your rythm")
+    createTempoInSheet(sheet, 120)
     fillSheetWithEmptyRows(sheet, notesInBar, barsInRow, amountOfRows)
     createAddRowBtnInSheet(sheet)
 })
