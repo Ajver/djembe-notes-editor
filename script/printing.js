@@ -17,14 +17,13 @@ const printDiv = (divToPrint) => {
         }
         </script>
         <body onload='step1()'>
-        <div class='to-print'>
     `;
 
-    let end = "</div></body></html>";
+    let end = "</body></html>";
 
     pagelink = "about:blank";
     let pwa = window.open();
     pwa.document.open(pagelink);
-    pwa.document.write(begin + divToPrint.innerHTML + end);
+    pwa.document.write(begin + divToPrint.outerHTML + end);
     pwa.document.close();
 }
