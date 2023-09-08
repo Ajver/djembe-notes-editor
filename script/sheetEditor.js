@@ -331,7 +331,7 @@ document.querySelector("#submit-create-rythm-btn").addEventListener("click", () 
 
     const {notes, bars} = {
         "4-4": {notes: 4, bars: 4},
-        "3-4": {notes: 3, bars: 4},
+        "3-4": {notes: 4, bars: 3},
         "12-8": {notes: 3, bars: 4},
         "9-8": {notes: 3, bars: 3},
     }[meterSelected]
