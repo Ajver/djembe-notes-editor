@@ -4,6 +4,7 @@ body {
     font-family: 'Montserrat', sans-serif;
     padding-top: 10px;
     padding-bottom: 80px;
+    font-size: 24px;
 }
 
 button {
@@ -15,6 +16,7 @@ button {
     border-radius: 3px;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
 
     transition: background-color .1s;
 }
@@ -29,6 +31,12 @@ button.cancel {
 
 button.cancel:hover {
     background-color: #b71034;
+}
+
+.warning {
+    color: #b71034;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .top-section,
