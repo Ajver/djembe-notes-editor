@@ -75,10 +75,6 @@
     user-select: none;
 }
 
-.bit.selected {
-    background-color: #a5cfac;
-}
-
 .bit img {
     position: absolute;
     width: 80%;
@@ -86,6 +82,14 @@
     left: 50%;
     top: 10%;
     transform: translate(-50%);
+}
+
+.bit img.selected {
+    background-color: #a5cfac;
+}
+
+.bit.double img:nth-of-type(2) {
+    left: 100%;
 }
 
 .bit::before {

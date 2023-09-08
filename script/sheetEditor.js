@@ -1,4 +1,3 @@
-
 // Global settings
 let rythmTitle = "Title of your rythm"
 let rythmTempo = 120
@@ -7,48 +6,58 @@ let barsInRow = 4
 let amountOfRows = 4
 
 
-const setupBitBtnListeners = bitBtn => {
-    bitBtn.addEventListener("mouseenter", () => {
-        if (!selectedBits.includes(bitBtn)) {
-            bitBtn.classList.add("selected")
-            selectedBits.push(bitBtn)
+const setupNoteBtnListeners = noteBtn => {
+    noteBtn.addEventListener("mouseenter", () => {
+        if (!selectedNotes.includes(noteBtn)) {
+            noteBtn.classList.add("selected")
+            selectedNotes.push(noteBtn)
         }
     })
 
-    bitBtn.addEventListener("mouseleave", event => {
+    noteBtn.addEventListener("mouseleave", event => {
         if (!event.shiftKey) {
-            deselectAllBits()
+            deselectAllNotes()
         }
     })
 
-    bitBtn.addEventListener("click", () => {
-        toggleNoteForBit(bitBtn)
+    noteBtn.addEventListener("click", () => {
+        toggleNoteForBit(noteBtn)
     })
 
-    bitBtn.addEventListener("contextmenu", (event) => {
+    noteBtn.addEventListener("contextmenu", (event) => {
         event.preventDefault();
-        setNoteForBit(bitBtn, "empty")
+        setNoteForNoteBtn(noteBtn, "empty")
         return false
     })
 }
 
-
-const createBitBtn = note => {
-    const bitBtn = document.createElement("div")
-    bitBtn.classList.add("bit")
-    bitBtn.setAttribute("note", note)
-    setupBitBtnListeners(bitBtn)
-
+const createNoteBtn = (note) => {
     const img = document.createElement("img")
     img.src = IMG_URLS[note]
+
+    img.setAttribute("note", note)
+    setupNoteBtnListeners(img)
 
     img.ondragstart = () => {
         // Prevent dragging
         return false
     }
 
-    bitBtn.appendChild(img)
+    return img
+}
 
+const createBitBtn = note => {
+    const bitBtn = document.createElement("div")
+    bitBtn.classList.add("bit")
+    bitBtn.classList.add("double")
+
+    bitBtn.setAttribute("bit-type", "double")
+
+    for (let i = 0; i < 2; i++) {
+        const img = createNoteBtn(note)
+        bitBtn.appendChild(img)
+    }
+   
     return bitBtn
 }
 
@@ -60,7 +69,7 @@ const createEmptyBar = notesInBar => {
         const note = createBitBtn("empty")
         bar.appendChild(note)
     }
-    
+
     return bar
 }
 
@@ -101,18 +110,20 @@ const createRowInSheet = (sheet, notesInBar, barsInRow) => {
     const row = createEmptyRow(notesInBar, barsInRow)
     const addRowBtn = sheet.lastChild
     sheet.insertBefore(row, addRowBtn)
-    sheet.dispatchEvent(new Event("rowadded", {row: row}))
+    sheet.dispatchEvent(new Event("rowadded", {
+        row: row
+    }))
 }
 
 /**
  * Adds node to the new parent, at the end of the children list.
  * if asFirst set to True - adds at the beggining of the children list
  */
-const reparentNode = (node, newParent, asFirst=false) => {
-    
+const reparentNode = (node, newParent, asFirst = false) => {
+
     if (asFirst && newParent.children.length > 0) {
         newParent.insertBefore(node, newParent.children[0])
-    }else {
+    } else {
         newParent.appendChild(node)
     }
 }
@@ -203,7 +214,7 @@ const getNextSheetId = () => {
 const createEmptySheet = () => {
     const sheet = document.createElement("div")
     sheet.classList.add("sheet")
-    
+
     sheet.id = "sheet" + getNextSheetId()
 
     sheet.addEventListener("rowadded", (event) => {
@@ -223,7 +234,9 @@ const fillSheetWithEmptyRows = (sheet, notesInBar, barsInRow, amountOfRows) => {
     for (let i = 0; i < amountOfRows; i++) {
         const row = createEmptyRow(notesInBar, barsInRow)
         sheet.appendChild(row)
-        sheet.dispatchEvent(new Event("rowadded", {row: row}))
+        sheet.dispatchEvent(new Event("rowadded", {
+            row: row
+        }))
     }
 }
 
@@ -247,7 +260,7 @@ const createTitleInSheet = (sheet, content) => {
     const titleHeader = document.createElement("h1")
     titleHeader.innerHTML = content
     title.appendChild(titleHeader)
-    
+
     const input = document.createElement("input")
     input.type = "text"
     input.value = content
@@ -257,14 +270,14 @@ const createTitleInSheet = (sheet, content) => {
         input.classList.add("visible")
         input.select()
 
-        // Fixes bug when one can edit title with bits selected
-        deselectAllBits()
+        // Fixes bug when one can edit title with notes selected
+        deselectAllNotes()
     })
 
     input.addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
             input.blur()
-        }else if (event.key === "Escape") {
+        } else if (event.key === "Escape") {
             // Cancel title changing
             input.value = rythmTitle
             input.blur()
@@ -302,7 +315,7 @@ const createNewRythmWithGlobalSettings = () => {
 
 const clearAllSheets = () => {
     document.querySelectorAll(".sheet").forEach(sheet => {
-        sheet.parentNode.removeChild(sheet)    
+        sheet.parentNode.removeChild(sheet)
     })
 }
 
@@ -326,13 +339,28 @@ document.querySelector("#close-create-rythm-modal-btn").addEventListener("click"
 
 document.querySelector("#submit-create-rythm-btn").addEventListener("click", () => {
     const meterSelected = document.querySelector("input[name=preset-selection-btn]:checked").value
-    
-    const {notes, bars} = {
-        "4-4": {notes: 4, bars: 4},
-        "3-4": {notes: 4, bars: 3},
-        "12-8": {notes: 3, bars: 4},
-        "9-8": {notes: 3, bars: 3},
-    }[meterSelected]
+
+    const {
+        notes,
+        bars
+    } = {
+        "4-4": {
+            notes: 4,
+            bars: 4
+        },
+        "3-4": {
+            notes: 4,
+            bars: 3
+        },
+        "12-8": {
+            notes: 3,
+            bars: 4
+        },
+        "9-8": {
+            notes: 3,
+            bars: 3
+        },
+    } [meterSelected]
 
     // Override global settings, based on selected option
     notesInBar = notes
