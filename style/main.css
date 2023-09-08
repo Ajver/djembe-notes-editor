@@ -2,15 +2,15 @@
 body {
     background-color: #48404d;
     font-family: 'Montserrat', sans-serif;
-    padding-top: 50px;
+    padding-top: 10px;
     padding-bottom: 80px;
 }
 
 button {
-    width: 180px;
+    min-width: 180px;
     background-color: #09a66f;
     color: #eee;
-    padding: 5px 0;
+    padding: 5px 10px;
     border: none;
     border-radius: 3px;
     cursor: pointer;
@@ -23,10 +23,22 @@ button:hover {
     background-color: #10b750;
 }
 
+button.cancel {
+    background-color: #a60923;
+}
+
+button.cancel:hover {
+    background-color: #b71034;
+}
+
+.top-section,
 .bottom-section {
     width: 21cm;
     margin: 20px auto;
     display: flex;
+}
+
+.bottom-section {
     justify-content: end;
 }
 
@@ -52,6 +64,7 @@ button:hover {
     position: absolute;
     bottom: 100%;
     left: 10px;
+    min-width: 70px;
     width: 70px;
     padding: 5px;
     font-size: 12px;

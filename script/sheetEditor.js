@@ -4,7 +4,7 @@ let rythmTitle = "Title of your rythm"
 let rythmTempo = 120
 let notesInBar = 4
 let barsInRow = 4
-let amountOfRows = 8
+let amountOfRows = 4
 
 
 const setupBitBtnListeners = bitBtn => {
@@ -292,10 +292,57 @@ const createTempoInSheet = (sheet, tempo) => {
     sheet.appendChild(tempoElement)
 }
 
-window.addEventListener("load", () => {
+const createNewRythmWithGlobalSettings = () => {
     const sheet = createEmptySheet()
     createTitleInSheet(sheet, rythmTitle)
     createTempoInSheet(sheet, rythmTempo)
     fillSheetWithEmptyRows(sheet, notesInBar, barsInRow, amountOfRows)
     createAddRowBtnInSheet(sheet)
+}
+
+const clearAllSheets = () => {
+    document.querySelectorAll(".sheet").forEach(sheet => {
+        sheet.parentNode.removeChild(sheet)    
+    })
+}
+
+window.addEventListener("load", () => {
+    createNewRythmWithGlobalSettings()
+})
+
+document.querySelector("#new-rythm-btn").addEventListener("click", () => {
+    const modalContainer = document.querySelector("#create-rythm-modal-wrapper")
+    modalContainer.classList.add("modal-visible")
+})
+
+const closeModal = () => {
+    const modalContainer = document.querySelector("#create-rythm-modal-wrapper")
+    modalContainer.classList.remove("modal-visible")
+}
+
+document.querySelector("#close-create-rythm-modal-btn").addEventListener("click", () => {
+    closeModal()
+})
+
+document.querySelector("#submit-create-rythm-btn").addEventListener("click", () => {
+    const meterSelected = document.querySelector("input[name=preset-selection-btn]:checked").value
+    
+    console.log("Selected meter: ", meterSelected)
+
+    const {notes, bars} = {
+        "4-4": {notes: 4, bars: 4},
+        "3-4": {notes: 3, bars: 4},
+        "12-8": {notes: 3, bars: 4},
+        "9-8": {notes: 3, bars: 3},
+    }[meterSelected]
+
+    // Override global settings, based on selected option
+    notesInBar = notes
+    barsInRow = bars
+
+    clearAllSheets()
+
+    createNewRythmWithGlobalSettings()
+
+    closeModal()
 })
