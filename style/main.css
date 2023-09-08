@@ -32,7 +32,7 @@ button:hover {
 
 .tips-panel {
     height: 70px;
-    width: 100vw;
+    width: 100%;
     position: -webkit-sticky;
     position: fixed;
     bottom: 0;
