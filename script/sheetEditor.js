@@ -327,8 +327,6 @@ document.querySelector("#close-create-rythm-modal-btn").addEventListener("click"
 document.querySelector("#submit-create-rythm-btn").addEventListener("click", () => {
     const meterSelected = document.querySelector("input[name=preset-selection-btn]:checked").value
     
-    console.log("Selected meter: ", meterSelected)
-
     const {notes, bars} = {
         "4-4": {notes: 4, bars: 4},
         "3-4": {notes: 4, bars: 3},

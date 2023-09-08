@@ -26,8 +26,6 @@ const setNoteForSelectedBits = note => {
     selectedBits.forEach(bitBtn => {
         setNoteForBit(bitBtn, note)
     });
-
-    console.log("Note set: ", note)
 }
 
 const toggleNoteForBit = bitBtn => {
@@ -53,7 +51,5 @@ addEventListener("keypress", event => {
     handler = keyHandler[event.key]
     if (handler) {
         handler()
-    }else {
-        console.log(event)
     }
 });
