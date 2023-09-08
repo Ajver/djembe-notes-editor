@@ -23,8 +23,6 @@ const printDiv = (divToPrint, title) => {
     </html>
     `;
 
-    let end = "";
-
     pagelink = "about:blank";
     let pwa = window.open();
     pwa.document.open(pagelink);

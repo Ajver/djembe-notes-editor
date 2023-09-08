@@ -12,10 +12,33 @@
     margin: auto;
 }
 
-h1 {
+.title {
+    position: relative;
+    margin-top: 0;
+    width: 100%;
+}
+
+.title input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    /* By default hidden */
+    display: none;
+}
+
+.title input.visible {
+    display: block;
+}
+
+.title h1,
+.title input {
+    font-family: 'Indie Flower', cursive;
     text-align: center;
     font-size: 40px;
-    margin-top: 0;
+    font-weight: bold;
 }
 
 .tempo {

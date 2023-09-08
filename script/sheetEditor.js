@@ -241,8 +241,44 @@ const createAddRowBtnInSheet = (sheet) => {
 }
 
 const createTitleInSheet = (sheet, content) => {
-    const title = document.createElement("h1")
-    title.innerHTML = content
+    const title = document.createElement("div")
+    title.classList.add("title")
+
+    const titleHeader = document.createElement("h1")
+    titleHeader.innerHTML = content
+    title.appendChild(titleHeader)
+    
+    const input = document.createElement("input")
+    input.type = "text"
+    input.value = content
+    title.appendChild(input)
+
+    title.addEventListener("click", () => {
+        input.classList.add("visible")
+        input.select()
+
+        // Fixes bug when one can edit title with bits selected
+        deselectAllBits()
+    })
+
+    input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            input.blur()
+        }else if (event.key === "Escape") {
+            // Cancel title changing
+            input.value = rythmTitle
+            input.blur()
+        }
+    })
+
+    input.addEventListener("blur", (event) => {
+        input.classList.remove("visible")
+
+        // Override the title
+        rythmTitle = input.value
+        titleHeader.innerHTML = rythmTitle
+    })
+
     sheet.appendChild(title)
 }
 
