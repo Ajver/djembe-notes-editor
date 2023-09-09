@@ -251,6 +251,7 @@ const createAddRowBtnInSheet = (sheet) => {
 
 const createInputLabel = (className, content, editCallback) => {
     const container = document.createElement("div")
+    container.classList.add("input-label-container")
     container.classList.add(className)
 
     const label = document.createElement("p")
@@ -282,8 +283,14 @@ const createInputLabel = (className, content, editCallback) => {
 
     input.addEventListener("blur", () => {
         input.classList.remove("visible")
-        label.innerHTML = input.value
-        editCallback(input.value)
+
+        const newContent = editCallback(input.value)
+        if (newContent === undefined) {
+            label.innerHTML = input.value
+        }else {
+            // Custom input content
+            label.innerHTML = newContent
+        }
     })
 
     return container
@@ -298,11 +305,20 @@ const createTitleInSheet = (sheet, content) => {
 }
 
 const createTempoInSheet = (sheet, tempo) => {
-    const tempoElement = document.createElement("p")
-    tempoElement.classList.add("tempo")
-    tempoElement.id = "tempo"
+    const tempoElement = createInputLabel("tempo", rythmTempo + " bmp", (newContent) => {
+        const newTempo = parseInt(newContent)
 
-    tempoElement.innerHTML = tempo + " bmp"
+        if (isNaN(newTempo)) {
+            // Invalid input
+            return rythmTempo + " bpm"
+        }
+
+        // Input valid - let's overrdie global settings
+        rythmTempo = newTempo
+        const tempoText = rythmTempo + " bpm"
+
+        return tempoText
+    })
 
     sheet.appendChild(tempoElement)
 }
