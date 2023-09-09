@@ -9,11 +9,12 @@ Editor for Djembe notes
 - [x] Removing rows
 - [ ] Injecting rows in the middle
 - [x] Editing title
-- [ ] Editing tempo
+- [x] Editing tempo
 - [ ] Adding titles/description for rows (to describe rythm parts)
 - [ ] Changing row repeat/play once
 - [x] Double bits
 - [ ] Triplet bits
+- [ ] Copy/Paste
 - [ ] Playing rythm
 - [ ] Saving/Loading from file
 - [ ] Saving/Loading from browser cache
