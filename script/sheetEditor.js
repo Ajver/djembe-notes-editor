@@ -9,8 +9,7 @@ let amountOfRows = 4
 const setupNoteBtnListeners = noteBtn => {
     noteBtn.addEventListener("mouseenter", () => {
         if (!selectedNotes.includes(noteBtn)) {
-            noteBtn.classList.add("selected")
-            selectedNotes.push(noteBtn)
+            selectNoteBtn(noteBtn)
         }
     })
 

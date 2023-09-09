@@ -85,13 +85,25 @@
 }
 
 .bit[bit-type=double] img {
-    width: 70%;
-    height: 70%;
-    top: 15%;
+    width: 55%;
+    height: 55%;
+    top: 25%;
 }
 
 .bit[bit-type=double] img:nth-of-type(2) {
-    left: 100%;
+    left: 90%;
+}
+
+.bit[bit-type=triplet] + .bit {
+    visibility: hidden;
+}
+
+.bit[bit-type=triplet] img:nth-of-type(2) {
+    left: 110%;
+}
+
+.bit[bit-type=triplet] img:nth-of-type(3) {
+    left: 170%;
 }
 
 .bit::before {

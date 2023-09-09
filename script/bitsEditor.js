@@ -1,12 +1,17 @@
 
 const IMG_URLS = {
     "empty": "svg/dash.svg",
-    "bass": "svg/b-letter.svg",
-    "tone": "svg/dot.svg",
+    "bass": "svg/bass.svg",
+    "tone": "svg/tone.svg",
     "slap": "svg/cross.svg",
 }
 
 let selectedNotes = []
+
+const selectNoteBtn = (noteBtn) => {
+    noteBtn.classList.add("selected")
+    selectedNotes.push(noteBtn)
+}
 
 const deselectAllNotes = () => {
     selectedNotes.forEach(noteBtn => {
@@ -93,6 +98,7 @@ const changeBitsToDouble = () => {
         while(imgs.length < 2) {
             const img = createNoteBtn("empty")
             bit.appendChild(img)
+            selectNoteBtn(img)
             imgs = bit.querySelectorAll("img")
         }
         
