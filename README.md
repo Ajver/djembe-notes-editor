@@ -15,6 +15,8 @@ Editor for Djembe notes
 - [x] Double bits
 - [x] Triplet bits
 - [ ] Copy/Paste
+- [ ] Changing selected note using arrow keys
+- [ ] Ctrl + A to select all notes
 - [ ] Playing rythm
 - [ ] Saving/Loading from file
 - [ ] Saving/Loading from browser cache
