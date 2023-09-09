@@ -57,75 +57,83 @@ const getSelectedBits = () => {
     return bits
 }
 
+const changeOneBitToSingle = (bit) => {
+    if (bit.getAttribute("bit-type") === "single") {
+        // It's already single
+        return
+    }
+
+    bit.setAttribute("bit-type", "single")
+
+    // Hiding next bit
+    const nextBit = getNextBit(bit)
+    if (nextBit) {
+        nextBit.classList.remove("hidden")
+    }
+
+    let imgs = bit.querySelectorAll("img")
+    
+    // Remove extra imgs
+    while(imgs.length > 1) {
+        const lastImg = imgs[imgs.length - 1]
+        bit.removeChild(lastImg)
+
+        const selectedIdx = selectedNotes.indexOf(lastImg)
+        if (selectedIdx > -1) {
+            selectedNotes.splice(selectedIdx, 1)
+        }
+
+        imgs = bit.querySelectorAll("img")
+    }
+}
+
 const changeBitsToSingle = () => {
     getSelectedBits().forEach(bit => {
-        if (bit.getAttribute("bit-type") === "single") {
-            // It's already single
-            return
-        }
-
-        bit.setAttribute("bit-type", "single")
-
-        // Hiding next bit
-        const nextBit = getNextBit(bit)
-        if (nextBit) {
-            nextBit.classList.remove("hidden")
-        }
-
-        let imgs = bit.querySelectorAll("img")
-        
-        // Remove extra imgs
-        while(imgs.length > 1) {
-            const lastImg = imgs[imgs.length - 1]
-            bit.removeChild(lastImg)
-
-            const selectedIdx = selectedNotes.indexOf(lastImg)
-            if (selectedIdx > -1) {
-                selectedNotes.splice(selectedIdx, 1)
-            }
-
-            imgs = bit.querySelectorAll("img")
-        }
+        changeOneBitToSingle(bit)
     })
+}
+
+const changeOneBitToDouble = (bit) => {
+    if (bit.getAttribute("bit-type") === "double") {
+        // It's already double
+        return
+    }
+    
+    bit.setAttribute("bit-type", "double")
+
+    // Hiding next bit
+    const nextBit = getNextBit(bit)
+    if (nextBit) {
+        nextBit.classList.remove("hidden")
+    }
+
+    let imgs = bit.querySelectorAll("img")
+    
+    // Add missing imgs
+    while(imgs.length < 2) {
+        const img = createNoteBtn("empty")
+        bit.appendChild(img)
+        selectNoteBtn(img)
+        imgs = bit.querySelectorAll("img")
+    }
+    
+    // Remove extra imgs
+    while(imgs.length > 2) {
+        const lastImg = imgs[imgs.length - 1]
+        bit.removeChild(lastImg)
+
+        const selectedIdx = selectedNotes.indexOf(lastImg)
+        if (selectedIdx > -1) {
+            selectedNotes.splice(selectedIdx, 1)
+        }
+
+        imgs = bit.querySelectorAll("img")
+    }
 }
 
 const changeBitsToDouble = () => {
     getSelectedBits().forEach(bit => {
-        if (bit.getAttribute("bit-type") === "double") {
-            // It's already double
-            return
-        }
-        
-        bit.setAttribute("bit-type", "double")
-
-        // Hiding next bit
-        const nextBit = getNextBit(bit)
-        if (nextBit) {
-            nextBit.classList.remove("hidden")
-        }
-
-        let imgs = bit.querySelectorAll("img")
-        
-        // Add missing imgs
-        while(imgs.length < 2) {
-            const img = createNoteBtn("empty")
-            bit.appendChild(img)
-            selectNoteBtn(img)
-            imgs = bit.querySelectorAll("img")
-        }
-        
-        // Remove extra imgs
-        while(imgs.length > 2) {
-            const lastImg = imgs[imgs.length - 1]
-            bit.removeChild(lastImg)
-
-            const selectedIdx = selectedNotes.indexOf(lastImg)
-            if (selectedIdx > -1) {
-                selectedNotes.splice(selectedIdx, 1)
-            }
-
-            imgs = bit.querySelectorAll("img")
-        }
+        changeOneBitToDouble(bit)   
     })
 }
 
@@ -183,8 +191,6 @@ const changeBitsToTriplets = () => {
         return bitANumber > bitBNumber
     })
 
-    console.log(selectedBits)
-
     let hiddenBits = []
 
     selectedBits.forEach(bit => {
@@ -205,6 +211,13 @@ const changeBitsToTriplets = () => {
         if (nextBit) {
             nextBit.classList.add("hidden")
             hiddenBits.push(nextBit)
+
+            if (nextBit.getAttribute("bit-type") === "triplet") {
+                // It's triplet! (Which means it hides following bit)
+                // Let's change it to single bit type, to avoid issues
+                // and edge cases with chained triplets
+                changeOneBitToSingle(nextBit)
+            }
         }
 
         let imgs = bit.querySelectorAll("img")
