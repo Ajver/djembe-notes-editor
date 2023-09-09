@@ -66,6 +66,12 @@ const changeBitsToSingle = () => {
 
         bit.setAttribute("bit-type", "single")
 
+        // Hiding next bit
+        const nextBit = getNextBit(bit)
+        if (nextBit) {
+            nextBit.classList.remove("hidden")
+        }
+
         let imgs = bit.querySelectorAll("img")
         
         // Remove extra imgs
@@ -92,6 +98,12 @@ const changeBitsToDouble = () => {
         
         bit.setAttribute("bit-type", "double")
 
+        // Hiding next bit
+        const nextBit = getNextBit(bit)
+        if (nextBit) {
+            nextBit.classList.remove("hidden")
+        }
+
         let imgs = bit.querySelectorAll("img")
         
         // Add missing imgs
@@ -117,8 +129,94 @@ const changeBitsToDouble = () => {
     })
 }
 
+const indexOfElement = element => {
+    const idx = Array.prototype.indexOf.call(element.parentNode.children, element)
+    return idx
+}
+
+const getNextBit = (fromBit) => {
+    const parent = fromBit.parentNode
+    
+    if (fromBit.nextSibling) {
+        // Let's return the next child
+        return fromBit.nextSibling
+    }
+    
+    // Return the first child of the next parent
+    return parent.nextSibling.firstChild
+}
+
+const calculateBitNumber = (bit) => {
+    const bar = bit.parentNode
+    const row = bar.parentNode
+    const sheet = row.parentNode
+    
+    const bitIdx = indexOfElement(bit)
+    const barIdx = indexOfElement(bar)
+    const rowIdx = indexOfElement(row)
+    const sheetIdx = indexOfElement(sheet)
+
+    const bitNumber = (
+        sheetIdx * 1000 +
+        rowIdx * 100 +
+        barIdx * 10 +
+        bitIdx
+    )
+    return bitNumber
+}
+
 const changeBitsToTriplets = () => {
-    console.log("Changing to triplets")
+    
+    /**This function changes to triplets some bits, and then hides the next
+     * bit, because triplet covers two bits. So if bit A is changed into triple, 
+     * bit B is hidden.
+     * 
+     * Then, even if bit B is selected, it is NOT changed to triplet! 
+     */
+
+    const selectedBits = getSelectedBits()
+
+    selectedBits.sort((bitA, bitB) => {
+        const bitANumber = calculateBitNumber(bitA)
+        const bitBNumber = calculateBitNumber(bitB)
+
+        return bitANumber > bitBNumber
+    })
+
+    console.log(selectedBits)
+
+    let hiddenBits = []
+
+    selectedBits.forEach(bit => {
+        if (bit.getAttribute("bit-type") === "triplet") {
+            // It's already triplet
+            return
+        }
+
+        if (hiddenBits.includes(bit)) {
+            // This bit was hidden - let's ignore it
+            return
+        }
+        
+        bit.setAttribute("bit-type", "triplet")
+
+        // Hiding next bit
+        const nextBit = getNextBit(bit)
+        if (nextBit) {
+            nextBit.classList.add("hidden")
+            hiddenBits.push(nextBit)
+        }
+
+        let imgs = bit.querySelectorAll("img")
+        
+        // Add missing imgs
+        while(imgs.length < 3) {
+            const img = createNoteBtn("empty")
+            bit.appendChild(img)
+            selectNoteBtn(img)
+            imgs = bit.querySelectorAll("img")
+        }
+    })
 }
 
 addEventListener("keypress", event => {
