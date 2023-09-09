@@ -33,7 +33,7 @@
     display: block;
 }
 
-.title h1,
+.title p,
 .title input {
     font-family: 'Indie Flower', cursive;
     text-align: center;

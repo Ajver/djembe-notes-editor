@@ -249,24 +249,24 @@ const createAddRowBtnInSheet = (sheet) => {
     sheet.appendChild(addRowBtn)
 }
 
-const createTitleInSheet = (sheet, content) => {
-    const title = document.createElement("div")
-    title.classList.add("title")
+const createInputLabel = (className, content, editCallback) => {
+    const container = document.createElement("div")
+    container.classList.add(className)
 
-    const titleHeader = document.createElement("h1")
-    titleHeader.innerHTML = content
-    title.appendChild(titleHeader)
+    const label = document.createElement("p")
+    label.innerHTML = content
+    container.appendChild(label)
 
     const input = document.createElement("input")
     input.type = "text"
     input.value = content
-    title.appendChild(input)
+    container.appendChild(input)
 
-    title.addEventListener("click", () => {
+    container.addEventListener("click", () => {
         input.classList.add("visible")
         input.select()
 
-        // Fixes bug when one can edit title with notes selected
+        // Fixes bug when one can edit label with notes selected
         deselectAllNotes()
     })
 
@@ -274,18 +274,24 @@ const createTitleInSheet = (sheet, content) => {
         if (event.key === "Enter") {
             input.blur()
         } else if (event.key === "Escape") {
-            // Cancel title changing
+            // Cancel editing
             input.value = rythmTitle
             input.blur()
         }
     })
 
-    input.addEventListener("blur", (event) => {
+    input.addEventListener("blur", () => {
         input.classList.remove("visible")
+        label.innerHTML = input.value
+        editCallback(input.value)
+    })
 
-        // Override the title
-        rythmTitle = input.value
-        titleHeader.innerHTML = rythmTitle
+    return container
+}
+
+const createTitleInSheet = (sheet, content) => {
+    const title = createInputLabel("title", rythmTitle, (newContent) => {
+        rythmTitle = newContent
     })
 
     sheet.appendChild(title)
