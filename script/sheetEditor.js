@@ -49,14 +49,10 @@ const createNoteBtn = (note) => {
 const createBitBtn = note => {
     const bitBtn = document.createElement("div")
     bitBtn.classList.add("bit")
-    bitBtn.classList.add("double")
+    bitBtn.setAttribute("bit-type", "single")
 
-    bitBtn.setAttribute("bit-type", "double")
-
-    for (let i = 0; i < 2; i++) {
-        const img = createNoteBtn(note)
-        bitBtn.appendChild(img)
-    }
+    const img = createNoteBtn(note)
+    bitBtn.appendChild(img)
    
     return bitBtn
 }

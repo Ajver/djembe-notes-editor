@@ -66,13 +66,10 @@
 
 .bit {
     position: relative;
-    font-family: 'Montserrat', sans-serif;
     width: 40px;
     height: 40px;
     display: flex;
     align-items: flex-start;
-    cursor: pointer;
-    user-select: none;
 }
 
 .bit img {
@@ -82,13 +79,20 @@
     left: 50%;
     top: 10%;
     transform: translate(-50%);
+    cursor: pointer;
 }
 
 .bit img.selected {
     background-color: #a5cfac;
 }
 
-.bit.double img:nth-of-type(2) {
+.bit[bit-type=double] img {
+    width: 70%;
+    height: 70%;
+    top: 15%;
+}
+
+.bit[bit-type=double] img:nth-of-type(2) {
     left: 100%;
 }
 

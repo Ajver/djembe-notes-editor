@@ -39,12 +39,21 @@ const toggleNoteForBit = bitBtn => {
     setNoteForNoteBtn(bitBtn, note)
 }
 
-const changeBitsToSingle = () => {
-    console.log("Changing to single")
-    
+const getSelectedBits = () => {
+    let bits = []
+
     selectedNotes.forEach(noteBtn => {
         const bit = noteBtn.parentNode
+        if (bit && !bits.includes(bit)) {
+            bits.push(bit)
+        }
+    })
 
+    return bits
+}
+
+const changeBitsToSingle = () => {
+    getSelectedBits().forEach(bit => {
         if (bit.getAttribute("bit-type") === "single") {
             // It's already single
             return
@@ -54,22 +63,23 @@ const changeBitsToSingle = () => {
 
         let imgs = bit.querySelectorAll("img")
         
-        // Add remove extra imgs
+        // Remove extra imgs
         while(imgs.length > 1) {
             const lastImg = imgs[imgs.length - 1]
             bit.removeChild(lastImg)
-            selectedNotes.pop(lastImg)
+
+            const selectedIdx = selectedNotes.indexOf(lastImg)
+            if (selectedIdx > -1) {
+                selectedNotes.splice(selectedIdx, 1)
+            }
+
             imgs = bit.querySelectorAll("img")
         }
     })
 }
 
 const changeBitsToDouble = () => {
-    console.log("Changing to doubles")
-
-    selectedNotes.forEach(noteBtn => {
-        const bit = noteBtn.parentNode
-
+    getSelectedBits().forEach(bit => {
         if (bit.getAttribute("bit-type") === "double") {
             // It's already double
             return
@@ -86,11 +96,16 @@ const changeBitsToDouble = () => {
             imgs = bit.querySelectorAll("img")
         }
         
-        // Add remove extra imgs
+        // Remove extra imgs
         while(imgs.length > 2) {
             const lastImg = imgs[imgs.length - 1]
             bit.removeChild(lastImg)
-            selectedNotes.pop(lastImg)
+
+            const selectedIdx = selectedNotes.indexOf(lastImg)
+            if (selectedIdx > -1) {
+                selectedNotes.splice(selectedIdx, 1)
+            }
+
             imgs = bit.querySelectorAll("img")
         }
     })
