@@ -13,7 +13,7 @@ Editor for Djembe notes
 - [ ] Adding titles/description for rows (to describe rythm parts)
 - [ ] Changing row repeat/play once
 - [x] Double bits
-- [ ] Triplet bits
+- [x] Triplet bits
 - [ ] Copy/Paste
 - [ ] Playing rythm
 - [ ] Saving/Loading from file
