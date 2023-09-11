@@ -46,6 +46,11 @@ button.cancel:hover {
     display: flex;
 }
 
+.top-section button,
+.bottom-section button {
+    margin-right: 10px;
+}
+
 .bottom-section {
     justify-content: end;
 }

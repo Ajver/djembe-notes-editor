@@ -13,3 +13,10 @@ document.querySelector("#tips-panel-hide-btn").addEventListener("click", () => {
         btn.innerHTML = "SHOW"
     }
 })
+
+document.querySelector("#import-btn").addEventListener('click', async () => {
+    const [fileHandle] = await window.showOpenFilePicker();
+    const file = await fileHandle.getFile()
+    const txtSave = await file.text()
+    loadFromTxt(txtSave)
+})

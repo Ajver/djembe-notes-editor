@@ -7,7 +7,6 @@ const saveToTxt = () => {
 
 const loadFromTxt = (txtSave) => {
     const saveObj = JSON.parse(txtSave)
-    console.log(saveObj)
 
     clearAllSheets()
 
@@ -39,13 +38,11 @@ const loadFromTxt = (txtSave) => {
             // This bit doesn't have anymore notes
             // ...let's get next bit
             var bit = getNextBit(fromNote.parentNode)
-            console.log(bit)
         }else {
             var bit = null
         }
 
         if (!bit) {
-            console.log(bit, fromNote)
             // There are no more bits - let's create a new row
             const row = createEmptyRow(notesInBar, barsInRow)
             sheet.appendChild(row)
