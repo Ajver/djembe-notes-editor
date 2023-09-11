@@ -21,6 +21,15 @@ const deselectAllNotes = () => {
     selectedNotes = []
 }
 
+const getFirstNoteBtn = () => {
+    const firstSheet = document.querySelector(".sheet")
+    const firstRow = firstSheet.querySelector(".row")
+    const firstBar = firstRow.firstChild
+    const firstBit = firstBar.firstChild
+    const firstNote = firstBit.firstChild
+    return firstNote
+}
+
 const setNoteForNoteBtn = (noteBtn, note) => {
     noteBtn.setAttribute("note", note)
     noteBtn.src = IMG_URLS[note]
@@ -146,17 +155,17 @@ const indexOfElement = element => {
     return idx
 }
 
-const getNextBit = (fromNode) => {
-    if (fromNode.nextSibling) {
-        return fromNode.nextSibling
+const getNextBit = (fromBit) => {
+    if (fromBit.nextSibling) {
+        return fromBit.nextSibling
     }
 
-    const nextBar = fromNode.parentNode.nextSibling
+    const nextBar = fromBit.parentNode.nextSibling
     if (nextBar && nextBar.classList.contains("bar")) {
         return nextBar.firstChild
     }
 
-    const nextRow = fromNode.parentNode.parentNode.nextSibling
+    const nextRow = fromBit.parentNode.parentNode.nextSibling
     if (nextRow && nextRow.classList.contains("row")) {
         return nextRow.firstChild.firstChild
     }
@@ -164,14 +173,29 @@ const getNextBit = (fromNode) => {
     return null
 }
 
+const getPreviousBit = (fromBit) => {
+    if (fromBit.previousSibling) {
+        return fromBit.previousSibling
+    }
+
+    const prevBar = fromBit.parentNode.previousSibling
+    if (prevBar && prevBar.classList.contains("bar")) {
+        return prevBar.lastChild
+    }
+
+    const prevRow = fromBit.parentNode.parentNode.previousSibling
+    if (prevRow && prevRow.classList.contains("row")) {
+        // -2, because the last node in bar is DeleteRow btn
+        const allBars = prevRow.querySelectorAll(".bar")
+        return allBars[allBars.length - 1].lastChild
+    }
+
+    return null
+}
+
 const getNextNoteBtn = (fromNote) => {
     if (!fromNote) {
-        // Return first note
-        const firstSheet = document.querySelector(".sheet")
-        const firstRow = firstSheet.querySelector(".row")
-        const firstBar = firstRow.firstChild
-        const firstBit = firstBar.firstChild
-        const firstNote = firstBit.firstChild
+        const firstNote = getFirstNoteBtn()
         return firstNote
     }
 
@@ -185,6 +209,26 @@ const getNextNoteBtn = (fromNote) => {
     var bit = getNextBit(fromNote.parentNode)
     if (bit) {
         return bit.firstChild
+    }
+
+    return null
+}
+
+const getPreviousNoteBtn = (fromNote) => {
+    if (!fromNote) {
+        return null
+    }
+
+    if (fromNote.previousSibling) {
+        // Let's return the previous child
+        return fromNote.previousSibling
+    }
+
+    // This bit doesn't have anymore notes
+    // ...let's get next bit
+    var bit = getPreviousBit(fromNote.parentNode)
+    if (bit) {
+        return bit.lastChild
     }
 
     return null
@@ -334,6 +378,50 @@ const pasteBits = async () => {
     console.log("Pasting", copyText)
 }
 
+const moveSelectionLeft = () => {
+    if (selectedNotes.length == 0) {
+        return
+    }
+
+    sortSelectedNotes()
+
+    const noteBtn = selectedNotes[0]
+    const previousNoteBtn = getPreviousNoteBtn(noteBtn)
+
+    if (previousNoteBtn) {
+        deselectAllNotes()
+        selectNoteBtn(previousNoteBtn)
+
+        if (previousNoteBtn.parentNode.classList.contains("hidden")) {
+            // Just selected hidden bit - let's try to select yet previous one
+            moveSelectionLeft()
+        }
+    }
+}
+
+const moveSelectionRight = () => {
+    if (selectedNotes.length == 0) {
+        const noteBtn = getFirstNoteBtn()
+        selectNoteBtn(noteBtn)
+        return
+    }
+
+    sortSelectedNotes()
+
+    const noteBtn = selectedNotes[0]
+    const nextNoteBtn = getNextNoteBtn(noteBtn)
+
+    if (nextNoteBtn) {
+        deselectAllNotes()
+        selectNoteBtn(nextNoteBtn)
+
+        if (nextNoteBtn.parentNode.classList.contains("hidden")) {
+            // Just selected hidden bit - let's try to select yet next one
+            moveSelectionRight()
+        }
+    }
+}
+
 addEventListener("keydown", event => {
     const keyHandler = {
         "`": () => setNoteForSelectedNoteBtns("empty"),
@@ -356,10 +444,14 @@ addEventListener("keydown", event => {
                 pasteBits()
             }
         },
+        "ArrowLeft": () => moveSelectionLeft(),
+        "ArrowRight": () => moveSelectionRight(),
     }
 
     handler = keyHandler[event.key]
     if (handler) {
         handler()
+    }else {
+        console.log(event)
     }
 });
