@@ -16,12 +16,20 @@ const noteDefToNote = {
 const saveToTxt = () => {
     let rythmDefinition = ""
 
-    let noteBtn = getNextNoteBtn(null)
-    while(noteBtn) {
-        const note = noteToNoteDef[noteBtn.getAttribute("note")]
-        rythmDefinition += note
-        noteBtn = getNextNoteBtn(noteBtn)
-    }
+    document.querySelectorAll(".bit").forEach((bitBtn) => {
+        const bitType = bitBtn.getAttribute("bit-type")
+        
+        if (bitType === "double") {
+            rythmDefinition += "2"
+        }else if (bitType === "triplet") {
+            rythmDefinition += "3"
+        }
+
+        bitBtn.querySelectorAll("img").forEach((noteBtn) => {
+            const note = noteToNoteDef[noteBtn.getAttribute("note")]
+            rythmDefinition += note
+        })
+    })
 
     const saveObj = {
         title: rythmTitle,
@@ -39,7 +47,7 @@ const loadFromTxt = (txtSave) => {
 
     clearAllSheets()
 
-    const sheet = createEmptySheet()
+    let sheet = createEmptySheet()
 
     rythmTitle = saveObj.title
     rythmTempo = saveObj.tempo || 120
@@ -75,6 +83,13 @@ const loadFromTxt = (txtSave) => {
             // There are no more bits - let's create a new row
             const row = createEmptyRow(notesInBar, barsInRow)
             sheet.appendChild(row)
+            sheet.dispatchEvent(new Event("rowadded", {
+                row: row
+            }))
+
+            // Re-set sheet to the last sheet, so we edit the last sheet
+            const allSheets = document.querySelectorAll(".sheet")
+            sheet = allSheets[allSheets.length - 1]
 
             bit = row.firstChild.firstChild
         }

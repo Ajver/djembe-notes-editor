@@ -178,6 +178,14 @@ const getNextBit = (fromBit) => {
         return nextRow.firstChild.firstChild
     }
 
+    const nextSheet = fromBit.parentNode.parentNode.parentNode.nextSibling
+    if (nextSheet && nextSheet.classList.contains("sheet")) {
+        const row = nextSheet.querySelector(".row")
+        if (row) {
+            return row.firstChild.firstChild
+        }
+    }
+
     return null
 }
 
