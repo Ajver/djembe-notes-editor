@@ -135,8 +135,8 @@
     padding-left: 100%;
     padding-top: 50%;
 
-    border-left: 2px solid #777777;
-    border-top: 2px solid #777777;
+    border-left: 1px solid #777777;
+    border-top: 1px solid #777777;
 }
 
 .bit:last-child::before {
