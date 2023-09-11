@@ -21,6 +21,14 @@ const deselectAllNotes = () => {
     selectedNotes = []
 }
 
+const selectAllNotes = () => {
+    document.querySelectorAll(".bit").forEach((bitBtn) => {
+        bitBtn.querySelectorAll("img").forEach((noteBtn) => {
+            selectNoteBtn(noteBtn)
+        })
+    })
+}
+
 const getFirstNoteBtn = () => {
     const firstSheet = document.querySelector(".sheet")
     const firstRow = firstSheet.querySelector(".row")
@@ -353,6 +361,11 @@ const copyBits = () => {
     console.log("Copying", copyText)
 }
 
+const cutBits = async () => {
+    copyBits()
+    setNoteForSelectedNoteBtns("empty")
+}
+
 const pasteBits = async () => {
     if (selectedNotes.length == 0) {
         return
@@ -442,6 +455,17 @@ addEventListener("keydown", event => {
         "v": () => {
             if (event.ctrlKey || event.metaKey) {
                 pasteBits()
+            }
+        },
+        "x": () => {
+            if (event.ctrlKey || event.metaKey) {
+                cutBits()
+            }
+        },
+        "a": () => {
+            if (event.ctrlKey || event.metaKey) {
+                selectAllNotes()
+                event.preventDefault()
             }
         },
         "ArrowLeft": () => moveSelectionLeft(),
