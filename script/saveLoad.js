@@ -1,7 +1,54 @@
 
 const saveToTxt = () => {
-    let txtSave = ""    
+    const getNextNoteBtn = (fromNote) => {
+        if (!fromNote) {
+            const firstSheet = document.querySelector(".sheet")
+            const firstRow = firstSheet.querySelector(".row")
+            const firstBar = firstRow.firstChild
+            const firstBit = firstBar.firstChild
+            const firstNote = firstBit.firstChild
+            return firstNote
+        }
 
+        if (fromNote.nextSibling) {
+            // Let's return the next child
+            return fromNote.nextSibling
+        }
+
+        // This bit doesn't have anymore notes
+        // ...let's get next bit
+        var bit = getNextBit(fromNote.parentNode)
+        if (bit) {
+            return bit.firstChild
+        }
+
+        return null
+    }
+
+    const noteToNoteDef = {
+        "empty": "-",
+        "bass": "B",
+        "tone": "T",
+        "slap": "S",
+    }
+
+    let rythmDefinition = ""
+
+    let noteBtn = getNextNoteBtn(null)
+    while(noteBtn) {
+        const note = noteToNoteDef[noteBtn.getAttribute("note")]
+        rythmDefinition += note
+        noteBtn = getNextNoteBtn(noteBtn)
+    }
+
+    const saveObj = {
+        title: rythmTitle,
+        tempo: rythmTempo,
+        notesInBar: notesInBar,
+        barsInRow: barsInRow,
+        rythm: rythmDefinition,
+    }
+    const txtSave = JSON.stringify(saveObj)    
     return txtSave
 }
 
