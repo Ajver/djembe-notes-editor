@@ -14,10 +14,10 @@ Editor for Djembe notes
 - [ ] Changing row repeat/play once
 - [x] Double bits
 - [x] Triplet bits
-- [ ] Copy/Paste
+- [x] Copy/Paste
 - [ ] Changing selected note using arrow keys
 - [ ] Ctrl + A to select all notes
 - [ ] Playing rythm
-- [ ] Saving/Loading from file
+- [x] Saving/Loading from file
 - [ ] Saving/Loading from browser cache
 - [ ] Fix bug with printing empty page at the end, when there is nothing but Add row btn

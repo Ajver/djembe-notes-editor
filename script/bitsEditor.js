@@ -164,6 +164,32 @@ const getNextBit = (fromNode) => {
     return null
 }
 
+const getNextNoteBtn = (fromNote) => {
+    if (!fromNote) {
+        // Return first note
+        const firstSheet = document.querySelector(".sheet")
+        const firstRow = firstSheet.querySelector(".row")
+        const firstBar = firstRow.firstChild
+        const firstBit = firstBar.firstChild
+        const firstNote = firstBit.firstChild
+        return firstNote
+    }
+
+    if (fromNote.nextSibling) {
+        // Let's return the next child
+        return fromNote.nextSibling
+    }
+
+    // This bit doesn't have anymore notes
+    // ...let's get next bit
+    var bit = getNextBit(fromNote.parentNode)
+    if (bit) {
+        return bit.firstChild
+    }
+
+    return null
+}
+
 const calculateBitNumber = (bit) => {
     const bar = bit.parentNode
     const row = bar.parentNode
@@ -175,13 +201,20 @@ const calculateBitNumber = (bit) => {
     const sheetIdx = indexOfElement(sheet)
 
     const bitNumber = (
-        sheetIdx * 1000 +
-        rowIdx * 100 +
-        barIdx * 10 +
-        bitIdx
+        sheetIdx * 10000 +
+        rowIdx * 1000 +
+        barIdx * 100 +
+        bitIdx * 10
     )
     return bitNumber
 }
+
+const calculateNoteNumber = (noteBtn) => {
+    const bitNumber = calculateBitNumber(noteBtn.parentNode)
+    const noteIdx = indexOfElement(noteBtn)
+    const noteNumber = bitNumber + noteIdx
+    return noteNumber
+} 
 
 const changeOneBitToTriplet = (bit, hiddenBits, selectNewNotes) => {
     if (bit.getAttribute("bit-type") === "triplet") {
@@ -240,7 +273,7 @@ const changeBitsToTriplets = () => {
         const bitANumber = calculateBitNumber(bitA)
         const bitBNumber = calculateBitNumber(bitB)
 
-        return bitANumber > bitBNumber
+        return bitANumber - bitBNumber
     })
 
     let hiddenBits = []
@@ -250,7 +283,58 @@ const changeBitsToTriplets = () => {
     })
 }
 
-addEventListener("keypress", event => {
+const sortSelectedNotes = () => {
+    selectedNotes.sort((noteA, noteB) => {
+        const noteANumber = calculateBitNumber(noteA)
+        const noteBNumber = calculateBitNumber(noteB)
+
+        return noteANumber - noteBNumber
+    })
+}
+
+const copyBits = () => {
+    if (selectedNotes.length == 0) {
+        return
+    }
+    
+    sortSelectedNotes()
+
+    let copyText = ""
+    selectedNotes.forEach((noteBtn) => {
+        const note = noteToNoteDef[noteBtn.getAttribute("note")]
+        copyText += note
+    })
+
+    navigator.clipboard.writeText(copyText)
+    console.log("Copying", copyText)
+}
+
+const pasteBits = async () => {
+    if (selectedNotes.length == 0) {
+        return
+    }
+
+    sortSelectedNotes()
+
+    const copyText = await navigator.clipboard.readText()
+
+    let noteBtn = selectedNotes[0]
+    let i = 0
+
+    while(noteBtn && i < copyText.length) { 
+        const noteDef = copyText[i]
+        const note = noteDefToNote[noteDef]
+
+        setNoteForNoteBtn(noteBtn, note)
+
+        noteBtn = getNextNoteBtn(noteBtn)
+        i++
+    }
+
+    console.log("Pasting", copyText)
+}
+
+addEventListener("keydown", event => {
     const keyHandler = {
         "`": () => setNoteForSelectedNoteBtns("empty"),
         "1": () => setNoteForSelectedNoteBtns("bass"),
@@ -262,6 +346,16 @@ addEventListener("keypress", event => {
         "@": () => changeBitsToDouble(),
         // Shift + 3
         "#": () => changeBitsToTriplets(),
+        "c": () => {
+            if (event.ctrlKey || event.metaKey) {
+                copyBits()
+            }
+        },
+        "v": () => {
+            if (event.ctrlKey || event.metaKey) {
+                pasteBits()
+            }
+        },
     }
 
     handler = keyHandler[event.key]
