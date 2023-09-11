@@ -468,6 +468,7 @@ addEventListener("keydown", event => {
                 event.preventDefault()
             }
         },
+        "Escape": () => deselectAllNotes(),
         "ArrowLeft": () => moveSelectionLeft(),
         "ArrowRight": () => moveSelectionRight(),
     }
