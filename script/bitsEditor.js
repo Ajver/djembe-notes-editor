@@ -65,7 +65,7 @@ const changeOneBitToSingle = (bit) => {
 
     bit.setAttribute("bit-type", "single")
 
-    // Hiding next bit
+    // Showing next bit
     const nextBit = getNextBit(bit)
     if (nextBit) {
         nextBit.classList.remove("hidden")
@@ -93,7 +93,7 @@ const changeBitsToSingle = () => {
     })
 }
 
-const changeOneBitToDouble = (bit) => {
+const changeOneBitToDouble = (bit, selectNewNotes) => {
     if (bit.getAttribute("bit-type") === "double") {
         // It's already double
         return
@@ -101,7 +101,7 @@ const changeOneBitToDouble = (bit) => {
     
     bit.setAttribute("bit-type", "double")
 
-    // Hiding next bit
+    // Showing next bit
     const nextBit = getNextBit(bit)
     if (nextBit) {
         nextBit.classList.remove("hidden")
@@ -113,7 +113,11 @@ const changeOneBitToDouble = (bit) => {
     while(imgs.length < 2) {
         const img = createNoteBtn("empty")
         bit.appendChild(img)
-        selectNoteBtn(img)
+
+        if (selectNewNotes) {
+            selectNoteBtn(img)
+        }
+
         imgs = bit.querySelectorAll("img")
     }
     
@@ -133,7 +137,7 @@ const changeOneBitToDouble = (bit) => {
 
 const changeBitsToDouble = () => {
     getSelectedBits().forEach(bit => {
-        changeOneBitToDouble(bit)   
+        changeOneBitToDouble(bit, true)   
     })
 }
 
@@ -142,16 +146,22 @@ const indexOfElement = element => {
     return idx
 }
 
-const getNextBit = (fromBit) => {
-    const parent = fromBit.parentNode
-    
-    if (fromBit.nextSibling) {
-        // Let's return the next child
-        return fromBit.nextSibling
+const getNextBit = (fromNode) => {
+    if (fromNode.nextSibling) {
+        return fromNode.nextSibling
     }
-    
-    // Return the first child of the next parent
-    return parent.nextSibling.firstChild
+
+    const nextBar = fromNode.parentNode.nextSibling
+    if (nextBar && nextBar.classList.contains("bar")) {
+        return nextBar.firstChild
+    }
+
+    const nextRow = fromNode.parentNode.parentNode.nextSibling
+    if (nextRow && nextRow.classList.contains("row")) {
+        return nextRow.firstChild.firstChild
+    }
+
+    return null
 }
 
 const calculateBitNumber = (bit) => {
@@ -171,6 +181,48 @@ const calculateBitNumber = (bit) => {
         bitIdx
     )
     return bitNumber
+}
+
+const changeOneBitToTriplet = (bit, hiddenBits, selectNewNotes) => {
+    if (bit.getAttribute("bit-type") === "triplet") {
+        // It's already triplet
+        return
+    }
+
+    if (hiddenBits.includes(bit)) {
+        // This bit was hidden - let's ignore it
+        return
+    }
+    
+    bit.setAttribute("bit-type", "triplet")
+
+    // Hiding next bit
+    const nextBit = getNextBit(bit)
+    if (nextBit) {
+        nextBit.classList.add("hidden")
+        hiddenBits.push(nextBit)
+
+        if (nextBit.getAttribute("bit-type") === "triplet") {
+            // It's triplet! (Which means it hides following bit)
+            // Let's change it to single bit type, to avoid issues
+            // and edge cases with chained triplets
+            changeOneBitToSingle(nextBit)
+        }
+    }
+
+    let imgs = bit.querySelectorAll("img")
+    
+    // Add missing imgs
+    while(imgs.length < 3) {
+        const img = createNoteBtn("empty")
+        bit.appendChild(img)
+
+        if (selectNewNotes) {
+            selectNoteBtn(img)
+        }
+
+        imgs = bit.querySelectorAll("img")
+    }
 }
 
 const changeBitsToTriplets = () => {
@@ -194,41 +246,7 @@ const changeBitsToTriplets = () => {
     let hiddenBits = []
 
     selectedBits.forEach(bit => {
-        if (bit.getAttribute("bit-type") === "triplet") {
-            // It's already triplet
-            return
-        }
-
-        if (hiddenBits.includes(bit)) {
-            // This bit was hidden - let's ignore it
-            return
-        }
-        
-        bit.setAttribute("bit-type", "triplet")
-
-        // Hiding next bit
-        const nextBit = getNextBit(bit)
-        if (nextBit) {
-            nextBit.classList.add("hidden")
-            hiddenBits.push(nextBit)
-
-            if (nextBit.getAttribute("bit-type") === "triplet") {
-                // It's triplet! (Which means it hides following bit)
-                // Let's change it to single bit type, to avoid issues
-                // and edge cases with chained triplets
-                changeOneBitToSingle(nextBit)
-            }
-        }
-
-        let imgs = bit.querySelectorAll("img")
-        
-        // Add missing imgs
-        while(imgs.length < 3) {
-            const img = createNoteBtn("empty")
-            bit.appendChild(img)
-            selectNoteBtn(img)
-            imgs = bit.querySelectorAll("img")
-        }
+        changeOneBitToTriplet(bit, hiddenBits, true)
     })
 }
 

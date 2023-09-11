@@ -1,8 +1,8 @@
 // Global settings
 let rythmTitle = "Title of your rythm"
 let rythmTempo = 120
-let notesInBar = 4
-let barsInRow = 4
+let notesInBar = 1
+let barsInRow = 1
 let amountOfRows = 4
 
 
@@ -336,8 +336,20 @@ const clearAllSheets = () => {
     })
 }
 
+const loadDefaultSaveFile = async () => {
+    const response = await fetch("defaultSaveFile.json")
+
+    if (response.status === 200) {
+        const jsonResponse = await response.text()
+        loadFromTxt(jsonResponse)
+    }else {
+        console.log("Couldn't read default save file. Response: ", response)
+    }
+}
+
 window.addEventListener("load", () => {
-    createNewRythmWithGlobalSettings()
+    // createNewRythmWithGlobalSettings()
+    loadDefaultSaveFile()
 })
 
 document.querySelector("#new-rythm-btn").addEventListener("click", () => {
