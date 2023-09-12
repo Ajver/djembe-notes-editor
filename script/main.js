@@ -27,10 +27,22 @@ document.querySelector("#import-btn").addEventListener('change', async (event) =
 
 document.querySelector("#submit-export-rythm-btn").addEventListener("click", () => {
     document.querySelector("#export-modal-wrapper").classList.remove("modal-visible")
+    document.querySelector("body").classList.remove("modal-visible")
+})
+
+document.querySelector("#close-export-rythm-modal-btn").addEventListener("click", () => {
+    document.querySelector("#export-modal-wrapper").classList.remove("modal-visible")
+    document.querySelector("body").classList.remove("modal-visible")
 })
 
 document.querySelector("#export-file-name-input").addEventListener("change", (event) => {
-    let exportFileName = document.querySelector("#export-file-name-input").value
+    const input = document.querySelector("#export-file-name-input")
+    let exportFileName = input.value
+
+    if (exportFileName === "") {
+        exportFileName = rythmTitle
+        input.value = exportFileName
+    }
 
     if (!exportFileName.endsWith(".json")) {
         exportFileName += ".json"
@@ -43,6 +55,7 @@ document.querySelector("#export-file-name-input").addEventListener("change", (ev
 document.querySelector("#export-btn").addEventListener("click", async () => {
     // Show modal
     document.querySelector("#export-modal-wrapper").classList.add("modal-visible")
+    document.querySelector("body").classList.add("modal-visible")
     
     document.querySelector("#export-file-name-input").value = rythmTitle
 
@@ -54,8 +67,4 @@ document.querySelector("#export-btn").addEventListener("click", async () => {
     const exportBtn = document.querySelector("#submit-export-rythm-btn")
     exportBtn.href = url;
     exportBtn.download = rythmTitle + ".json";
-})
-
-document.querySelector("#close-export-rythm-modal-btn").addEventListener("click", () => {
-    document.querySelector("#export-modal-wrapper").classList.remove("modal-visible")
 })

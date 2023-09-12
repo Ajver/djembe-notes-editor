@@ -355,11 +355,13 @@ window.addEventListener("load", () => {
 document.querySelector("#new-rythm-btn").addEventListener("click", () => {
     const modalContainer = document.querySelector("#create-rythm-modal-wrapper")
     modalContainer.classList.add("modal-visible")
+    document.querySelector("body").classList.add("modal-visible")
 })
 
 const closeModal = () => {
     const modalContainer = document.querySelector("#create-rythm-modal-wrapper")
     modalContainer.classList.remove("modal-visible")
+    document.querySelector("body").classList.remove("modal-visible")
 }
 
 document.querySelector("#close-create-rythm-modal-btn").addEventListener("click", () => {

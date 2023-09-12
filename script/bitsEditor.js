@@ -444,6 +444,10 @@ const moveSelectionRight = () => {
 }
 
 addEventListener("keydown", event => {
+    if (document.querySelector("body").classList.contains("modal-visible")) {
+        return
+    }
+
     const keyHandler = {
         "`": () => setNoteForSelectedNoteBtns("empty"),
         "1": () => setNoteForSelectedNoteBtns("bass"),
