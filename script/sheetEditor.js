@@ -347,11 +347,6 @@ const loadDefaultSaveFile = async () => {
     }
 }
 
-window.addEventListener("load", () => {
-    // createNewRythmWithGlobalSettings()
-    loadDefaultSaveFile()
-})
-
 document.querySelector("#new-rythm-btn").addEventListener("click", () => {
     const modalContainer = document.querySelector("#create-rythm-modal-wrapper")
     modalContainer.classList.add("modal-visible")
