@@ -14,32 +14,48 @@ document.querySelector("#tips-panel-hide-btn").addEventListener("click", () => {
     }
 })
 
-document.querySelector("#import-btn").addEventListener('click', async () => {
-    const [fileHandle] = await window.showOpenFilePicker()
-    const file = await fileHandle.getFile()
+document.querySelector("#import-btn").addEventListener('change', async (event) => {
+    const [file] = document.querySelector("#import-btn").files
+    
+    if (!file) {
+        return
+    }
+
     const txtSave = await file.text()
     loadFromTxt(txtSave)
 })
 
-document.querySelector("#export-btn").addEventListener('click', async () => {
-    const txtSave = saveToTxt()
-    const options = {
-        types: [
-            {
-                description: "JSON file",
-                accept: { "text/plain": [".json"] },
-            },
-        ],
-        suggestedName: rythmTitle + ".json"
+document.querySelector("#submit-export-rythm-btn").addEventListener("click", () => {
+    document.querySelector("#export-modal-wrapper").classList.remove("modal-visible")
+})
+
+document.querySelector("#export-file-name-input").addEventListener("change", (event) => {
+    let exportFileName = document.querySelector("#export-file-name-input").value
+
+    if (!exportFileName.endsWith(".json")) {
+        exportFileName += ".json"
     }
-    const newHandle = await window.showSaveFilePicker(options)
 
-    // create a FileSystemWritableFileStream to write to
-    const writableStream = await newHandle.createWritable();
+    const exportBtn = document.querySelector("#submit-export-rythm-btn")
+    exportBtn.download = exportFileName
+})
 
-    // write our file
-    await writableStream.write(txtSave);
+document.querySelector("#export-btn").addEventListener("click", async () => {
+    // Show modal
+    document.querySelector("#export-modal-wrapper").classList.add("modal-visible")
+    
+    document.querySelector("#export-file-name-input").value = rythmTitle
 
-    // close the file and write the contents to disk.
-    await writableStream.close();
+    const txtSave = saveToTxt()
+
+    const myBlob = new Blob([txtSave], {type: "application/json"});
+
+    const url = window.URL.createObjectURL(myBlob);
+    const exportBtn = document.querySelector("#submit-export-rythm-btn")
+    exportBtn.href = url;
+    exportBtn.download = rythmTitle + ".json";
+})
+
+document.querySelector("#close-export-rythm-modal-btn").addEventListener("click", () => {
+    document.querySelector("#export-modal-wrapper").classList.remove("modal-visible")
 })

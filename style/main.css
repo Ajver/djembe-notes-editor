@@ -7,6 +7,7 @@ body {
     font-size: 24px;
 }
 
+.button,
 button {
     min-width: 180px;
     background-color: #09a66f;
@@ -17,10 +18,14 @@ button {
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     font-size: 24px;
+    text-align: center;
+    user-select: none;
+    text-decoration: none;
 
     transition: background-color .1s;
 }
 
+.button:hover,
 button:hover {
     background-color: #10b750;
 }
@@ -46,9 +51,14 @@ button.cancel:hover {
     display: flex;
 }
 
+.top-section .button,
 .top-section button,
 .bottom-section button {
     margin-right: 10px;
+}
+
+.label-button input {
+    display: none;
 }
 
 .bottom-section {

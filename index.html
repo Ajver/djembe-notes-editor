@@ -6,14 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Djembe notes editor</title>
 
-    <link rel="stylesheet" href="style/main.css?5">
-    <link rel="stylesheet" href="style/editor.css?5">
+    <link rel="stylesheet" href="style/main.css?6">
+    <link rel="stylesheet" href="style/editor.css?6">
 </head>
 
 <body>
     <div class="top-section">
         <button class="new-rythm-btn" id="new-rythm-btn">Create new rythm</button>
-        <button id="import-btn">Import</button>
+        <label class="label-button button" for="import-btn">
+            Import
+            <input type="file" id="import-btn" accept=".json">
+        </label>
         <button id="export-btn">Export</button>
     </div>
     <div class="editor edit-view">
@@ -32,8 +35,8 @@
         <button id="print-btn" class="print-btn">PRINT</button>
     </div>
 
-    <div class="create-rythm-modal-wrapper" id="create-rythm-modal-wrapper">
-        <div class="create-rythm-modal">
+    <div class="modal-wrapper" id="create-rythm-modal-wrapper">
+        <div class="create-rythm-modal modal">
             <h2>Creating new rythm</h2>
             <p><span class="warning">Warning!</span> The previous rythm will be deleted! Make sure to download it first.</p>
             <div class="preset-selection-container">
@@ -61,6 +64,20 @@
         </div>
     </div>
 
+    <div class="modal-wrapper" id="export-modal-wrapper">
+        <div class="export-modal modal">
+            <h2>Export rythm</h2>
+            <div class="export-section">
+                <p>File name:</p>
+                <input type="text" name="export-file-name" id="export-file-name-input">
+            </div>
+            <div class="buttons-section">
+                <button class="cancel" id="close-export-rythm-modal-btn">CANCEL</button>
+                <a class="button submit" id="submit-export-rythm-btn">EXPORT</a>
+            </div>
+        </div>
+    </div>
+
     <div class="tips-panel" id="tips-panel">
         <div class="key-tips-container">
             <div class="key-tip">`~<img src="svg/dash.svg"></div>
@@ -83,7 +100,7 @@
     <script src="script/bitsEditor.js?6"></script>
     <script src="script/sheetEditor.js?6"></script>
     <script src="script/saveLoad.js?1"></script>
-    <script src="script/main.js?4"></script>
+    <script src="script/main.js?5"></script>
 </body>
 
 </html>
