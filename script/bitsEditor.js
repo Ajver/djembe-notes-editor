@@ -448,6 +448,10 @@ addEventListener("keydown", event => {
         return
     }
 
+    if (isPlayingRythm) {
+        return
+    }
+
     const keyHandler = {
         "`": () => setNoteForSelectedNoteBtns("empty"),
         "1": () => setNoteForSelectedNoteBtns("bass"),

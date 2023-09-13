@@ -16,6 +16,7 @@ Object.values(sounds).forEach(sound => {
 const onRythmPlayEnd = () => {
     document.querySelector("#play-btn").innerHTML = "PLAY"
     document.querySelector(".bar.playing").classList.remove("playing")
+    document.querySelector("body").classList.remove("playing")
 }
 
 document.querySelector("#play-btn").addEventListener("click", () => {
@@ -112,6 +113,7 @@ document.querySelector("#play-btn").addEventListener("click", () => {
         }, delay)
     }
 
+    document.querySelector("body").classList.add("playing")
     isPlayingRythm = true
     playAndContinue(0)
 })

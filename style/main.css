@@ -11,6 +11,10 @@ body.modal-visible {
     overflow: hidden;
 }
 
+body.playing {
+    background-color: #e2a8ff;
+}
+
 .button,
 button {
     min-width: 180px;
@@ -161,4 +165,18 @@ button.cancel:hover {
     justify-content: end;
     align-items: center;
     padding-right: 15px;
+}
+
+.playing-curtain {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fcc8ff51;
+}
+
+body.playing .playing-curtain {
+    display: block;
 }
