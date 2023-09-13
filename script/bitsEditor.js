@@ -38,15 +38,23 @@ const getFirstNoteBtn = () => {
     return firstNote
 }
 
-const setNoteForNoteBtn = (noteBtn, note) => {
+const setNoteForNoteBtn = (noteBtn, note, play) => {
     noteBtn.setAttribute("note", note)
     noteBtn.src = IMG_URLS[note]
+    
+    if (play) {
+        playNoteBtn(noteBtn)
+    }
 }
 
 const setNoteForSelectedNoteBtns = note => {
     selectedNotes.forEach(noteBtn => {
-        setNoteForNoteBtn(noteBtn, note)
+        setNoteForNoteBtn(noteBtn, note, false)
     });
+
+    if (selectedNotes.length > 0) {
+        playNoteBtn(selectedNotes[0])
+    }
 }
 
 const toggleNoteForBit = bitBtn => {
@@ -58,7 +66,7 @@ const toggleNoteForBit = bitBtn => {
         "slap": "empty",
     }
     const note = nextNotes[currentNote]
-    setNoteForNoteBtn(bitBtn, note)
+    setNoteForNoteBtn(bitBtn, note, true)
 }
 
 const getSelectedBits = () => {
@@ -390,7 +398,7 @@ const pasteBits = async () => {
         const noteDef = copyText[i]
         const note = noteDefToNote[noteDef]
 
-        setNoteForNoteBtn(noteBtn, note)
+        setNoteForNoteBtn(noteBtn, note, false)
 
         noteBtn = getNextNoteBtn(noteBtn)
         i++

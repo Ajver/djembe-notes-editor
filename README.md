@@ -14,6 +14,7 @@ Editor for Djembe notes
 - [ ] Changing row repeat/play once
 - [x] Double bits
 - [x] Triplet bits
+- [ ] Ghost notes
 - [x] Copy/Paste
 - [x] Changing selected note using arrow keys
 - [x] Ctrl + A to select all notes

@@ -25,7 +25,7 @@ const setupNoteBtnListeners = noteBtn => {
 
     noteBtn.addEventListener("contextmenu", (event) => {
         event.preventDefault();
-        setNoteForNoteBtn(noteBtn, "empty")
+        setNoteForNoteBtn(noteBtn, "empty", false)
         return false
     })
 }
@@ -305,11 +305,15 @@ const createTitleInSheet = (sheet, content) => {
 
 const createTempoInSheet = (sheet, tempo) => {
     const tempoElement = createInputLabel("tempo", rythmTempo + " bmp", (newContent) => {
-        const newTempo = parseInt(newContent)
+        let newTempo = parseInt(newContent)
 
         if (isNaN(newTempo)) {
             // Invalid input
             return rythmTempo + " bpm"
+        }
+
+        if (newTempo < 10) {
+            newTempo = 10
         }
 
         // Input valid - let's overrdie global settings

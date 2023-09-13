@@ -116,7 +116,7 @@ const loadFromTxt = (txtSave) => {
         case "T":
         case "S":
             const note = noteDefToNote[noteDef]
-            setNoteForNoteBtn(noteBtn, note)
+            setNoteForNoteBtn(noteBtn, note, false)
             previousNote = noteBtn
             break
         default:

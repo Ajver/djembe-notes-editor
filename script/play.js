@@ -19,6 +19,14 @@ const onRythmPlayEnd = () => {
     document.querySelector("body").classList.remove("playing")
 }
 
+const playNoteBtn = (noteBtn) => {
+    const note = noteBtn.getAttribute("note")
+    const sound = sounds[note]
+    if (sound) {
+        sound.play()
+    }
+}
+
 document.querySelector("#play-btn").addEventListener("click", () => {
     if (isPlayingRythm) {
         isPlayingRythm = false
@@ -35,8 +43,6 @@ document.querySelector("#play-btn").addEventListener("click", () => {
     const singleBitDelay = (60_000.0 / rythmTempo) / notesInBar
     const doubleBitNoteDelay = singleBitDelay / 2
     const tripletBitNoteDelay = (singleBitDelay * 2) / 3
-
-    console.log(singleBitDelay, doubleBitNoteDelay, tripletBitNoteDelay)
 
     // Every note is a pointer to the sound and delay in millis to the next one
     let notesToPlay = []
@@ -63,8 +69,6 @@ document.querySelector("#play-btn").addEventListener("click", () => {
                 delay = tripletBitNoteDelay
             }
 
-            console.log(note, sound, delay)
-
             notesToPlay.push({
                 bar: bar,
                 sound: sound,
@@ -72,8 +76,6 @@ document.querySelector("#play-btn").addEventListener("click", () => {
             })
         })
     })
-
-    console.log(notesToPlay)
 
     if (notesToPlay.length == 0) {
         console.log("No notes to play")
