@@ -17,7 +17,7 @@ Editor for Djembe notes
 - [x] Copy/Paste
 - [x] Changing selected note using arrow keys
 - [x] Ctrl + A to select all notes
-- [ ] Playing rythm
+- [x] Playing rythm
 - [x] Saving/Loading from file
 - [x] Saving/Loading from browser cache
 - [ ] Fix bug with printing empty page at the end, when there is nothing but Add row btn

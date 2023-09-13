@@ -56,6 +56,10 @@
     background-color: #78d181;
 }
 
+.bar.playing { 
+    background-color: #e2a8ff;
+}
+
 .modal-wrapper {
     display: none;
     position: fixed;

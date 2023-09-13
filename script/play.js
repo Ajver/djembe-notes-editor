@@ -15,6 +15,7 @@ Object.values(sounds).forEach(sound => {
 
 const onRythmPlayEnd = () => {
     document.querySelector("#play-btn").innerHTML = "PLAY"
+    document.querySelector(".bar.playing").classList.remove("playing")
 }
 
 document.querySelector("#play-btn").addEventListener("click", () => {
@@ -45,6 +46,8 @@ document.querySelector("#play-btn").addEventListener("click", () => {
             return
         }
 
+        const bar = bitBtn.parentNode 
+
         const bitType = bitBtn.getAttribute("bit-type")
 
         bitBtn.querySelectorAll("img").forEach((noteBtn) => {
@@ -62,6 +65,7 @@ document.querySelector("#play-btn").addEventListener("click", () => {
             console.log(note, sound, delay)
 
             notesToPlay.push({
+                bar: bar,
                 sound: sound,
                 delay: delay,
             })
@@ -76,12 +80,21 @@ document.querySelector("#play-btn").addEventListener("click", () => {
         return
     }
     
+    let lastPlayedBar = null
+
     const playAndContinue = (playedNoteIdx) => {
         if (!isPlayingRythm) {
             return
         }
 
-        const {sound, delay} = notesToPlay[playedNoteIdx]
+        const {bar, sound, delay} = notesToPlay[playedNoteIdx]
+        
+        if (lastPlayedBar && lastPlayedBar !== bar) {
+            lastPlayedBar.classList.remove("playing")
+        }
+
+        bar.classList.add("playing")
+        lastPlayedBar = bar
         
         if (sound) {
             sound.play()
