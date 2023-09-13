@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Djembe notes editor</title>
 
-    <link rel="stylesheet" href="style/main.css?6">
+    <link rel="stylesheet" href="style/main.css?7">
     <link rel="stylesheet" href="style/editor.css?6">
 </head>
 
@@ -87,9 +87,11 @@
             <div class="key-tip">Shift + 1<p>single</p><img src="svg/cross.svg"></div>
             <div class="key-tip double">Shift + 2<img src="svg/cross.svg"><img src="svg/dash.svg"></div>
             <div class="key-tip triplet">Shift + 3<img src="svg/cross.svg"><img src="svg/dash.svg"><img src="svg/dash.svg"></div>
-            <div class="key-tip">Shift<p>multiselect</p>
-            </div>
-            <div class="mouse-button-tip"></div>
+            <div class="key-tip">Shift<p>multiselect</p></div>
+        </div>
+
+        <div class="play-container">
+            <button id="play-btn">PLAY</button>
         </div>
 
         <button class="tips-panel-hide-btn" id="tips-panel-hide-btn">HIDE</button>
@@ -102,6 +104,10 @@
     <script src="script/saveLoad.js?1"></script>
     <script src="script/main.js?5"></script>
     <script src="script/autosave.js"></script>
+    
+    <script src="script/Sound.js"></script>
+    <script src="script/play.js"></script>
+
     <script src="script/initialSetup.js"></script>
 </body>
 

@@ -78,6 +78,7 @@ button.cancel:hover {
     background-color: #fff;
     border-radius: 3px 3px 0 0;
     box-shadow: 0 0 20px #000;
+    display: flex;
 
     transition: all .3s;
 }
@@ -103,6 +104,7 @@ button.cancel:hover {
 .key-tips-container {
     display: flex;
     padding-top: 10px;
+    width: 100%;
 }
 
 .key-tip {
@@ -152,4 +154,11 @@ button.cancel:hover {
 .key-tip p {
     font-size: 14px;
     padding-left: 3px;
+}
+
+.play-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding-right: 15px;
 }
