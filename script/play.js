@@ -20,6 +20,9 @@ const onRythmPlayEnd = () => {
 document.querySelector("#play-btn").addEventListener("click", () => {
     if (isPlayingRythm) {
         isPlayingRythm = false
+
+        window.clearTimeout(nextTimeoutId)
+
         onRythmPlayEnd()
         return
     }
@@ -86,6 +89,7 @@ document.querySelector("#play-btn").addEventListener("click", () => {
 
         if (playedNoteIdx + 1 >= notesToPlay.length) {
             // The rythm has ended
+            isPlayingRythm = false
             onRythmPlayEnd()
             return
         }
