@@ -4,6 +4,7 @@ const IMG_URLS = {
     "bass": "svg/bass.svg",
     "tone": "svg/tone.svg",
     "slap": "svg/cross.svg",
+    "ghost": "svg/ghost.svg",
 }
 
 let selectedNotes = []
@@ -63,7 +64,8 @@ const toggleNoteForBit = bitBtn => {
         "empty": "bass",
         "bass": "tone",
         "tone": "slap",
-        "slap": "empty",
+        "slap": "ghost",
+        "ghost": "empty",
     }
     const note = nextNotes[currentNote]
     setNoteForNoteBtn(bitBtn, note, true)
@@ -465,6 +467,7 @@ addEventListener("keydown", event => {
         "1": () => setNoteForSelectedNoteBtns("bass"),
         "2": () => setNoteForSelectedNoteBtns("tone"),
         "3": () => setNoteForSelectedNoteBtns("slap"),
+        "4": () => setNoteForSelectedNoteBtns("ghost"),
         // Shift + 1
         "!": () => changeBitsToSingle(),
         // Shift + 2

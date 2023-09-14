@@ -6,6 +6,7 @@ const sounds = {
     "bass": new Sound("sound/Djembe_bass.wav"),
     "tone": new Sound("sound/Djembe_tone.wav"),
     "slap": new Sound("sound/Djembe_slap.wav"),
+    "ghost": new Sound("sound/Djembe_ghost.wav"),
 }
 
 Object.values(sounds).forEach(sound => {

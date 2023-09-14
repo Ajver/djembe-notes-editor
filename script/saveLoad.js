@@ -4,6 +4,7 @@ const noteToNoteDef = {
     "bass": "B",
     "tone": "T",
     "slap": "S",
+    "ghost": "G",
 }
 
 const noteDefToNote = {
@@ -11,6 +12,7 @@ const noteDefToNote = {
     "B": "bass",
     "T": "tone",
     "S": "slap",
+    "G": "ghost",
 }
 
 const saveToTxt = () => {
@@ -115,6 +117,7 @@ const loadFromTxt = (txtSave) => {
         case "B":
         case "T":
         case "S":
+        case "G":
             const note = noteDefToNote[noteDef]
             setNoteForNoteBtn(noteBtn, note, false)
             previousNote = noteBtn
