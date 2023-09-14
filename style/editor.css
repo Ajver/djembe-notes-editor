@@ -37,8 +37,9 @@
 
 .inject-row-before-btn {
     position: absolute;
-    top: -50px;
-    width: 100%;
+    top: 0px;
+    left: 65px;
+    width: 83%;
     height: 30px;
     opacity: 0;
     border-radius: 3px;
@@ -53,21 +54,24 @@
     width: 30px;
     height: 30px;
     top: 50%;
-    left: 10px;
+    left: 0px;
     transform: translateY(-50%);
 }
 
 .inject-row-before-btn::after {
     content: "";
     position: absolute;
-    width: 90%;
+    width: 95%;
     top: 14px;
-    left: 35px;
+    left: 25px;
     border: 1px solid #000;
 }
 
-.inject-row-before-btn:hover {
+.row:hover .inject-row-before-btn {
     opacity: 1;
+}
+
+.inject-row-before-btn:hover {
     background-color: #10b750;
     transition: background-color .5s;
 }

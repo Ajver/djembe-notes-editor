@@ -98,6 +98,8 @@ const createEmptyRow = (notesInBar, barsInRow) => {
     const row = document.createElement("div")
     row.classList.add("row")
 
+    row.setAttribute("connect-with-next", false)
+
     const injectRowBeforeBtn = createInjectRowBeforeBtn(row)
     row.appendChild(injectRowBeforeBtn)
 
@@ -173,11 +175,8 @@ const moveElementToNextSheet = (sheet, element) => {
 const onRowAdded = (sheet) => {
     const overflow = isSheetOverflow(sheet)
 
-    console.log("Overflow?", overflow, sheet)
-
     if (overflow) {
         const lastElement = sheet.lastChild
-        console.log("last element", lastElement)
         moveElementToNextSheet(sheet, lastElement)
     }
 }

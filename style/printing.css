@@ -58,8 +58,20 @@
     position: relative;
     display: flex;
     width: 100%;
-    justify-content: center;
-    margin-top: 60px;
+    justify-content: flex-start;
+    padding-top: 50px;
+    padding-left: 60px;
+}
+
+.row[connect-with-next=true]::before {
+    content: "";
+    position: absolute;
+    left: 25px;
+    top: 70px;
+    width: 25px;
+    height: 89px;
+    border: 1px solid #777777;
+    border-right: none;
 }
 
 .bar {
