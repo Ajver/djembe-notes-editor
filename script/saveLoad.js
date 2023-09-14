@@ -93,7 +93,8 @@ const loadFromTxt = (txtSave) => {
             const allSheets = document.querySelectorAll(".sheet")
             sheet = allSheets[allSheets.length - 1]
 
-            bit = row.firstChild.firstChild
+            const firstBar = row.querySelector(".bar")
+            bit = firstBar.firstChild
         }
 
         return bit.firstChild

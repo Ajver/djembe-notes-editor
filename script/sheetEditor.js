@@ -68,6 +68,20 @@ const createEmptyBar = notesInBar => {
     return bar
 }
 
+const createInjectRowBeforeBtn = (row) => {
+    const btn = document.createElement("div")
+    btn.classList.add("inject-row-before-btn")
+    btn.classList.add("editor-only")
+
+    btn.addEventListener("click", () => {
+        // Always get parent from row, because row may be re-parented
+        const parentSheet = row.parentNode
+        createRowInSheetBeforeNode(parentSheet, row)
+    })
+
+    return btn
+}
+
 const createDeleteRowBtn = (row) => {
     const btn = document.createElement("div")
     btn.classList.add("delete-row-btn")
@@ -83,6 +97,9 @@ const createDeleteRowBtn = (row) => {
 const createEmptyRow = (notesInBar, barsInRow) => {
     const row = document.createElement("div")
     row.classList.add("row")
+
+    const injectRowBeforeBtn = createInjectRowBeforeBtn(row)
+    row.appendChild(injectRowBeforeBtn)
 
     for (let j = 0; j < barsInRow; j++) {
         const bar = createEmptyBar(notesInBar)
@@ -101,10 +118,9 @@ const clearRowsInSheet = (sheet) => {
     })
 }
 
-const createRowInSheet = (sheet, notesInBar, barsInRow) => {
+const createRowInSheetBeforeNode = (sheet, beforeNode) => {
     const row = createEmptyRow(notesInBar, barsInRow)
-    const addRowBtn = sheet.lastChild
-    sheet.insertBefore(row, addRowBtn)
+    sheet.insertBefore(row, beforeNode)
     sheet.dispatchEvent(new Event("rowadded", {
         row: row
     }))
@@ -146,16 +162,22 @@ const moveElementToNextSheet = (sheet, element) => {
     const isThisLastSheet = sheet.parentNode.lastChild === sheet
 
     if (isThisLastSheet) {
-        const nextSheet = createEmptySheet()
-        reparentNode(element, nextSheet, true)
+        var nextSheet = createEmptySheet()
+    }else {
+        var nextSheet = sheet.nextSibling
     }
+
+    reparentNode(element, nextSheet, true)
 }
 
 const onRowAdded = (sheet) => {
     const overflow = isSheetOverflow(sheet)
 
+    console.log("Overflow?", overflow, sheet)
+
     if (overflow) {
         const lastElement = sheet.lastChild
+        console.log("last element", lastElement)
         moveElementToNextSheet(sheet, lastElement)
     }
 }
@@ -242,7 +264,7 @@ const createAddRowBtnInSheet = (sheet) => {
     addRowBtn.addEventListener("click", () => {
         // Always get parent from btn, because button may be re-parented
         const parentSheet = addRowBtn.parentNode
-        createRowInSheet(parentSheet, notesInBar, barsInRow)
+        createRowInSheetBeforeNode(parentSheet, addRowBtn)
     })
 
     sheet.appendChild(addRowBtn)

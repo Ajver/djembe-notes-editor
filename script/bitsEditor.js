@@ -192,7 +192,8 @@ const getNextBit = (fromBit) => {
     if (nextSheet && nextSheet.classList.contains("sheet")) {
         const row = nextSheet.querySelector(".row")
         if (row) {
-            return row.firstChild.firstChild
+            const firstBar = row.querySelector(".bar")
+            return firstBar.firstChild
         }
     }
 
