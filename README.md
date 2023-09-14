@@ -7,7 +7,7 @@ Editor for Djembe notes
 - [x] Basic notes editing
 - [x] Adding rows at the end
 - [x] Removing rows
-- [ ] Injecting rows in the middle
+- [x] Injecting rows in the middle
 - [x] Editing title
 - [x] Editing tempo
 - [ ] Adding titles/description for rows (to describe rythm parts)

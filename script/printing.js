@@ -8,18 +8,22 @@ const printDiv = (divToPrint, title) => {
     let printContent = `
     <html>
         <title>${title}</title>
-            <script>
+        <body onload='step1()'>
+            ${divToPrint.outerHTML}
+        </body>
+        <script>
             function step1() {
+                const editorOnlyNodes = document.querySelectorAll(".editor-only")
+                console.log(document, editorOnlyNodes)
+                editorOnlyNodes.forEach(node => node.remove())
+                
                 setTimeout('step2()', 10);
             }
             function step2() {
                 window.print();
                 window.close();
             }
-            </script>
-        <body onload='step1()'>
-            ${divToPrint.outerHTML}
-        </body>
+        </script>
     </html>
     `;
 
@@ -27,6 +31,5 @@ const printDiv = (divToPrint, title) => {
     let pwa = window.open();
     pwa.document.open(pagelink);
     pwa.document.write(printContent);
-    pwa.document.querySelector(".add-row-btn").remove()
     pwa.document.close();
 }
