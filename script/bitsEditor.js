@@ -185,7 +185,8 @@ const getNextBit = (fromBit) => {
 
     const nextRow = fromBit.parentNode.parentNode.nextSibling
     if (nextRow && nextRow.classList.contains("row")) {
-        return nextRow.firstChild.firstChild
+        const firstBar = nextRow.querySelector(".bar")
+        return firstBar.firstChild
     }
 
     const nextSheet = fromBit.parentNode.parentNode.parentNode.nextSibling
