@@ -128,4 +128,7 @@ const loadFromTxt = (txtSave) => {
     }
 
     createAddRowBtnInSheet(sheet)
+    
+    // Check if maybe sheet is overflow, and fix it if needed
+    onRowAdded(sheet)
 }

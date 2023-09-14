@@ -27,5 +27,6 @@ const printDiv = (divToPrint, title) => {
     let pwa = window.open();
     pwa.document.open(pagelink);
     pwa.document.write(printContent);
+    pwa.document.querySelector(".add-row-btn").remove()
     pwa.document.close();
 }

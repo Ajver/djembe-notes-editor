@@ -50,6 +50,10 @@
     background-color: #fff;
 }
 
+.sheet:empty {
+    display: none;
+}
+
 .row {
     position: relative;
     display: flex;
