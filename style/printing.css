@@ -134,6 +134,20 @@
     left: 170%;
 }
 
+.bit[bit-type=grace] img {
+    width: 75%;
+    height: 75%;
+    top: 15%;
+}
+
+/* grace note (pre-note) */
+.bit[bit-type=grace] img:nth-of-type(1) {
+    left: 8%;
+    top: 0;
+    width: 55%;
+    height: 55%;
+}
+
 .bit::before {
     content: "";
 

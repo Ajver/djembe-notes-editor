@@ -15,17 +15,20 @@ const noteDefToNote = {
     "G": "ghost",
 }
 
+const bitTypeToDef = {
+    "single": "",
+    "double": "2",
+    "triplet": "3",
+    "grace": "g",
+}
+
 const saveToTxt = () => {
     let rythmDefinition = ""
 
     document.querySelectorAll(".bit").forEach((bitBtn) => {
         const bitType = bitBtn.getAttribute("bit-type")
-        
-        if (bitType === "double") {
-            rythmDefinition += "2"
-        }else if (bitType === "triplet") {
-            rythmDefinition += "3"
-        }
+        const typeDef = bitTypeToDef[bitType]
+        rythmDefinition += typeDef
 
         bitBtn.querySelectorAll("img").forEach((noteBtn) => {
             const note = noteToNoteDef[noteBtn.getAttribute("note")]
@@ -106,13 +109,17 @@ const loadFromTxt = (txtSave) => {
         let noteDef = rythmDefinition[i]
         
         let noteBtn = nextNote(previousNote)
+        const bitBtn = noteBtn.parentNode
 
         switch (noteDef) {
         case "2":
-            changeOneBitToDouble(noteBtn.parentNode, false)
+            changeOneBitToDouble(bitBtn, false)
             break
         case "3":
-            changeOneBitToTriplet(noteBtn.parentNode, [], false)
+            changeOneBitToTriplet(bitBtn, [], false)
+            break
+        case "g":
+            changeOneBitToGrace(bitBtn, false)
             break
         case "-":
         case "B":

@@ -384,6 +384,54 @@ const changeBitsToTriplets = () => {
     })
 }
 
+const changeOneBitToGrace = (bit, selectNewNotes) => {
+    if (bit.getAttribute("bit-type") === "grace") {
+        // It's already grace
+        return
+    }
+    
+    bit.setAttribute("bit-type", "grace")
+
+    // Showing next bit
+    const nextBit = getNextBit(bit)
+    if (nextBit) {
+        nextBit.classList.remove("hidden")
+    }
+
+    let imgs = bit.querySelectorAll("img")
+    
+    // Add missing imgs
+    while(imgs.length < 2) {
+        const img = createNoteBtn("empty")
+        bit.appendChild(img)
+
+        if (selectNewNotes) {
+            selectNoteBtn(img)
+        }
+
+        imgs = bit.querySelectorAll("img")
+    }
+    
+    // Remove extra imgs
+    while(imgs.length > 2) {
+        const lastImg = imgs[imgs.length - 1]
+        bit.removeChild(lastImg)
+
+        const selectedIdx = selectedNotes.indexOf(lastImg)
+        if (selectedIdx > -1) {
+            selectedNotes.splice(selectedIdx, 1)
+        }
+
+        imgs = bit.querySelectorAll("img")
+    }
+}
+
+const changeBitsToGrace = () => {
+    getSelectedBits().forEach(bit => {
+        changeOneBitToGrace(bit, true)
+    })
+}
+
 const sortSelectedNotes = () => {
     selectedNotes.sort((noteA, noteB) => {
         const noteANumber = calculateBitNumber(noteA)
@@ -505,6 +553,8 @@ addEventListener("keydown", event => {
         "@": () => changeBitsToDouble(),
         // Shift + 3
         "#": () => changeBitsToTriplets(),
+        // Shift + 4
+        "$": () => changeBitsToGrace(),
         "c": () => {
             if (event.ctrlKey || event.metaKey) {
                 copyBits()
