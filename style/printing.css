@@ -80,10 +80,6 @@
     cursor: pointer;
 }
 
-.bit img.selected {
-    background-color: #a5cfac;
-}
-
 .bit[bit-type=double] img {
     width: 55%;
     height: 55%;

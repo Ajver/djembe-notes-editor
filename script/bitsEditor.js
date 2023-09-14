@@ -260,7 +260,7 @@ const getPreviousNoteBtn = (fromNote) => {
     return null
 }
 
-const calculateBitNumber = (bit) => {
+const getBitNumberDetails = (bit) => {
     const bar = bit.parentNode
     const row = bar.parentNode
     const sheet = row.parentNode
@@ -270,11 +270,40 @@ const calculateBitNumber = (bit) => {
     const rowIdx = indexOfElement(row)
     const sheetIdx = indexOfElement(sheet)
 
+    const details = {
+        bitIdx: bitIdx,
+        barIdx: barIdx,
+        rowIdx: rowIdx,
+        sheetIdx: sheetIdx,
+    }
+
+    return details
+}
+
+const getNoteNumberDetails = (noteBtn) => {
+    const bit = noteBtn.parentNode
+    const bitDetails = getBitNumberDetails(bit)
+
+    const noteIdx = indexOfElement(noteBtn)
+
+    const noteDetails = {
+        ...bitDetails,
+        noteIdx: noteIdx,
+    }
+
+    console.log("note details:", noteDetails)
+
+    return noteDetails
+}
+
+const calculateBitNumber = (bit) => {
+    const details = getBitNumberDetails(bit)
+
     const bitNumber = (
-        sheetIdx * 10000 +
-        rowIdx * 1000 +
-        barIdx * 100 +
-        bitIdx * 10
+        details.sheetIdx * 10000 +
+        details.rowIdx * 1000 +
+        details.barIdx * 100 +
+        details.bitIdx * 10
     )
     return bitNumber
 }

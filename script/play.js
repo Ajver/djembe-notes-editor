@@ -28,13 +28,17 @@ const playNoteBtn = (noteBtn) => {
     }
 }
 
-document.querySelector("#play-btn").addEventListener("click", () => {
+const stopPlayingRythm = () => {
+    isPlayingRythm = false
+
+    window.clearTimeout(nextTimeoutId)
+
+    onRythmPlayEnd()
+}
+
+const playRythm = () => {
     if (isPlayingRythm) {
-        isPlayingRythm = false
-
-        window.clearTimeout(nextTimeoutId)
-
-        onRythmPlayEnd()
+        stopPlayingRythm()
         return
     }
 
@@ -47,6 +51,10 @@ document.querySelector("#play-btn").addEventListener("click", () => {
 
     // Every note is a pointer to the sound and delay in millis to the next one
     let notesToPlay = []
+
+    // From this note we'll start playing the rythm, if we find any selected note
+    let firstSelectedNoteIdx = -1
+    let currentNoteCounter = 0
 
     document.querySelectorAll(".bit").forEach((bitBtn) => {
         if (bitBtn.classList.contains("hidden")) {
@@ -75,6 +83,12 @@ document.querySelector("#play-btn").addEventListener("click", () => {
                 sound: sound,
                 delay: delay,
             })
+
+            if (firstSelectedNoteIdx === -1 && noteBtn.classList.contains("selected") ) {
+                firstSelectedNoteIdx = currentNoteCounter
+            }
+
+            currentNoteCounter++
         })
     })
 
@@ -106,8 +120,7 @@ document.querySelector("#play-btn").addEventListener("click", () => {
 
         if (playedNoteIdx + 1 >= notesToPlay.length) {
             // The rythm has ended
-            isPlayingRythm = false
-            onRythmPlayEnd()
+            stopPlayingRythm()
             return
         }
 
@@ -116,7 +129,29 @@ document.querySelector("#play-btn").addEventListener("click", () => {
         }, delay)
     }
 
+    let noteToStartPlay = 0
+
+    if (firstSelectedNoteIdx > -1) {
+        noteToStartPlay = firstSelectedNoteIdx
+    }
+
     document.querySelector("body").classList.add("playing")
     isPlayingRythm = true
-    playAndContinue(0)
+    playAndContinue(noteToStartPlay)
+}
+
+document.querySelector("#play-btn").addEventListener("click", () => {
+    playRythm()
+})
+
+addEventListener("keydown", event => {
+    if (event.code === "Space") {
+        if (isPlayingRythm) {
+            stopPlayingRythm()
+        }else {
+            playRythm()
+        }
+
+        event.preventDefault()
+    }
 })
