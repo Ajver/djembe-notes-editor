@@ -3,10 +3,15 @@ let isPlayingRythm = false
 let nextTimeoutId = 0
 
 const sounds = {
-    "bass": new Sound("sound/Djembe_bass.wav"),
-    "tone": new Sound("sound/Djembe_tone.wav"),
-    "slap": new Sound("sound/Djembe_slap.wav"),
-    "ghost": new Sound("sound/Djembe_ghost.wav"),
+    // "bass": new Sound("sound/Djembe_bass.wav"),
+    // "tone": new Sound("sound/Djembe_tone.wav"),
+    // "slap": new Sound("sound/Djembe_slap.wav"),
+    // "ghost": new Sound("sound/Djembe_ghost.wav"),
+
+    "bass": new Sound("sound/fart-human-06.mp3"),
+    "tone": new Sound("sound/burp-05.mp3"),
+    "slap": new Sound("sound/burp-04.mp3"),
+    "ghost": new Sound("sound/burp-07.mp3"),
 }
 
 Object.values(sounds).forEach(sound => {
