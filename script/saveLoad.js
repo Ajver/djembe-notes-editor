@@ -15,7 +15,7 @@ const noteDefToNote = {
     "G": "ghost",
 }
 
-const bitTypeToDef = {
+const beatPartTypeToDef = {
     "single": "",
     "double": "2",
     "triplet": "3",
@@ -25,12 +25,12 @@ const bitTypeToDef = {
 const saveToTxt = () => {
     let rythmDefinition = ""
 
-    document.querySelectorAll(".bit").forEach((bitBtn) => {
-        const bitType = bitBtn.getAttribute("bit-type")
-        const typeDef = bitTypeToDef[bitType]
+    document.querySelectorAll(".beat-part").forEach((beatPartBtn) => {
+        const beatPartType = beatPartBtn.getAttribute("beat-part-type")
+        const typeDef = beatPartTypeToDef[beatPartType]
         rythmDefinition += typeDef
 
-        bitBtn.querySelectorAll("img").forEach((noteBtn) => {
+        beatPartBtn.querySelectorAll("img").forEach((noteBtn) => {
             const note = noteToNoteDef[noteBtn.getAttribute("note")]
             rythmDefinition += note
         })
@@ -77,9 +77,9 @@ const loadFromTxt = (txtSave) => {
                 return fromNote.nextSibling
             }
 
-            // This bit doesn't have anymore notes
-            // ...let's get next bit
-            var bit = getNextBit(fromNote.parentNode)
+            // This beatPart doesn't have anymore notes
+            // ...let's get next beatPart
+            var beatPart = getNextBeatPart(fromNote.parentNode)
         }else {
             // We don't get "fromNote", but maybe we can return the first note?
             const firstNote = getFirstNoteBtn()
@@ -88,12 +88,12 @@ const loadFromTxt = (txtSave) => {
                 return firstNote
             }
 
-            // Looks like there is no "firstNote" - let's mark Bit as None, so the new row gets created
-            var bit = null
+            // Looks like there is no "firstNote" - let's mark beat part as None, so the new row gets created
+            var beatPart = null
         }
 
-        if (!bit) {
-            // There are no more bits - let's create a new row
+        if (!beatPart) {
+            // There are no more beatParts - let's create a new row
             const row = createEmptyRow(notesInBar, barsInRow)
             sheet.appendChild(row)
             sheet.dispatchEvent(new Event("rowadded", {
@@ -105,10 +105,10 @@ const loadFromTxt = (txtSave) => {
             sheet = allSheets[allSheets.length - 1]
 
             const firstBar = row.querySelector(".bar")
-            bit = firstBar.firstChild
+            beatPart = firstBar.firstChild
         }
 
-        return bit.firstChild
+        return beatPart.firstChild
     }
 
     const rythmDefinition = saveObj.rythm || []
@@ -117,17 +117,17 @@ const loadFromTxt = (txtSave) => {
         let noteDef = rythmDefinition[i]
         
         let noteBtn = nextNote(previousNote)
-        const bitBtn = noteBtn.parentNode
+        const beatPartBtn = noteBtn.parentNode
 
         switch (noteDef) {
         case "2":
-            changeOneBitToDouble(bitBtn, false)
+            changeOneBeatPartToDouble(beatPartBtn, false)
             break
         case "3":
-            changeOneBitToTriplet(bitBtn, [], false)
+            changeOneBeatPartToTriplet(beatPartBtn, [], false)
             break
         case "g":
-            changeOneBitToGrace(bitBtn, false)
+            changeOneBeatPartToGrace(beatPartBtn, false)
             break
         case "-":
         case "B":

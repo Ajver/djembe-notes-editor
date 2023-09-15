@@ -78,7 +78,7 @@
     display: flex;
 }
 
-.bit {
+.beat-part {
     position: relative;
     width: 40px;
     height: 40px;
@@ -86,7 +86,7 @@
     align-items: flex-start;
 }
 
-.bit img {
+.beat-part img {
     position: absolute;
     width: 80%;
     height: 80%;
@@ -96,59 +96,59 @@
     cursor: pointer;
 }
 
-.bit[bit-type=double] img {
+.beat-part[beat-part-type=double] img {
     width: 55%;
     height: 55%;
     top: 25%;
 }
 
-.bit[bit-type=double] img:nth-of-type(2) {
+.beat-part[beat-part-type=double] img:nth-of-type(2) {
     left: 90%;
 }
 
-.bit.hidden {
+.beat-part.hidden {
     pointer-events: none;
 }
 
-.bit.hidden::before {
+.beat-part.hidden::before {
     border-left: none;
 }
 
-.bit.hidden::after,
-.bit.hidden img {
+.beat-part.hidden::after,
+.beat-part.hidden img {
     visibility: hidden;
 }
 
-.bit[bit-type=triplet]::after {
+.beat-part[beat-part-type=triplet]::after {
     content: "3";
     position: absolute;
     left: 100%;
     top: -45%;
 }
 
-.bit[bit-type=triplet] img:nth-of-type(2) {
+.beat-part[beat-part-type=triplet] img:nth-of-type(2) {
     left: 110%;
 }
 
-.bit[bit-type=triplet] img:nth-of-type(3) {
+.beat-part[beat-part-type=triplet] img:nth-of-type(3) {
     left: 170%;
 }
 
-.bit[bit-type=grace] img {
+.beat-part[beat-part-type=grace] img {
     width: 75%;
     height: 75%;
     top: 15%;
 }
 
 /* grace note (pre-note) */
-.bit[bit-type=grace] img:nth-of-type(1) {
+.beat-part[beat-part-type=grace] img:nth-of-type(1) {
     left: 8%;
     top: 0;
     width: 55%;
     height: 55%;
 }
 
-.bit::before {
+.beat-part::before {
     content: "";
 
     position: absolute;
@@ -165,7 +165,7 @@
     border-top: 1px solid #777777;
 }
 
-.bit:last-child::before {
+.beat-part:last-child::before {
     border-top: none;
 }
 

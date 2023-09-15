@@ -45,13 +45,13 @@ const playRythm = () => {
     document.querySelector("#play-btn").innerHTML = "PAUSE"
 
     // Delays are in millis
-    const singleBitDelay = (60_000.0 / rythmTempo) / notesInBar
+    const singleBeatPartDelay = (60_000.0 / rythmTempo) / notesInBar
 
     const delayPerTypes = {
-        "single": singleBitDelay,
-        "double": singleBitDelay / 2,
-        "triplet": (singleBitDelay * 2) / 3,
-        "grace": singleBitDelay / 4,
+        "single": singleBeatPartDelay,
+        "double": singleBeatPartDelay / 2,
+        "triplet": (singleBeatPartDelay * 2) / 3,
+        "grace": singleBeatPartDelay / 4,
     }
 
     // Every note is a pointer to the sound and delay in millis to the next one
@@ -65,37 +65,37 @@ const playRythm = () => {
      */
     let currentNoteCounter = 0
 
-    document.querySelectorAll(".bit").forEach((bitBtn) => {
-        if (bitBtn.classList.contains("hidden")) {
-            // Skip hidden bits
+    document.querySelectorAll(".beat-part").forEach((beatPartBtn) => {
+        if (beatPartBtn.classList.contains("hidden")) {
+            // Skip hidden beatParts
             return
         }
 
-        const bar = bitBtn.parentNode
+        const bar = beatPartBtn.parentNode
 
-        const bitType = bitBtn.getAttribute("bit-type")
-        let delay = delayPerTypes[bitType]
+        const beatPartType = beatPartBtn.getAttribute("beat-part-type")
+        let delay = delayPerTypes[beatPartType]
 
         if (delay === undefined) {
-            console.log("Unknown bitType: ", bitType)
+            console.log("Unknown beatPartType: ", beatPartType)
             return
         }
 
         /**
-         * Which note in a bit this is?
+         * Which note in a beatPart this is?
          */
         let nthNote = 0
 
-        bitBtn.querySelectorAll("img").forEach((noteBtn) => {
+        beatPartBtn.querySelectorAll("img").forEach((noteBtn) => {
             const note = noteBtn.getAttribute("note")
             const sound = sounds[note]
 
-            if (bitType === "grace") {
+            if (beatPartType === "grace") {
                 /**
-                 * Grace bits are tricky, becaues the first note is played before the bit,
-                 * and the second note is actually ON bit
+                 * Grace beatParts are tricky, becaues the first note is played before the beatPart,
+                 * and the second note is actually ON beatPart
                  * also delay is not the same: between grace notes the delay is tiny, but between second
-                 * note, and the following bit, the delay is normal (as for the single bit)
+                 * note, and the following beatPart, the delay is normal (as for the single beatPart)
                  * 
                  * To solve this, we need to shorten delay from the PREVIOUS note (before the grace),
                  * set the delay after first note to 'grace', and then set the delay of the second note
@@ -109,7 +109,7 @@ const playRythm = () => {
                         previousNoteToPlay.delay -= delay  // Shortening by the delay of the grace note
                     }
                 }else {
-                    // It's second note in the grace bit - it should have a delay to the next one, as it was single note
+                    // It's second note in the grace beatPart - it should have a delay to the next one, as it was single note
                     delay = delayPerTypes["single"]
                 }
             }

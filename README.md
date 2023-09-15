@@ -12,8 +12,8 @@ Editor for Djembe notes
 - [x] Editing tempo
 - [ ] Adding titles/description for rows (to describe rythm parts)
 - [ ] Changing row repeat/play once
-- [x] Double bits
-- [x] Triplet bits
+- [x] Double bitParts
+- [x] Triplet bitParts
 - [x] Ghost notes
 - [x] Copy/Paste
 - [x] Changing selected note using arrow keys

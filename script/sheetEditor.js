@@ -20,7 +20,7 @@ const setupNoteBtnListeners = noteBtn => {
     })
 
     noteBtn.addEventListener("click", () => {
-        toggleNoteForBit(noteBtn)
+        toggleNoteForBeatPart(noteBtn)
     })
 
     noteBtn.addEventListener("contextmenu", (event) => {
@@ -45,15 +45,15 @@ const createNoteBtn = (note) => {
     return img
 }
 
-const createBitBtn = note => {
-    const bitBtn = document.createElement("div")
-    bitBtn.classList.add("bit")
-    bitBtn.setAttribute("bit-type", "single")
+const createbeatPartBtn = note => {
+    const beatPartBtn = document.createElement("div")
+    beatPartBtn.classList.add("beat-part")
+    beatPartBtn.setAttribute("beat-part-type", "single")
 
     const img = createNoteBtn(note)
-    bitBtn.appendChild(img)
+    beatPartBtn.appendChild(img)
    
-    return bitBtn
+    return beatPartBtn
 }
 
 const createEmptyBar = notesInBar => {
@@ -61,7 +61,7 @@ const createEmptyBar = notesInBar => {
     bar.classList.add("bar")
 
     for (let i = 0; i < notesInBar; i++) {
-        const note = createBitBtn("empty")
+        const note = createbeatPartBtn("empty")
         bar.appendChild(note)
     }
 
