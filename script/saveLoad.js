@@ -81,6 +81,14 @@ const loadFromTxt = (txtSave) => {
             // ...let's get next bit
             var bit = getNextBit(fromNote.parentNode)
         }else {
+            // We don't get "fromNote", but maybe we can return the first note?
+            const firstNote = getFirstNoteBtn()
+
+            if (firstNote) {
+                return firstNote
+            }
+
+            // Looks like there is no "firstNote" - let's mark Bit as None, so the new row gets created
             var bit = null
         }
 

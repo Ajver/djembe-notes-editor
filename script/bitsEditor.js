@@ -32,10 +32,18 @@ const selectAllNotes = () => {
 
 const getFirstNoteBtn = () => {
     const firstSheet = document.querySelector(".sheet")
+    if (!firstSheet) return null
+    
     const firstRow = firstSheet.querySelector(".row")
-    const firstBar = firstRow.firstChild
-    const firstBit = firstBar.firstChild
-    const firstNote = firstBit.firstChild
+    if (!firstRow) return null
+
+    const firstBar = firstRow.querySelector(".bar")
+    if (!firstBar) return null
+
+    const firstBit = firstBar.querySelector(".bit")
+    if (!firstBit) return null
+
+    const firstNote = firstBit.querySelector("img")
     return firstNote
 }
 
