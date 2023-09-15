@@ -46,14 +46,23 @@ const playRythm = () => {
 
     // Delays are in millis
     const singleBitDelay = (60_000.0 / rythmTempo) / notesInBar
-    const doubleBitNoteDelay = singleBitDelay / 2
-    const tripletBitNoteDelay = (singleBitDelay * 2) / 3
+
+    const delayPerTypes = {
+        "single": singleBitDelay,
+        "double": singleBitDelay / 2,
+        "triplet": (singleBitDelay * 2) / 3,
+        "grace": singleBitDelay / 4,
+    }
 
     // Every note is a pointer to the sound and delay in millis to the next one
     let notesToPlay = []
 
     // From this note we'll start playing the rythm, if we find any selected note
     let firstSelectedNoteIdx = -1
+    
+    /**
+     * How many notes we already prepared for playing
+     */
     let currentNoteCounter = 0
 
     document.querySelectorAll(".bit").forEach((bitBtn) => {
@@ -62,20 +71,47 @@ const playRythm = () => {
             return
         }
 
-        const bar = bitBtn.parentNode 
+        const bar = bitBtn.parentNode
 
         const bitType = bitBtn.getAttribute("bit-type")
+        let delay = delayPerTypes[bitType]
+
+        if (delay === undefined) {
+            console.log("Unknown bitType: ", bitType)
+            return
+        }
+
+        /**
+         * Which note in a bit this is?
+         */
+        let nthNote = 0
 
         bitBtn.querySelectorAll("img").forEach((noteBtn) => {
             const note = noteBtn.getAttribute("note")
             const sound = sounds[note]
 
-            let delay = singleBitDelay
+            if (bitType === "grace") {
+                /**
+                 * Grace bits are tricky, becaues the first note is played before the bit,
+                 * and the second note is actually ON bit
+                 * also delay is not the same: between grace notes the delay is tiny, but between second
+                 * note, and the following bit, the delay is normal (as for the single bit)
+                 * 
+                 * To solve this, we need to shorten delay from the PREVIOUS note (before the grace),
+                 * set the delay after first note to 'grace', and then set the delay of the second note
+                 * to 'single'
+                 */
 
-            if (bitType === "double") {
-                delay = doubleBitNoteDelay
-            }else if (bitType === "triplet") {
-                delay = tripletBitNoteDelay
+                if (nthNote === 0) {
+                    if (currentNoteCounter > 0) {
+                        // There is "previous note" - let's shorten delay between previous and this one
+                        const previousNoteToPlay = notesToPlay[currentNoteCounter - 1]
+                        previousNoteToPlay.delay -= delay  // Shortening by the delay of the grace note
+                    }
+                }else {
+                    // It's second note in the grace bit - it should have a delay to the next one, as it was single note
+                    delay = delayPerTypes["single"]
+                }
             }
 
             notesToPlay.push({
@@ -88,6 +124,7 @@ const playRythm = () => {
                 firstSelectedNoteIdx = currentNoteCounter
             }
 
+            nthNote++
             currentNoteCounter++
         })
     })
