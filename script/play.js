@@ -182,6 +182,12 @@ document.querySelector("#play-btn").addEventListener("click", () => {
 })
 
 addEventListener("keydown", event => {
+    const body = document.querySelector("body")
+    if (document.activeElement !== body) {
+        // We should ONLY play, when we're focused on body (not any button, text input, etc)
+        return
+    }
+
     if (event.code === "Space") {
         if (isPlayingRythm) {
             stopPlayingRythm()
