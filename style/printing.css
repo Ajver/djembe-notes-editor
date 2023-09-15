@@ -54,7 +54,7 @@
     display: none;
 }
 
-.row {
+.bar {
     position: relative;
     display: flex;
     width: 100%;
@@ -63,7 +63,7 @@
     padding-left: 60px;
 }
 
-.row[connect-with-next=true]::before {
+.bar[connect-with-next=true]::before {
     content: "";
     position: absolute;
     left: 25px;
@@ -74,7 +74,7 @@
     border-right: none;
 }
 
-.bar {
+.beat {
     display: flex;
 }
 

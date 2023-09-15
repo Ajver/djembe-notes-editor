@@ -39,8 +39,8 @@ const saveToTxt = () => {
     const saveObj = {
         title: rythmTitle,
         tempo: rythmTempo,
-        notesInBar: notesInBar,
-        barsInRow: barsInRow,
+        partsInBeat: partsInBeat,
+        beatsInBar: beatsInBar,
         rythm: rythmDefinition,
     }
     const txtSave = JSON.stringify(saveObj)    
@@ -57,8 +57,8 @@ const loadFromTxt = (txtSave) => {
     rythmTitle = saveObj.title
     rythmTempo = saveObj.tempo || 120
 
-    notesInBar = saveObj.notesInBar || 4
-    barsInRow = saveObj.barsInRow || 4
+    partsInBeat = saveObj.partsInBeat || 4
+    beatsInBar = saveObj.beatsInBar || 4
 
     createTitleInSheet(sheet, rythmTitle)
     createTempoInSheet(sheet, rythmTempo)
@@ -68,7 +68,7 @@ const loadFromTxt = (txtSave) => {
     const nextNote = (fromNote) => {
         /**
          * This function returns next note. If there are no more notes,
-         * it creates new row
+         * it creates new bar
          */
 
         if (fromNote) {
@@ -88,24 +88,24 @@ const loadFromTxt = (txtSave) => {
                 return firstNote
             }
 
-            // Looks like there is no "firstNote" - let's mark beat part as None, so the new row gets created
+            // Looks like there is no "firstNote" - let's mark beat part as None, so the new bar gets created
             var beatPart = null
         }
 
         if (!beatPart) {
-            // There are no more beatParts - let's create a new row
-            const row = createEmptyRow(notesInBar, barsInRow)
-            sheet.appendChild(row)
-            sheet.dispatchEvent(new Event("rowadded", {
-                row: row
+            // There are no more beatParts - let's create a new bar
+            const bar = createEmptyBar(partsInBeat, beatsInBar)
+            sheet.appendChild(bar)
+            sheet.dispatchEvent(new Event("baradded", {
+                bar: bar
             }))
 
             // Re-set sheet to the last sheet, so we edit the last sheet
             const allSheets = document.querySelectorAll(".sheet")
             sheet = allSheets[allSheets.length - 1]
 
-            const firstBar = row.querySelector(".bar")
-            beatPart = firstBar.firstChild
+            const firstBeat = bar.querySelector(".beat")
+            beatPart = firstBeat.firstChild
         }
 
         return beatPart.firstChild
@@ -143,8 +143,8 @@ const loadFromTxt = (txtSave) => {
         }
     }
 
-    createAddRowBtnInSheet(sheet)
+    createAddBarBtnInSheet(sheet)
     
     // Check if maybe sheet is overflow, and fix it if needed
-    onRowAdded(sheet)
+    onBarAdded(sheet)
 }

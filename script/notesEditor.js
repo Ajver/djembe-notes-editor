@@ -34,13 +34,13 @@ const getFirstNoteBtn = () => {
     const firstSheet = document.querySelector(".sheet")
     if (!firstSheet) return null
     
-    const firstRow = firstSheet.querySelector(".row")
-    if (!firstRow) return null
-
-    const firstBar = firstRow.querySelector(".bar")
+    const firstBar = firstSheet.querySelector(".bar")
     if (!firstBar) return null
 
-    const firstBeatPart = firstBar.querySelector(".beat-part")
+    const firstBeat = firstBar.querySelector(".beat")
+    if (!firstBeat) return null
+
+    const firstBeatPart = firstBeat.querySelector(".beat-part")
     if (!firstBeatPart) return null
 
     const firstNote = firstBeatPart.querySelector("img")
@@ -186,23 +186,23 @@ const getNextBeatPart = (fromBeatPart) => {
         return fromBeatPart.nextSibling
     }
 
-    const nextBar = fromBeatPart.parentNode.nextSibling
-    if (nextBar && nextBar.classList.contains("bar")) {
-        return nextBar.firstChild
+    const nextBeat = fromBeatPart.parentNode.nextSibling
+    if (nextBeat && nextBeat.classList.contains("beat")) {
+        return nextBeat.firstChild
     }
 
-    const nextRow = fromBeatPart.parentNode.parentNode.nextSibling
-    if (nextRow && nextRow.classList.contains("row")) {
-        const firstBar = nextRow.querySelector(".bar")
-        return firstBar.firstChild
+    const nextBar = fromBeatPart.parentNode.parentNode.nextSibling
+    if (nextBar && nextBar.classList.contains("bar")) {
+        const firstBeat = nextBar.querySelector(".beat")
+        return firstBeat.firstChild
     }
 
     const nextSheet = fromBeatPart.parentNode.parentNode.parentNode.nextSibling
     if (nextSheet && nextSheet.classList.contains("sheet")) {
-        const row = nextSheet.querySelector(".row")
-        if (row) {
-            const firstBar = row.querySelector(".bar")
-            return firstBar.firstChild
+        const bar = nextSheet.querySelector(".bar")
+        if (bar) {
+            const firstBeat = bar.querySelector(".beat")
+            return firstBeat.firstChild
         }
     }
 
@@ -214,16 +214,16 @@ const getPreviousBeatPart = (fromBeatPart) => {
         return fromBeatPart.previousSibling
     }
 
-    const prevBar = fromBeatPart.parentNode.previousSibling
-    if (prevBar && prevBar.classList.contains("bar")) {
-        return prevBar.lastChild
+    const prevBeat = fromBeatPart.parentNode.previousSibling
+    if (prevBeat && prevBeat.classList.contains("beat")) {
+        return prevBeat.lastChild
     }
 
-    const prevRow = fromBeatPart.parentNode.parentNode.previousSibling
-    if (prevRow && prevRow.classList.contains("row")) {
-        // -2, because the last node in bar is DeleteRow btn
-        const allBars = prevRow.querySelectorAll(".bar")
-        return allBars[allBars.length - 1].lastChild
+    const prevBar = fromBeatPart.parentNode.parentNode.previousSibling
+    if (prevBar && prevBar.classList.contains("bar")) {
+        // -2, because the last node in beat is DeleteBar btn
+        const allBeats = prevBar.querySelectorAll(".beat")
+        return allBeats[allBeats.length - 1].lastChild
     }
 
     return null
@@ -271,19 +271,19 @@ const getPreviousNoteBtn = (fromNote) => {
 }
 
 const getBeatPartNumberDetails = (beatPart) => {
-    const bar = beatPart.parentNode
-    const row = bar.parentNode
-    const sheet = row.parentNode
+    const beat = beatPart.parentNode
+    const bar = beat.parentNode
+    const sheet = bar.parentNode
     
     const beatPartIdx = indexOfElement(beatPart)
+    const beatIdx = indexOfElement(beat)
     const barIdx = indexOfElement(bar)
-    const rowIdx = indexOfElement(row)
     const sheetIdx = indexOfElement(sheet)
 
     const details = {
         beatPartIdx: beatPartIdx,
+        beatIdx: beatIdx,
         barIdx: barIdx,
-        rowIdx: rowIdx,
         sheetIdx: sheetIdx,
     }
 
@@ -311,8 +311,8 @@ const calculateBeatPartNumber = (beatPart) => {
 
     const beatPartNumber = (
         details.sheetIdx * 10000 +
-        details.rowIdx * 1000 +
-        details.barIdx * 100 +
+        details.barIdx * 1000 +
+        details.beatIdx * 100 +
         details.beatPartIdx * 10
     )
     return beatPartNumber

@@ -16,7 +16,7 @@ Object.values(sounds).forEach(sound => {
 
 const onRythmPlayEnd = () => {
     document.querySelector("#play-btn").innerHTML = "PLAY"
-    document.querySelector(".bar.playing").classList.remove("playing")
+    document.querySelector(".beat.playing").classList.remove("playing")
     document.querySelector("body").classList.remove("playing")
 }
 
@@ -45,7 +45,7 @@ const playRythm = () => {
     document.querySelector("#play-btn").innerHTML = "PAUSE"
 
     // Delays are in millis
-    const singleBeatPartDelay = (60_000.0 / rythmTempo) / notesInBar
+    const singleBeatPartDelay = (60_000.0 / rythmTempo) / partsInBeat
 
     const delayPerTypes = {
         "single": singleBeatPartDelay,
@@ -71,7 +71,7 @@ const playRythm = () => {
             return
         }
 
-        const bar = beatPartBtn.parentNode
+        const beat = beatPartBtn.parentNode
 
         const beatPartType = beatPartBtn.getAttribute("beat-part-type")
         let delay = delayPerTypes[beatPartType]
@@ -115,7 +115,7 @@ const playRythm = () => {
             }
 
             notesToPlay.push({
-                bar: bar,
+                beat: beat,
                 sound: sound,
                 delay: delay,
             })
@@ -135,21 +135,21 @@ const playRythm = () => {
         return
     }
     
-    let lastPlayedBar = null
+    let lastPlayedBeat = null
 
     const playAndContinue = (playedNoteIdx) => {
         if (!isPlayingRythm) {
             return
         }
 
-        const {bar, sound, delay} = notesToPlay[playedNoteIdx]
+        const {beat, sound, delay} = notesToPlay[playedNoteIdx]
         
-        if (lastPlayedBar && lastPlayedBar !== bar) {
-            lastPlayedBar.classList.remove("playing")
+        if (lastPlayedBeat && lastPlayedBeat !== beat) {
+            lastPlayedBeat.classList.remove("playing")
         }
 
-        bar.classList.add("playing")
-        lastPlayedBar = bar
+        beat.classList.add("playing")
+        lastPlayedBeat = beat
         
         if (sound) {
             sound.play()

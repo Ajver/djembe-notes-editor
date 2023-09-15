@@ -9,15 +9,15 @@
     margin-top: 30px;
 }
 
-.row .delete-row-btn {
+.bar .delete-bar-btn {
     display: none;
 }
 
-.row:hover .delete-row-btn {
+.bar:hover .delete-bar-btn {
     display: block;
 }
 
-.delete-row-btn {
+.delete-bar-btn {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -31,11 +31,11 @@
     transition: background-color .1s;
 }
 
-.delete-row-btn:hover {
+.delete-bar-btn:hover {
     background-color: #e47575;
 }
 
-.inject-row-before-btn {
+.inject-bar-before-btn {
     position: absolute;
     top: 0px;
     left: 65px;
@@ -46,7 +46,7 @@
     cursor: pointer;
 }
 
-.inject-row-before-btn::before {
+.inject-bar-before-btn::before {
     position: absolute;
     content: "";
     background-image: url(../svg/plus-circle.svg);
@@ -58,7 +58,7 @@
     transform: translateY(-50%);
 }
 
-.inject-row-before-btn::after {
+.inject-bar-before-btn::after {
     content: "";
     position: absolute;
     width: 95%;
@@ -67,16 +67,16 @@
     border: 1px solid #000;
 }
 
-.row:hover .inject-row-before-btn {
+.bar:hover .inject-bar-before-btn {
     opacity: 1;
 }
 
-.inject-row-before-btn:hover {
+.inject-bar-before-btn:hover {
     background-color: #10b750;
     transition: background-color .5s;
 }
 
-.add-row-btn {
+.add-bar-btn {
     width: 100%;
     height: 60px;
     margin-top: 30px;
@@ -93,7 +93,7 @@
     transition: background-color .1s;
 }
 
-.add-row-btn:hover {
+.add-bar-btn:hover {
     background-color: #78d181;
 }
 
@@ -101,7 +101,7 @@
     background-color: #a5cfac;
 }
 
-.bar.playing { 
+.beat.playing { 
     background-color: #e2a8ff;
 }
 

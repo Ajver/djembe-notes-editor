@@ -1,9 +1,9 @@
 // Global settings
 let rythmTitle = "Title of your rythm"
 let rythmTempo = 120
-let notesInBar = 1
-let barsInRow = 1
-let amountOfRows = 4
+let partsInBeat = 1
+let beatsInBar = 1
+let amountOfBars = 4
 
 
 const setupNoteBtnListeners = noteBtn => {
@@ -56,75 +56,75 @@ const createbeatPartBtn = note => {
     return beatPartBtn
 }
 
-const createEmptyBar = notesInBar => {
+const createEmptyBeat = partsInBeat => {
+    const beat = document.createElement("div")
+    beat.classList.add("beat")
+
+    for (let i = 0; i < partsInBeat; i++) {
+        const note = createbeatPartBtn("empty")
+        beat.appendChild(note)
+    }
+
+    return beat
+}
+
+const createInjectBarBeforeBtn = (bar) => {
+    const btn = document.createElement("div")
+    btn.classList.add("inject-bar-before-btn")
+    btn.classList.add("editor-only")
+
+    btn.addEventListener("click", () => {
+        // Always get parent from bar, because bar may be re-parented
+        const parentSheet = bar.parentNode
+        createBarInSheetBeforeNode(parentSheet, bar)
+    })
+
+    return btn
+}
+
+const createDeleteBarBtn = (bar) => {
+    const btn = document.createElement("div")
+    btn.classList.add("delete-bar-btn")
+    btn.classList.add("editor-only")
+
+    btn.addEventListener("click", () => {
+        deleteBar(bar)
+    })
+
+    return btn
+}
+
+const createEmptyBar = (partsInBeat, beatsInBar) => {
     const bar = document.createElement("div")
     bar.classList.add("bar")
 
-    for (let i = 0; i < notesInBar; i++) {
-        const note = createbeatPartBtn("empty")
-        bar.appendChild(note)
+    bar.setAttribute("connect-with-next", false)
+
+    const injectBarBeforeBtn = createInjectBarBeforeBtn(bar)
+    bar.appendChild(injectBarBeforeBtn)
+
+    for (let j = 0; j < beatsInBar; j++) {
+        const beat = createEmptyBeat(partsInBeat)
+        bar.appendChild(beat)
     }
+
+    const deleteBarBtn = createDeleteBarBtn(bar)
+    bar.appendChild(deleteBarBtn)
 
     return bar
 }
 
-const createInjectRowBeforeBtn = (row) => {
-    const btn = document.createElement("div")
-    btn.classList.add("inject-row-before-btn")
-    btn.classList.add("editor-only")
-
-    btn.addEventListener("click", () => {
-        // Always get parent from row, because row may be re-parented
-        const parentSheet = row.parentNode
-        createRowInSheetBeforeNode(parentSheet, row)
-    })
-
-    return btn
-}
-
-const createDeleteRowBtn = (row) => {
-    const btn = document.createElement("div")
-    btn.classList.add("delete-row-btn")
-    btn.classList.add("editor-only")
-
-    btn.addEventListener("click", () => {
-        deleteRow(row)
-    })
-
-    return btn
-}
-
-const createEmptyRow = (notesInBar, barsInRow) => {
-    const row = document.createElement("div")
-    row.classList.add("row")
-
-    row.setAttribute("connect-with-next", false)
-
-    const injectRowBeforeBtn = createInjectRowBeforeBtn(row)
-    row.appendChild(injectRowBeforeBtn)
-
-    for (let j = 0; j < barsInRow; j++) {
-        const bar = createEmptyBar(notesInBar)
-        row.appendChild(bar)
-    }
-
-    const deleteRowBtn = createDeleteRowBtn(row)
-    row.appendChild(deleteRowBtn)
-
-    return row
-}
-
-const clearRowsInSheet = (sheet) => {
-    sheet.querySelectorAll(".row").forEach(row => {
-        sheet.removeChild(row)
+const clearBarsInSheet = (sheet) => {
+    sheet.querySelectorAll(".bar").forEach(bar => {
+        sheet.removeChild(bar)
     })
 }
 
-const createRowInSheetBeforeNode = (sheet, beforeNode) => {
-    const row = createEmptyRow(notesInBar, barsInRow)
-    sheet.insertBefore(row, beforeNode)
-    sheet.dispatchEvent(new Event("rowadded", {
-        row: row
+const createBarInSheetBeforeNode = (sheet, beforeNode) => {
+    const bar = createEmptyBar(partsInBeat, beatsInBar)
+    sheet.insertBefore(bar, beforeNode)
+    sheet.dispatchEvent(new Event("baradded", {
+        bar: bar
     }))
 }
 
@@ -172,7 +172,7 @@ const moveElementToNextSheet = (sheet, element) => {
     reparentNode(element, nextSheet, true)
 }
 
-const onRowAdded = (sheet) => {
+const onBarAdded = (sheet) => {
     const overflow = isSheetOverflow(sheet)
 
     if (overflow) {
@@ -187,7 +187,7 @@ const removeSheetIfEmpty = (sheet) => {
     }
 }
 
-const onRowRemoved = (sheet) => {
+const onBarRemoved = (sheet) => {
     const isThisLastSheet = sheet.parentNode.lastChild === sheet
 
     if (isThisLastSheet) {
@@ -212,13 +212,13 @@ const onRowRemoved = (sheet) => {
     reparentNode(firstElementOfNextSheet, sheet)
 
     // Push event on the next sheet, so this moving flow can be recursively called on the next sheets
-    nextSheet.dispatchEvent(new Event("rowremoved"))
+    nextSheet.dispatchEvent(new Event("barremoved"))
 }
 
-const deleteRow = (row) => {
-    const sheet = row.parentNode
-    sheet.removeChild(row)
-    sheet.dispatchEvent(new Event("rowremoved"))
+const deleteBar = (bar) => {
+    const sheet = bar.parentNode
+    sheet.removeChild(bar)
+    sheet.dispatchEvent(new Event("barremoved"))
 }
 
 
@@ -233,11 +233,11 @@ const createEmptySheet = () => {
 
     sheet.id = "sheet" + getNextSheetId()
 
-    sheet.addEventListener("rowadded", (event) => {
-        onRowAdded(sheet)
+    sheet.addEventListener("baradded", (event) => {
+        onBarAdded(sheet)
     })
-    sheet.addEventListener("rowremoved", (event) => {
-        onRowRemoved(sheet)
+    sheet.addEventListener("barremoved", (event) => {
+        onBarRemoved(sheet)
     })
 
     const container = document.querySelector("#sheets-container")
@@ -246,27 +246,27 @@ const createEmptySheet = () => {
     return sheet
 }
 
-const fillSheetWithEmptyRows = (sheet, notesInBar, barsInRow, amountOfRows) => {
-    for (let i = 0; i < amountOfRows; i++) {
-        const row = createEmptyRow(notesInBar, barsInRow)
-        sheet.appendChild(row)
-        sheet.dispatchEvent(new Event("rowadded", {
-            row: row
+const fillSheetWithEmptyBars = (sheet, partsInBeat, beatsInBar, amountOfBars) => {
+    for (let i = 0; i < amountOfBars; i++) {
+        const bar = createEmptyBar(partsInBeat, beatsInBar)
+        sheet.appendChild(bar)
+        sheet.dispatchEvent(new Event("baradded", {
+            bar: bar
         }))
     }
 }
 
-const createAddRowBtnInSheet = (sheet) => {
-    const addRowBtn = document.createElement("div")
-    addRowBtn.classList.add("add-row-btn")
-    addRowBtn.classList.add("editor-only")
-    addRowBtn.addEventListener("click", () => {
+const createAddBarBtnInSheet = (sheet) => {
+    const addBarBtn = document.createElement("div")
+    addBarBtn.classList.add("add-bar-btn")
+    addBarBtn.classList.add("editor-only")
+    addBarBtn.addEventListener("click", () => {
         // Always get parent from btn, because button may be re-parented
-        const parentSheet = addRowBtn.parentNode
-        createRowInSheetBeforeNode(parentSheet, addRowBtn)
+        const parentSheet = addBarBtn.parentNode
+        createBarInSheetBeforeNode(parentSheet, addBarBtn)
     })
 
-    sheet.appendChild(addRowBtn)
+    sheet.appendChild(addBarBtn)
 }
 
 const createInputLabel = (className, content, editCallback) => {
@@ -351,8 +351,8 @@ const createNewRythmWithGlobalSettings = () => {
     const sheet = createEmptySheet()
     createTitleInSheet(sheet, rythmTitle)
     createTempoInSheet(sheet, rythmTempo)
-    fillSheetWithEmptyRows(sheet, notesInBar, barsInRow, amountOfRows)
-    createAddRowBtnInSheet(sheet)
+    fillSheetWithEmptyBars(sheet, partsInBeat, beatsInBar, amountOfBars)
+    createAddBarBtnInSheet(sheet)
 }
 
 const clearAllSheets = () => {
@@ -393,29 +393,29 @@ document.querySelector("#submit-create-rythm-btn").addEventListener("click", () 
 
     const {
         notes,
-        bars
+        beats
     } = {
         "4-4": {
             notes: 4,
-            bars: 4
+            beats: 4
         },
         "3-4": {
             notes: 4,
-            bars: 3
+            beats: 3
         },
         "12-8": {
             notes: 3,
-            bars: 4
+            beats: 4
         },
         "9-8": {
             notes: 3,
-            bars: 3
+            beats: 3
         },
     } [meterSelected]
 
     // Override global settings, based on selected option
-    notesInBar = notes
-    barsInRow = bars
+    partsInBeat = notes
+    beatsInBar = beats
 
     clearAllSheets()
 
