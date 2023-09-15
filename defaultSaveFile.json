@@ -1,7 +1,7 @@
 {
-    "title": "Default rythm",
-    "tempo": 90,
+    "title": "Rythm title",
+    "tempo": 100,
     "notesInBar": 4,
     "barsInRow": 4,
-    "rythm": "BT-SBTTSS--STBSS3SSBTSSBSSSSSSSSSSSSS3ST3SSS"
+    "rythm": "gTT-TT-T-TT-SSS-------------------"
 }
