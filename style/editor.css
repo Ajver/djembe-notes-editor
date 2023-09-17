@@ -11,6 +11,7 @@
 
 .full-score {
     position: relative;
+    width: calc(100% + 80px);
 }
 
 .full-score * {
@@ -23,14 +24,16 @@
 
 .delete-full-score-btn {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 0px;
+    top: 60%;
     width: 60px;
     height: 60px;
     background-image: url(../svg/trash.svg);
     background-size: cover;
     cursor: pointer;
     border-radius: 3px;
+    transform: translateY(-50%);
+    background-color: #ffffff93;
 
     transition: background-color .1s;
 }
