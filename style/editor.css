@@ -9,15 +9,19 @@
     margin-top: 30px;
 }
 
-.bar .delete-bar-btn {
+.full-score {
+    position: relative;
+}
+
+.full-score * {
+    user-select: none;
+}
+
+.full-score .delete-full-score-btn {
     display: none;
 }
 
-.bar:hover .delete-bar-btn {
-    display: block;
-}
-
-.delete-bar-btn {
+.delete-full-score-btn {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -31,11 +35,15 @@
     transition: background-color .1s;
 }
 
-.delete-bar-btn:hover {
+.full-score:hover .delete-full-score-btn {
+    display: block;
+}
+
+.delete-full-score-btn:hover {
     background-color: #e47575;
 }
 
-.inject-bar-before-btn {
+.inject-full-score-before-btn {
     position: absolute;
     top: 0px;
     left: 65px;
@@ -46,7 +54,7 @@
     cursor: pointer;
 }
 
-.inject-bar-before-btn::before {
+.inject-full-score-before-btn::before {
     position: absolute;
     content: "";
     background-image: url(../svg/plus-circle.svg);
@@ -58,7 +66,7 @@
     transform: translateY(-50%);
 }
 
-.inject-bar-before-btn::after {
+.inject-full-score-before-btn::after {
     content: "";
     position: absolute;
     width: 95%;
@@ -67,16 +75,16 @@
     border: 1px solid #000;
 }
 
-.bar:hover .inject-bar-before-btn {
+.full-score:hover .inject-full-score-before-btn {
     opacity: 1;
 }
 
-.inject-bar-before-btn:hover {
+.inject-full-score-before-btn:hover {
     background-color: #10b750;
     transition: background-color .5s;
 }
 
-.add-bar-btn {
+.add-full-score-btn {
     width: 100%;
     height: 60px;
     margin-top: 30px;
@@ -93,7 +101,7 @@
     transition: background-color .1s;
 }
 
-.add-bar-btn:hover {
+.add-full-score-btn:hover {
     background-color: #78d181;
 }
 

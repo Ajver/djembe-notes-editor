@@ -3,7 +3,8 @@ let rythmTitle = "Title of your rythm"
 let rythmTempo = 120
 let partsInBeat = 1
 let beatsInBar = 1
-let amountOfBars = 4
+let barsInFullScore = 2
+let amountOfFullScores = 1
 
 
 const setupNoteBtnListeners = noteBtn => {
@@ -45,7 +46,7 @@ const createNoteBtn = (note) => {
     return img
 }
 
-const createbeatPartBtn = note => {
+const createBeatPartBtn = note => {
     const beatPartBtn = document.createElement("div")
     beatPartBtn.classList.add("beat-part")
     beatPartBtn.setAttribute("beat-part-type", "single")
@@ -56,75 +57,85 @@ const createbeatPartBtn = note => {
     return beatPartBtn
 }
 
-const createEmptyBeat = partsInBeat => {
+const createEmptyBeat = () => {
     const beat = document.createElement("div")
     beat.classList.add("beat")
 
     for (let i = 0; i < partsInBeat; i++) {
-        const note = createbeatPartBtn("empty")
+        const note = createBeatPartBtn("empty")
         beat.appendChild(note)
     }
 
     return beat
 }
 
-const createInjectBarBeforeBtn = (bar) => {
+const createInjectFullScoreBeforeBtn = (fullScore) => {
     const btn = document.createElement("div")
-    btn.classList.add("inject-bar-before-btn")
+    btn.classList.add("inject-full-score-before-btn")
     btn.classList.add("editor-only")
 
     btn.addEventListener("click", () => {
-        // Always get parent from bar, because bar may be re-parented
-        const parentSheet = bar.parentNode
-        createBarInSheetBeforeNode(parentSheet, bar)
+        // Always get parent from full score, because full score may be re-parented
+        const parentSheet = fullScore.parentNode
+        createFullScoreInSheetBeforeNode(parentSheet, fullScore)
     })
 
     return btn
 }
 
-const createDeleteBarBtn = (bar) => {
+const createDeleteFullScoreBtn = (fullScore) => {
     const btn = document.createElement("div")
-    btn.classList.add("delete-bar-btn")
+    btn.classList.add("delete-full-score-btn")
     btn.classList.add("editor-only")
 
     btn.addEventListener("click", () => {
-        deleteBar(bar)
+        deleteFullScore(fullScore)
     })
 
     return btn
 }
 
-const createEmptyBar = (partsInBeat, beatsInBar) => {
+const createEmptyBar = () => {
     const bar = document.createElement("div")
     bar.classList.add("bar")
 
-    bar.setAttribute("connect-with-next", false)
-
-    const injectBarBeforeBtn = createInjectBarBeforeBtn(bar)
-    bar.appendChild(injectBarBeforeBtn)
-
     for (let j = 0; j < beatsInBar; j++) {
-        const beat = createEmptyBeat(partsInBeat)
+        const beat = createEmptyBeat()
         bar.appendChild(beat)
     }
-
-    const deleteBarBtn = createDeleteBarBtn(bar)
-    bar.appendChild(deleteBarBtn)
 
     return bar
 }
 
-const clearBarsInSheet = (sheet) => {
-    sheet.querySelectorAll(".bar").forEach(bar => {
-        sheet.removeChild(bar)
+const clearFullScoresInSheet = (sheet) => {
+    sheet.querySelectorAll(".fullscore").forEach(fullScore => {
+        sheet.removeChild(fullScore)
     })
 }
 
-const createBarInSheetBeforeNode = (sheet, beforeNode) => {
-    const bar = createEmptyBar(partsInBeat, beatsInBar)
-    sheet.insertBefore(bar, beforeNode)
-    sheet.dispatchEvent(new Event("baradded", {
-        bar: bar
+const createEmptyFullScore = (sheet) => {
+    const fullScore = document.createElement("div")
+    fullScore.classList.add("full-score")
+
+    for (let i = 0; i < barsInFullScore; i++) {
+        const bar = createEmptyBar()
+        fullScore.appendChild(bar)
+    }
+
+    const injectFullScoreBeforeBtn = createInjectFullScoreBeforeBtn(fullScore)
+    fullScore.appendChild(injectFullScoreBeforeBtn)
+
+    const deleteFullScoreBtn = createDeleteFullScoreBtn(fullScore)
+    fullScore.appendChild(deleteFullScoreBtn)
+
+    return fullScore
+}
+
+const createFullScoreInSheetBeforeNode = (sheet, beforeNode) => {
+    const fullScore = createEmptyFullScore()
+    sheet.insertBefore(fullScore, beforeNode)
+    sheet.dispatchEvent(new Event("fullscoreadded", {
+        fullScore: fullScore
     }))
 }
 
@@ -133,7 +144,6 @@ const createBarInSheetBeforeNode = (sheet, beforeNode) => {
  * if asFirst set to True - adds at the beggining of the children list
  */
 const reparentNode = (node, newParent, asFirst = false) => {
-
     if (asFirst && newParent.children.length > 0) {
         newParent.insertBefore(node, newParent.children[0])
     } else {
@@ -172,13 +182,18 @@ const moveElementToNextSheet = (sheet, element) => {
     reparentNode(element, nextSheet, true)
 }
 
-const onBarAdded = (sheet) => {
-    const overflow = isSheetOverflow(sheet)
+const fixSheetOverflow = (sheet) => {
+    let overflow = isSheetOverflow(sheet)
 
-    if (overflow) {
+    while (overflow) {
         const lastElement = sheet.lastChild
         moveElementToNextSheet(sheet, lastElement)
+        overflow = isSheetOverflow(sheet)
     }
+}
+
+const onFullScoreAdded = (sheet) => {
+    fixSheetOverflow(sheet)
 }
 
 const removeSheetIfEmpty = (sheet) => {
@@ -187,7 +202,7 @@ const removeSheetIfEmpty = (sheet) => {
     }
 }
 
-const onBarRemoved = (sheet) => {
+const onFullScoreRemoved = (sheet) => {
     const isThisLastSheet = sheet.parentNode.lastChild === sheet
 
     if (isThisLastSheet) {
@@ -212,15 +227,14 @@ const onBarRemoved = (sheet) => {
     reparentNode(firstElementOfNextSheet, sheet)
 
     // Push event on the next sheet, so this moving flow can be recursively called on the next sheets
-    nextSheet.dispatchEvent(new Event("barremoved"))
+    nextSheet.dispatchEvent(new Event("fullscoreremoved"))
 }
 
-const deleteBar = (bar) => {
-    const sheet = bar.parentNode
-    sheet.removeChild(bar)
-    sheet.dispatchEvent(new Event("barremoved"))
+const deleteFullScore = (fullScore) => {
+    const sheet = fullScore.parentNode
+    sheet.removeChild(fullScore)
+    sheet.dispatchEvent(new Event("fullscoreremoved"))
 }
-
 
 const getNextSheetId = () => {
     const allSheets = document.querySelectorAll(".sheet")
@@ -233,11 +247,11 @@ const createEmptySheet = () => {
 
     sheet.id = "sheet" + getNextSheetId()
 
-    sheet.addEventListener("baradded", (event) => {
-        onBarAdded(sheet)
+    sheet.addEventListener("fullscoreadded", (event) => {
+        onFullScoreAdded(sheet)
     })
-    sheet.addEventListener("barremoved", (event) => {
-        onBarRemoved(sheet)
+    sheet.addEventListener("fullscoreremoved", (event) => {
+        onFullScoreRemoved(sheet)
     })
 
     const container = document.querySelector("#sheets-container")
@@ -246,27 +260,27 @@ const createEmptySheet = () => {
     return sheet
 }
 
-const fillSheetWithEmptyBars = (sheet, partsInBeat, beatsInBar, amountOfBars) => {
-    for (let i = 0; i < amountOfBars; i++) {
-        const bar = createEmptyBar(partsInBeat, beatsInBar)
+const fillSheetWithEmptyFullRows = (sheet) => {
+    for (let i = 0; i < amountOfFullScores; i++) {
+        const bar = createEmptyFullScore()
         sheet.appendChild(bar)
-        sheet.dispatchEvent(new Event("baradded", {
+        sheet.dispatchEvent(new Event("fullscoreadded", {
             bar: bar
         }))
     }
 }
 
-const createAddBarBtnInSheet = (sheet) => {
-    const addBarBtn = document.createElement("div")
-    addBarBtn.classList.add("add-bar-btn")
-    addBarBtn.classList.add("editor-only")
-    addBarBtn.addEventListener("click", () => {
+const createAddFullScoreBtnInSheet = (sheet) => {
+    const addFullScoreBtn = document.createElement("div")
+    addFullScoreBtn.classList.add("add-full-score-btn")
+    addFullScoreBtn.classList.add("editor-only")
+    addFullScoreBtn.addEventListener("click", () => {
         // Always get parent from btn, because button may be re-parented
-        const parentSheet = addBarBtn.parentNode
-        createBarInSheetBeforeNode(parentSheet, addBarBtn)
+        const parentSheet = addFullScoreBtn.parentNode
+        createFullScoreInSheetBeforeNode(parentSheet, addFullScoreBtn)
     })
 
-    sheet.appendChild(addBarBtn)
+    sheet.appendChild(addFullScoreBtn)
 }
 
 const createInputLabel = (className, content, editCallback) => {
@@ -351,8 +365,8 @@ const createNewRythmWithGlobalSettings = () => {
     const sheet = createEmptySheet()
     createTitleInSheet(sheet, rythmTitle)
     createTempoInSheet(sheet, rythmTempo)
-    fillSheetWithEmptyBars(sheet, partsInBeat, beatsInBar, amountOfBars)
-    createAddBarBtnInSheet(sheet)
+    fillSheetWithEmptyFullRows(sheet)
+    createAddFullScoreBtnInSheet(sheet)
 }
 
 const clearAllSheets = () => {

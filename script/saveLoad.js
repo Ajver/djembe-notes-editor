@@ -41,6 +41,7 @@ const saveToTxt = () => {
         tempo: rythmTempo,
         partsInBeat: partsInBeat,
         beatsInBar: beatsInBar,
+        barsInFullScore: barsInFullScore,
         rythm: rythmDefinition,
     }
     const txtSave = JSON.stringify(saveObj)    
@@ -59,6 +60,7 @@ const loadFromTxt = (txtSave) => {
 
     partsInBeat = saveObj.partsInBeat || 4
     beatsInBar = saveObj.beatsInBar || 4
+    barsInFullScore = saveObj.barsInFullScore || 1
 
     createTitleInSheet(sheet, rythmTitle)
     createTempoInSheet(sheet, rythmTempo)
@@ -94,17 +96,17 @@ const loadFromTxt = (txtSave) => {
 
         if (!beatPart) {
             // There are no more beatParts - let's create a new bar
-            const bar = createEmptyBar(partsInBeat, beatsInBar)
-            sheet.appendChild(bar)
-            sheet.dispatchEvent(new Event("baradded", {
-                bar: bar
+            const fullScore = createEmptyFullScore()
+            sheet.appendChild(fullScore)
+            sheet.dispatchEvent(new Event("fullscoreadded", {
+                fullScore: fullScore
             }))
 
             // Re-set sheet to the last sheet, so we edit the last sheet
             const allSheets = document.querySelectorAll(".sheet")
             sheet = allSheets[allSheets.length - 1]
 
-            const firstBeat = bar.querySelector(".beat")
+            const firstBeat = fullScore.querySelector(".beat")
             beatPart = firstBeat.firstChild
         }
 
@@ -143,8 +145,8 @@ const loadFromTxt = (txtSave) => {
         }
     }
 
-    createAddBarBtnInSheet(sheet)
+    createAddFullScoreBtnInSheet(sheet)
     
     // Check if maybe sheet is overflow, and fix it if needed
-    onBarAdded(sheet)
+    fixSheetOverflow(sheet)
 }

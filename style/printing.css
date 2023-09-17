@@ -54,6 +54,26 @@
     display: none;
 }
 
+.full-score {
+    position: relative;
+}
+
+.full-score::before {
+    content: "";
+    position: absolute;
+    left: 35px;
+    top: 69px;
+    width: 10px;
+    height: calc(100% - 91px);
+    border: 2px solid #777777;
+    border-right: none;
+}
+
+/* If first bar is also 3rd child from end - we don't display before - border */
+.full-score:has(.bar:first-child:nth-last-child(3))::before {
+    display: none;
+}
+
 .bar {
     position: relative;
     display: flex;
