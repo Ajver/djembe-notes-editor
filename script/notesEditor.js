@@ -186,24 +186,28 @@ const getNextBeatPart = (fromBeatPart) => {
         return fromBeatPart.nextSibling
     }
 
-    const nextBeat = fromBeatPart.parentNode.nextSibling
+    const beat = fromBeatPart.parentNode
+    const nextBeat = beat.nextSibling
     if (nextBeat && nextBeat.classList.contains("beat")) {
         return nextBeat.firstChild
     }
 
-    const nextBar = fromBeatPart.parentNode.parentNode.nextSibling
+    const bar = beat.parentNode
+    const nextBar = bar.nextSibling
     if (nextBar && nextBar.classList.contains("bar")) {
-        const firstBeat = nextBar.querySelector(".beat")
-        return firstBeat.firstChild
+        return nextBar.querySelector(".beat-part")
     }
 
-    const nextSheet = fromBeatPart.parentNode.parentNode.parentNode.nextSibling
+    const fullScore = bar.parentNode
+    const nextFullScore = fullScore.nextSibling
+    if (nextFullScore && nextFullScore.classList.contains("full-score")) {
+        return nextFullScore.querySelector(".beat-part")
+    }
+
+    const sheet = fullScore.parentNode
+    const nextSheet = sheet.nextSibling
     if (nextSheet && nextSheet.classList.contains("sheet")) {
-        const bar = nextSheet.querySelector(".bar")
-        if (bar) {
-            const firstBeat = bar.querySelector(".beat")
-            return firstBeat.firstChild
-        }
+        return nextSheet.querySelector(".beat-part")
     }
 
     return null
@@ -214,16 +218,31 @@ const getPreviousBeatPart = (fromBeatPart) => {
         return fromBeatPart.previousSibling
     }
 
-    const prevBeat = fromBeatPart.parentNode.previousSibling
+    const beat = fromBeatPart.parentNode
+    const prevBeat = beat.previousSibling
     if (prevBeat && prevBeat.classList.contains("beat")) {
         return prevBeat.lastChild
     }
 
-    const prevBar = fromBeatPart.parentNode.parentNode.previousSibling
+    const bar = beat.parentNode
+    const prevBar = bar.previousSibling
     if (prevBar && prevBar.classList.contains("bar")) {
-        // -2, because the last node in beat is DeleteBar btn
-        const allBeats = prevBar.querySelectorAll(".beat")
-        return allBeats[allBeats.length - 1].lastChild
+        const allBeatParts = prevBar.querySelectorAll(".beat-part")
+        return allBeatParts[allBeatParts.length - 1]
+    }
+
+    const fullScore = bar.parentNode
+    const prevFullScore = fullScore.previousSibling
+    if (prevFullScore && prevFullScore.classList.contains("full-score")) {
+        const allBeatParts = prevFullScore.querySelectorAll(".beat-part")
+        return allBeatParts[allBeatParts.length - 1]
+    }
+
+    const sheet = fullScore.parentNode
+    const prevSheet = sheet.previousSibling
+    if (prevSheet && prevSheet.nodeType === Node.ELEMENT_NODE && prevSheet.classList.contains("sheet")) {
+        const allBeatParts = prevSheet.querySelectorAll(".beat-part")
+        return allBeatParts[allBeatParts.length - 1]
     }
 
     return null
