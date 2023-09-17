@@ -50,7 +50,7 @@ const playRythm = () => {
     const delayPerTypes = {
         "single": singleBeatPartDelay,
         "double": singleBeatPartDelay / 2,
-        "triplet": (singleBeatPartDelay * 2) / 3,
+        "triplet": singleBeatPartDelay / 3,
         "grace": singleBeatPartDelay / 4,
     }
 
