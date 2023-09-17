@@ -409,16 +409,15 @@ const pasteNotes = async () => {
         return
     }
 
-    sortSelectedNotes()
-
     const copyText = await navigator.clipboard.readText()
-
+    
+    sortSelectedNotes()
     let noteBtn = selectedNotes[0]
     let i = 0
 
     while(noteBtn && i < copyText.length) { 
         const noteDef = copyText[i]
-        const note = noteDefToNote[noteDef]
+        const note = noteDefToNote[noteDef] || "empty"
 
         setNoteForNoteBtn(noteBtn, note, false)
 
