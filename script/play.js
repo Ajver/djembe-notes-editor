@@ -45,16 +45,16 @@ const playRythm = () => {
     document.querySelector("#play-btn").innerHTML = "PAUSE"
 
     // Delays are in millis
-    const singleBeatPartDelay = (60_000.0 / rythmTempo) / partsInBeat
+    const singleBeatPartDuration = (60_000.0 / rythmTempo) / partsInBeat
 
-    const delayPerTypes = {
-        "single": singleBeatPartDelay,
-        "double": singleBeatPartDelay / 2,
-        "triplet": singleBeatPartDelay / 3,
-        "grace": singleBeatPartDelay / 4,
+    const durationPerTypes = {
+        "single": singleBeatPartDuration,
+        "double": singleBeatPartDuration / 2,
+        "triplet": singleBeatPartDuration / 3,
+        "grace": singleBeatPartDuration / 4,
     }
 
-    // Every note is a pointer to the sound and delay in millis to the next one
+    // Every note is a pointer to the sound and duration in millis of this note (delay before playing next note)
     let notesToPlay = []
 
     // From this note we'll start playing the rythm, if we find any selected note
@@ -69,9 +69,9 @@ const playRythm = () => {
         const beat = beatPartBtn.parentNode
 
         const beatPartType = beatPartBtn.getAttribute("beat-part-type")
-        let delay = delayPerTypes[beatPartType]
+        let duration = durationPerTypes[beatPartType]
 
-        if (delay === undefined) {
+        if (duration === undefined) {
             console.log("Unknown beatPartType: ", beatPartType)
             return
         }
@@ -89,30 +89,30 @@ const playRythm = () => {
                 /**
                  * Grace beatParts are tricky, becaues the first note is played before the beatPart,
                  * and the second note is actually ON beatPart
-                 * also delay is not the same: between grace notes the delay is tiny, but between second
-                 * note, and the following beatPart, the delay is normal (as for the single beatPart)
+                 * also duration is not the same: between grace notes the delay is tiny, but between second
+                 * note, and the following beatPart, the duration as for the single beatPart
                  * 
-                 * To solve this, we need to shorten delay from the PREVIOUS note (before the grace),
-                 * set the delay after first note to 'grace', and then set the delay of the second note
-                 * to 'single'
+                 * To solve this, we need to shorten duration of the PREVIOUS note (before the grace),
+                 * set the duration of the first grace note to 'grace-specific duration', 
+                 * and then set the duration of the second note to 'single-specific duration'
                  */
 
                 if (nthNote === 0) {
                     if (currentNoteCounter > 0) {
-                        // There is "previous note" - let's shorten delay between previous and this one
+                        // There is "previous note" - let's shorten duration of the previous note
                         const previousNoteToPlay = notesToPlay[currentNoteCounter - 1]
-                        previousNoteToPlay.delay -= delay  // Shortening by the delay of the grace note
+                        previousNoteToPlay.duration -= duration  // Shortening by the duration of the grace note
                     }
                 }else {
-                    // It's second note in the grace beatPart - it should have a delay to the next one, as it was single note
-                    delay = delayPerTypes["single"]
+                    // It's second note in the grace beatPart - it should have a duration, as it was single note
+                    duration = durationPerTypes["single"]
                 }
             }
 
             notesToPlay.push({
                 beat: beat,
                 sound: sound,
-                delay: delay,
+                duration: duration,
             })
 
             if (firstSelectedNoteIdx === -1 && noteBtn.classList.contains("selected") ) {
@@ -137,7 +137,7 @@ const playRythm = () => {
             return
         }
 
-        const {beat, sound, delay} = notesToPlay[playedNoteIdx]
+        const {beat, sound, duration} = notesToPlay[playedNoteIdx]
         
         if (lastPlayedBeat && lastPlayedBeat !== beat) {
             lastPlayedBeat.classList.remove("playing")
@@ -158,7 +158,7 @@ const playRythm = () => {
 
         nextTimeoutId = window.setTimeout(() => {
             playAndContinue(playedNoteIdx + 1)
-        }, delay)
+        }, duration)
     }
 
     let noteToStartPlay = 0
