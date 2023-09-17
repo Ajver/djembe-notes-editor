@@ -47,6 +47,20 @@ const getFirstNoteBtn = () => {
     return firstNote
 }
 
+const getAllNotes = () => {
+    const allNotes = document.querySelectorAll(".note")
+    return allNotes
+}
+
+const getLastSheet = () => {
+    const allSheets = document.querySelectorAll(".sheet")
+    if (allSheets.length > 0) {
+        return allSheets[allSheets.length - 1]
+    }
+
+    return null
+}
+
 const setNoteForNoteBtn = (noteBtn, note, play) => {
     noteBtn.setAttribute("note", note)
     noteBtn.src = IMG_URLS[note]
@@ -77,6 +91,128 @@ const toggleNoteForBeatPart = beatPartBtn => {
     }
     const note = nextNotes[currentNote]
     setNoteForNoteBtn(beatPartBtn, note, true)
+}
+
+const getNotesDefinition = (notes) => {
+    let definition = ""
+    let lastBeatPart = null
+    
+    notes.forEach((noteBtn) => {
+        const beatPart = noteBtn.parentNode
+        const note = noteToNoteDef[noteBtn.getAttribute("note")]
+
+        if (lastBeatPart !== beatPart) {
+            // This is note from new beat part (not saved to text yet)
+            const beatPartType = beatPart.getAttribute("beat-part-type")
+            const typeDef = beatPartTypeToDef[beatPartType]
+            definition += typeDef
+            lastBeatPart = beatPart
+        }
+
+        definition += note
+    })
+
+    return definition
+}
+
+const loadNotesFromText = (definition, startNoteBtn) => {
+    let previousNote = getPreviousNoteBtn(startNoteBtn)
+
+    const nextNote = (fromNote) => {
+        /**
+         * This function returns next note. If there are no more notes,
+         * it creates new bar
+         */
+
+        if (fromNote) {
+            if (fromNote.nextSibling) {
+                // Let's return the next child
+                return fromNote.nextSibling
+            }
+
+            // This beatPart doesn't have anymore notes
+            // ...let's get next beatPart
+            var beatPart = getNextBeatPart(fromNote.parentNode)
+        }else {
+            // We don't get "fromNote", but maybe we can return the first note?
+            const firstNote = getFirstNoteBtn()
+
+            if (firstNote) {
+                return firstNote
+            }
+
+            // Looks like there is no "firstNote" - let's mark beat part as None, so the new bar gets created
+            var beatPart = null
+        }
+
+        if (!beatPart) {
+            // There are no more beatParts - let's create a new bar
+            const newFullScore = createEmptyFullScore()
+            
+            // Sheet where the new full score is added to
+            let sheet = null
+            
+            const allFullScores = document.querySelectorAll(".full-score")
+            if (allFullScores.length > 0) {
+                // Let's paste it after last full-score
+                const lastFullScore = allFullScores[allFullScores.length - 1]
+                lastFullScore.after(newFullScore)
+                sheet = lastFullScore.parentNode
+            }else {
+                // No full scores yet - let's just add it at the end of the last sheet
+                sheet = getLastSheet()
+                sheet.appendChild(newFullScore)
+            }
+
+            sheet.dispatchEvent(new Event("fullscoreadded", {
+                fullScore: newFullScore
+            }))
+
+            const firstBeat = newFullScore.querySelector(".beat")
+            beatPart = firstBeat.firstChild
+        }
+
+        return beatPart.firstChild
+    }
+
+    let lastBeatPart = null
+
+    for (let i=0; i<definition.length; i++) {
+        let noteDef = definition[i]
+        
+        let noteBtn = nextNote(previousNote)
+        const beatPartBtn = noteBtn.parentNode
+
+        switch (noteDef) {
+        case "2":
+            changeOneBeatPartToDouble(beatPartBtn, false)
+            break
+        case "3":
+            changeOneBeatPartToTriplet(beatPartBtn, false)
+            break
+        case "g":
+            changeOneBeatPartToGrace(beatPartBtn, false)
+            break
+        case "-":
+        case "B":
+        case "T":
+        case "S":
+        case "G":
+            if (lastBeatPart !== beatPartBtn) {
+                // Just started loading next beat part - let's make sure it's single type!
+                changeOneBeatPartToSingle(beatPartBtn)
+            }
+
+            const note = noteDefToNote[noteDef]
+            setNoteForNoteBtn(noteBtn, note, false)
+            previousNote = noteBtn
+            break
+        default:
+            console.log(`Load error: unknown note definition: '${noteDef}'`)
+        }
+
+        lastBeatPart = beatPartBtn
+    }
 }
 
 const getSelectedBeatParts = () => {
@@ -389,11 +525,7 @@ const copyNotes = () => {
     
     sortSelectedNotes()
 
-    let copyText = ""
-    selectedNotes.forEach((noteBtn) => {
-        const note = noteToNoteDef[noteBtn.getAttribute("note")]
-        copyText += note
-    })
+    const copyText = getNotesDefinition(selectedNotes)
 
     navigator.clipboard.writeText(copyText)
     console.log("Copying", copyText)
@@ -410,22 +542,12 @@ const pasteNotes = async () => {
     }
 
     const copyText = await navigator.clipboard.readText()
+    console.log("Pasting", copyText)
     
     sortSelectedNotes()
     let noteBtn = selectedNotes[0]
-    let i = 0
-
-    while(noteBtn && i < copyText.length) { 
-        const noteDef = copyText[i]
-        const note = noteDefToNote[noteDef] || "empty"
-
-        setNoteForNoteBtn(noteBtn, note, false)
-
-        noteBtn = getNextNoteBtn(noteBtn)
-        i++
-    }
-
-    console.log("Pasting", copyText)
+    
+    loadNotesFromText(copyText, noteBtn)
 }
 
 const moveSelectionLeft = () => {
