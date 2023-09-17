@@ -182,6 +182,7 @@ const moveElementToNextSheet = (sheet, element) => {
     }
 
     reparentNode(element, nextSheet, true)
+    fixSheetOverflow(nextSheet)
 }
 
 const fixSheetOverflow = (sheet) => {
