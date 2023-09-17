@@ -126,7 +126,7 @@ const loadFromTxt = (txtSave) => {
             changeOneBeatPartToDouble(beatPartBtn, false)
             break
         case "3":
-            changeOneBeatPartToTriplet(beatPartBtn, [], false)
+            changeOneBeatPartToTriplet(beatPartBtn, false)
             break
         case "g":
             changeOneBeatPartToGrace(beatPartBtn, false)

@@ -136,12 +136,6 @@ const changeOneBeatPartToSingle = (beatPart) => {
 
     beatPart.setAttribute("beat-part-type", "single")
 
-    // Showing next beatPart
-    const nextBeatPart = getNextBeatPart(beatPart)
-    if (nextBeatPart) {
-        nextBeatPart.classList.remove("hidden")
-    }
-
     addOrRemoveExtraNoteBtns(beatPart)
 }
 
@@ -158,12 +152,6 @@ const changeOneBeatPartToDouble = (beatPart, selectNewNotes) => {
     }
     
     beatPart.setAttribute("beat-part-type", "double")
-
-    // Showing next beatPart
-    const nextBeatPart = getNextBeatPart(beatPart)
-    if (nextBeatPart) {
-        nextBeatPart.classList.remove("hidden")
-    }
 
     addOrRemoveExtraNoteBtns(beatPart, selectNewNotes)
 }
@@ -342,45 +330,18 @@ const calculateNoteNumber = (noteBtn) => {
     return noteNumber
 } 
 
-const changeOneBeatPartToTriplet = (beatPart, hiddenBeatParts, selectNewNotes) => {
+const changeOneBeatPartToTriplet = (beatPart, selectNewNotes) => {
     if (beatPart.getAttribute("beat-part-type") === "triplet") {
         // It's already triplet
         return
     }
 
-    if (hiddenBeatParts.includes(beatPart)) {
-        // This beatPart was hidden - let's ignore it
-        return
-    }
-    
     beatPart.setAttribute("beat-part-type", "triplet")
-
-    // Hiding next beatPart
-    const nextBeatPart = getNextBeatPart(beatPart)
-    if (nextBeatPart) {
-        nextBeatPart.classList.add("hidden")
-        hiddenBeatParts.push(nextBeatPart)
-
-        if (nextBeatPart.getAttribute("beat-part-type") === "triplet") {
-            // It's triplet! (Which means it hides following beatPart)
-            // Let's change it to single beatPart type, to avoid issues
-            // and edge cases with chained triplets
-            changeOneBeatPartToSingle(nextBeatPart)
-        }
-    }
 
     addOrRemoveExtraNoteBtns(beatPart, selectNewNotes)
 }
 
 const changeBeatPartsToTriplets = () => {
-    
-    /**This function changes to triplets some beatParts, and then hides the next
-     * beatPart, because triplet covers two beatParts. So if beatPart A is changed into triple, 
-     * beatPart B is hidden.
-     * 
-     * Then, even if beatPart B is selected, it is NOT changed to triplet! 
-     */
-
     const selectedBeatParts = getSelectedBeatParts()
 
     selectedBeatParts.sort((beatPartA, beatPartB) => {
@@ -390,10 +351,8 @@ const changeBeatPartsToTriplets = () => {
         return beatPartANumber - beatPartBNumber
     })
 
-    let hiddenBeatParts = []
-
     selectedBeatParts.forEach(beatPart => {
-        changeOneBeatPartToTriplet(beatPart, hiddenBeatParts, true)
+        changeOneBeatPartToTriplet(beatPart, true)
     })
 }
 
@@ -404,12 +363,6 @@ const changeOneBeatPartToGrace = (beatPart, selectNewNotes) => {
     }
     
     beatPart.setAttribute("beat-part-type", "grace")
-
-    // Showing next beatPart
-    const nextBeatPart = getNextBeatPart(beatPart)
-    if (nextBeatPart) {
-        nextBeatPart.classList.remove("hidden")
-    }
 
     addOrRemoveExtraNoteBtns(beatPart, selectNewNotes)
 }
@@ -489,11 +442,6 @@ const moveSelectionLeft = () => {
     if (previousNoteBtn) {
         deselectAllNotes()
         selectNoteBtn(previousNoteBtn)
-
-        if (previousNoteBtn.parentNode.classList.contains("hidden")) {
-            // Just selected hidden beatPart - let's try to select yet previous one
-            moveSelectionLeft()
-        }
     }
 }
 
@@ -512,11 +460,6 @@ const moveSelectionRight = () => {
     if (nextNoteBtn) {
         deselectAllNotes()
         selectNoteBtn(nextNoteBtn)
-
-        if (nextNoteBtn.parentNode.classList.contains("hidden")) {
-            // Just selected hidden beatPart - let's try to select yet next one
-            moveSelectionRight()
-        }
     }
 }
 

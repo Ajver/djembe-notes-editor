@@ -66,11 +66,6 @@ const playRythm = () => {
     let currentNoteCounter = 0
 
     document.querySelectorAll(".beat-part").forEach((beatPartBtn) => {
-        if (beatPartBtn.classList.contains("hidden")) {
-            // Skip hidden beatParts
-            return
-        }
-
         const beat = beatPartBtn.parentNode
 
         const beatPartType = beatPartBtn.getAttribute("beat-part-type")
