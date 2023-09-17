@@ -153,6 +153,10 @@
     margin-top: 10px;
 }
 
+.create-rythm-modal {
+    height: 350px;
+}
+
 .preset-selection-container {
     display: flex;
     justify-content: center;    
@@ -175,6 +179,18 @@
 
 .preset-selection-container input[type=radio]:checked + label {
     background-color: #528cf0;
+}
+
+.bars-in-full-score-section {
+    width: 300px;
+    margin: auto;
+    margin-bottom: 30px;
+}
+
+.bars-in-full-score-input {
+    font-size: 20px;
+    padding: 5px;
+    width: 100%;
 }
 
 .modal .buttons-section {

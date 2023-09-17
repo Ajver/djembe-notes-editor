@@ -431,6 +431,10 @@ document.querySelector("#submit-create-rythm-btn").addEventListener("click", () 
     partsInBeat = notes
     beatsInBar = beats
 
+    barsInFullScore = document.querySelector("#bars-in-full-score-input").value
+    barsInFullScore = Math.max(1, barsInFullScore)
+    barsInFullScore = Math.min(10, barsInFullScore)
+
     clearAllSheets()
 
     createNewRythmWithGlobalSettings()
