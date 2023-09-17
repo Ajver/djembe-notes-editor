@@ -30,7 +30,7 @@ const saveToTxt = () => {
         const typeDef = beatPartTypeToDef[beatPartType]
         rythmDefinition += typeDef
 
-        beatPartBtn.querySelectorAll("img").forEach((noteBtn) => {
+        beatPartBtn.querySelectorAll(".note").forEach((noteBtn) => {
             const note = noteToNoteDef[noteBtn.getAttribute("note")]
             rythmDefinition += note
         })

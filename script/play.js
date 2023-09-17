@@ -86,7 +86,7 @@ const playRythm = () => {
          */
         let nthNote = 0
 
-        beatPartBtn.querySelectorAll("img").forEach((noteBtn) => {
+        beatPartBtn.querySelectorAll(".note").forEach((noteBtn) => {
             const note = noteBtn.getAttribute("note")
             const sound = sounds[note]
 

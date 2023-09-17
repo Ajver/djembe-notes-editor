@@ -32,18 +32,20 @@ const setupNoteBtnListeners = noteBtn => {
 }
 
 const createNoteBtn = (note) => {
-    const img = document.createElement("img")
-    img.src = IMG_URLS[note]
+    const noteBtn = document.createElement("img")
+    noteBtn.src = IMG_URLS[note]
 
-    img.setAttribute("note", note)
-    setupNoteBtnListeners(img)
+    noteBtn.classList.add("note")
 
-    img.ondragstart = () => {
+    noteBtn.setAttribute("note", note)
+    setupNoteBtnListeners(noteBtn)
+
+    noteBtn.ondragstart = () => {
         // Prevent dragging
         return false
     }
 
-    return img
+    return noteBtn
 }
 
 const createBeatPartBtn = note => {
@@ -51,8 +53,8 @@ const createBeatPartBtn = note => {
     beatPartBtn.classList.add("beat-part")
     beatPartBtn.setAttribute("beat-part-type", "single")
 
-    const img = createNoteBtn(note)
-    beatPartBtn.appendChild(img)
+    const noteBtn = createNoteBtn(note)
+    beatPartBtn.appendChild(noteBtn)
    
     return beatPartBtn
 }

@@ -105,7 +105,7 @@
     background-color: #78d181;
 }
 
-.beat-part img.selected {
+.beat-part .note.selected {
     background-color: #a5cfac;
 }
 

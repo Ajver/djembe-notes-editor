@@ -24,7 +24,7 @@ const deselectAllNotes = () => {
 
 const selectAllNotes = () => {
     document.querySelectorAll(".beat-part").forEach((beatPartBtn) => {
-        beatPartBtn.querySelectorAll("img").forEach((noteBtn) => {
+        beatPartBtn.querySelectorAll(".note").forEach((noteBtn) => {
             selectNoteBtn(noteBtn)
         })
     })
@@ -43,7 +43,7 @@ const getFirstNoteBtn = () => {
     const firstBeatPart = firstBeat.querySelector(".beat-part")
     if (!firstBeatPart) return null
 
-    const firstNote = firstBeatPart.querySelector("img")
+    const firstNote = firstBeatPart.querySelector(".note")
     return firstNote
 }
 
@@ -92,6 +92,42 @@ const getSelectedBeatParts = () => {
     return beatParts
 }
 
+const addOrRemoveExtraNoteBtns = (beatPart, selectNewNotes) => {
+    const expectedNotesCount = {
+        "single": 1,
+        "double": 2,
+        "triplet": 3,
+        "grace": 2,
+    } [beatPart.getAttribute("beat-part-type")]
+
+    let noteBtns = beatPart.querySelectorAll(".note")
+    
+    // Add missing noteBtns
+    while(noteBtns.length < expectedNotesCount) {
+        const noteBtn = createNoteBtn("empty")
+        beatPart.appendChild(noteBtn)
+
+        if (selectNewNotes) {
+            selectNoteBtn(noteBtn)
+        }
+
+        noteBtns = beatPart.querySelectorAll(".note")
+    }
+
+    // Remove extra noteBtns
+    while(noteBtns.length > expectedNotesCount) {
+        const lastImg = noteBtns[noteBtns.length - 1]
+        beatPart.removeChild(lastImg)
+
+        const selectedIdx = selectedNotes.indexOf(lastImg)
+        if (selectedIdx > -1) {
+            selectedNotes.splice(selectedIdx, 1)
+        }
+
+        noteBtns = beatPart.querySelectorAll(".note")
+    }
+}
+
 const changeOneBeatPartToSingle = (beatPart) => {
     if (beatPart.getAttribute("beat-part-type") === "single") {
         // It's already single
@@ -106,20 +142,7 @@ const changeOneBeatPartToSingle = (beatPart) => {
         nextBeatPart.classList.remove("hidden")
     }
 
-    let imgs = beatPart.querySelectorAll("img")
-    
-    // Remove extra imgs
-    while(imgs.length > 1) {
-        const lastImg = imgs[imgs.length - 1]
-        beatPart.removeChild(lastImg)
-
-        const selectedIdx = selectedNotes.indexOf(lastImg)
-        if (selectedIdx > -1) {
-            selectedNotes.splice(selectedIdx, 1)
-        }
-
-        imgs = beatPart.querySelectorAll("img")
-    }
+    addOrRemoveExtraNoteBtns(beatPart)
 }
 
 const changeBeatPartsToSingle = () => {
@@ -142,32 +165,7 @@ const changeOneBeatPartToDouble = (beatPart, selectNewNotes) => {
         nextBeatPart.classList.remove("hidden")
     }
 
-    let imgs = beatPart.querySelectorAll("img")
-    
-    // Add missing imgs
-    while(imgs.length < 2) {
-        const img = createNoteBtn("empty")
-        beatPart.appendChild(img)
-
-        if (selectNewNotes) {
-            selectNoteBtn(img)
-        }
-
-        imgs = beatPart.querySelectorAll("img")
-    }
-    
-    // Remove extra imgs
-    while(imgs.length > 2) {
-        const lastImg = imgs[imgs.length - 1]
-        beatPart.removeChild(lastImg)
-
-        const selectedIdx = selectedNotes.indexOf(lastImg)
-        if (selectedIdx > -1) {
-            selectedNotes.splice(selectedIdx, 1)
-        }
-
-        imgs = beatPart.querySelectorAll("img")
-    }
+    addOrRemoveExtraNoteBtns(beatPart, selectNewNotes)
 }
 
 const changeBeatPartsToDouble = () => {
@@ -371,19 +369,7 @@ const changeOneBeatPartToTriplet = (beatPart, hiddenBeatParts, selectNewNotes) =
         }
     }
 
-    let imgs = beatPart.querySelectorAll("img")
-    
-    // Add missing imgs
-    while(imgs.length < 3) {
-        const img = createNoteBtn("empty")
-        beatPart.appendChild(img)
-
-        if (selectNewNotes) {
-            selectNoteBtn(img)
-        }
-
-        imgs = beatPart.querySelectorAll("img")
-    }
+    addOrRemoveExtraNoteBtns(beatPart, selectNewNotes)
 }
 
 const changeBeatPartsToTriplets = () => {
@@ -425,32 +411,7 @@ const changeOneBeatPartToGrace = (beatPart, selectNewNotes) => {
         nextBeatPart.classList.remove("hidden")
     }
 
-    let imgs = beatPart.querySelectorAll("img")
-    
-    // Add missing imgs
-    while(imgs.length < 2) {
-        const img = createNoteBtn("empty")
-        beatPart.appendChild(img)
-
-        if (selectNewNotes) {
-            selectNoteBtn(img)
-        }
-
-        imgs = beatPart.querySelectorAll("img")
-    }
-    
-    // Remove extra imgs
-    while(imgs.length > 2) {
-        const lastImg = imgs[imgs.length - 1]
-        beatPart.removeChild(lastImg)
-
-        const selectedIdx = selectedNotes.indexOf(lastImg)
-        if (selectedIdx > -1) {
-            selectedNotes.splice(selectedIdx, 1)
-        }
-
-        imgs = beatPart.querySelectorAll("img")
-    }
+    addOrRemoveExtraNoteBtns(beatPart, selectNewNotes)
 }
 
 const changeBeatPartsToGrace = () => {
