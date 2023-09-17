@@ -3,6 +3,13 @@ Editor for Djembe notes
 
 ## TODO
 
+- [ ] Playing bars in full-scores in parallel
+- [ ] Adding titles/description for bars (to describe rythm parts)
+- [ ] Changing bar repeat/play once
+
+## DONE
+
+- [x] Full-scores (multiple bars connected together, as set of multiple parallel instruments)
 - [x] Printing
 - [x] Basic notes editing
 - [x] Adding bars at the end
@@ -10,8 +17,6 @@ Editor for Djembe notes
 - [x] Injecting bars in the middle
 - [x] Editing title
 - [x] Editing tempo
-- [ ] Adding titles/description for bars (to describe rythm parts)
-- [ ] Changing bar repeat/play once
 - [x] Double beatParts
 - [x] Triplet beatParts
 - [x] Ghost notes
