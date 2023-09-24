@@ -1,6 +1,6 @@
 
 let isPlayingRythm = false
-let nextTimeoutId = 0
+let nextTimeoutIds = []
 
 const sounds = {
     "bass": new Sound("sound/Djembe_bass.wav"),
@@ -16,7 +16,7 @@ Object.values(sounds).forEach(sound => {
 
 const onRythmPlayEnd = () => {
     document.querySelector("#play-btn").innerHTML = "PLAY"
-    document.querySelector(".beat.playing").classList.remove("playing")
+    document.querySelectorAll(".beat.playing").forEach(beat => beat.classList.remove("playing"))
     document.querySelector("body").classList.remove("playing")
 }
 
@@ -31,7 +31,9 @@ const playNoteBtn = (noteBtn) => {
 const stopPlayingRythm = () => {
     isPlayingRythm = false
 
-    window.clearTimeout(nextTimeoutId)
+    nextTimeoutIds.forEach(nextTimeoutId => {
+        window.clearTimeout(nextTimeoutId)
+    })
 
     onRythmPlayEnd()
 }
@@ -54,122 +56,122 @@ const playRythm = () => {
         "grace": singleBeatPartDuration / 4,
     }
 
-    // Every note is a pointer to the sound and duration in millis of this note (delay before playing next note)
-    let notesToPlay = []
-
     // From this note we'll start playing the rythm, if we find any selected note
-    let firstSelectedNoteIdx = -1
-    
+    let nextNoteToPlay = null
+
+    sortSelectedNotes()
+
+    if (selectedNotes[0]) {
+        firstSelectedNote = selectedNotes[0]
+    }else {
+        nextNoteToPlay = getFirstNoteBtn()
+    }
+
+    const firstFullScore = nextNoteToPlay.parentNode.parentNode.parentNode.parentNode
+
     /**
-     * How many notes we already prepared for playing
+     * Plays notes in the bar delayed,
+     * when finishes playing this bar, triggers playing according bar in the next full-score
+     * @param {*} bar 
+     * @param {*} nthBar
+     * @param {*} delay 
      */
-    let currentNoteCounter = 0
-
-    document.querySelectorAll(".beat-part").forEach((beatPartBtn) => {
-        const beat = beatPartBtn.parentNode
-
-        const beatPartType = beatPartBtn.getAttribute("beat-part-type")
-        let duration = durationPerTypes[beatPartType]
-
-        if (duration === undefined) {
-            console.log("Unknown beatPartType: ", beatPartType)
+    const playBarDelayed = (bar, nthBar, barPlayDelay) => {
+        if (!isPlayingRythm) {
             return
         }
 
-        /**
-         * Which note in a beatPart this is?
-         */
-        let nthNote = 0
+        const allNotes = bar.querySelectorAll(".note")
 
-        beatPartBtn.querySelectorAll(".note").forEach((noteBtn) => {
-            const note = noteBtn.getAttribute("note")
-            const sound = sounds[note]
+        let lastPlayedBeat = null
+
+        const playNoteDelayedAndContinue = (noteIdx, delay) => {
+            if (!isPlayingRythm) {
+                return
+            }
+
+            const noteBtn = allNotes[noteIdx]
+            const beatPart = noteBtn.parentNode
+            const beatPartType = beatPart.getAttribute("beat-part-type")
+            /**
+             * How long this note will be played
+             */
+            let duration = durationPerTypes[beatPartType]
 
             if (beatPartType === "grace") {
-                /**
-                 * Grace beatParts are tricky, becaues the first note is played before the beatPart,
-                 * and the second note is actually ON beatPart
-                 * also duration is not the same: between grace notes the delay is tiny, but between second
-                 * note, and the following beatPart, the duration as for the single beatPart
-                 * 
-                 * To solve this, we need to shorten duration of the PREVIOUS note (before the grace),
-                 * set the duration of the first grace note to 'grace-specific duration', 
-                 * and then set the duration of the second note to 'single-specific duration'
-                 */
+                const allNotesInPart = beatPart.querySelectorAll(".note")
+                const nthNote = Array.prototype.indexOf.call(allNotesInPart, noteBtn)
 
                 if (nthNote === 0) {
-                    if (currentNoteCounter > 0) {
-                        // There is "previous note" - let's shorten duration of the previous note
-                        const previousNoteToPlay = notesToPlay[currentNoteCounter - 1]
-                        previousNoteToPlay.duration -= duration  // Shortening by the duration of the grace note
-                    }
-                }else {
+                    // It's the first note of grace beat part. Let's play a bit earlier
+                    delay -= durationPerTypes["grace"]
+                } else {
                     // It's second note in the grace beatPart - it should have a duration, as it was single note
                     duration = durationPerTypes["single"]
                 }
             }
 
-            notesToPlay.push({
-                beat: beat,
-                sound: sound,
-                duration: duration,
-            })
+            const highlightCurrentlyPlayedBeat = () => {
+                const beat = beatPart.parentNode
 
-            if (firstSelectedNoteIdx === -1 && noteBtn.classList.contains("selected") ) {
-                firstSelectedNoteIdx = currentNoteCounter
+                if (lastPlayedBeat && lastPlayedBeat !== beat) {
+                    lastPlayedBeat.classList.remove("playing")
+                }
+        
+                beat.classList.add("playing")
+                lastPlayedBeat = beat
             }
 
-            nthNote++
-            currentNoteCounter++
+            const timeoutId = setTimeout(() => {
+                if (!isPlayingRythm) {
+                    return
+                }
+                
+                playNoteBtn(noteBtn)
+                
+                highlightCurrentlyPlayedBeat()
+
+                if (noteIdx + 1 < allNotes.length) {
+                    // Queue playing the next note, delayed by the duration of currently played one
+                    playNoteDelayedAndContinue(noteIdx + 1, duration)
+                }else {
+                    lastPlayedBeat.classList.remove("playing")
+
+                    // End of the notes in bar. Let's play next bar instead, delayed by the duration of currently played note
+                    const nextBar = bar.parentNode.nextSibling.querySelectorAll(".bar")[nthBar]
+                    if (nextBar) {
+                        // There is nextBar - let's play it!
+                        playBarDelayed(nextBar, nthBar, duration)
+                    }else {
+                        // End of the rythm
+                        stopPlayingRythm()
+                    }
+                }
+            }, delay)
+
+            nextTimeoutIds[nthBar] = timeoutId
+        }
+
+        playNoteDelayedAndContinue(0, barPlayDelay)
+    }
+
+    const playFullScore = (fullScore) => {
+        // HACK: Delay playing all bards by the duration of grace note, 
+        // in case there are any grace notes at the beggining (then the bar will be played a bit quicker)
+        const standardDelay = durationPerTypes["grace"]
+        const allBars = fullScore.querySelectorAll(".bar")
+
+        nextTimeoutIds = Array(allBars.length)
+        console.log(nextTimeoutIds)
+
+        allBars.forEach((bar, nthBar) => {
+            playBarDelayed(bar, nthBar, standardDelay)
         })
-    })
-
-    if (notesToPlay.length == 0) {
-        console.log("No notes to play")
-        onRythmPlayEnd
-        return
-    }
-    
-    let lastPlayedBeat = null
-
-    const playAndContinue = (playedNoteIdx) => {
-        if (!isPlayingRythm) {
-            return
-        }
-
-        const {beat, sound, duration} = notesToPlay[playedNoteIdx]
-        
-        if (lastPlayedBeat && lastPlayedBeat !== beat) {
-            lastPlayedBeat.classList.remove("playing")
-        }
-
-        beat.classList.add("playing")
-        lastPlayedBeat = beat
-        
-        if (sound) {
-            sound.play()
-        }
-
-        if (playedNoteIdx + 1 >= notesToPlay.length) {
-            // The rythm has ended
-            stopPlayingRythm()
-            return
-        }
-
-        nextTimeoutId = window.setTimeout(() => {
-            playAndContinue(playedNoteIdx + 1)
-        }, duration)
-    }
-
-    let noteToStartPlay = 0
-
-    if (firstSelectedNoteIdx > -1) {
-        noteToStartPlay = firstSelectedNoteIdx
     }
 
     document.querySelector("body").classList.add("playing")
     isPlayingRythm = true
-    playAndContinue(noteToStartPlay)
+    playFullScore(firstFullScore)
 }
 
 document.querySelector("#play-btn").addEventListener("click", () => {
