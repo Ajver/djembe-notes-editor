@@ -162,7 +162,6 @@ const playRythm = () => {
         const allBars = fullScore.querySelectorAll(".bar")
 
         nextTimeoutIds = Array(allBars.length)
-        console.log(nextTimeoutIds)
 
         allBars.forEach((bar, nthBar) => {
             playBarDelayed(bar, nthBar, standardDelay)
