@@ -3,14 +3,14 @@ Editor for Djembe notes
 
 ## TODO
 
-- [ ] Playing bars in full-scores in parallel
+- [ ] Editing beat part type on touch screens
 - [ ] Adding titles/description for bars (to describe rythm parts)
 - [ ] Changing bar repeat/play once
-- [ ] Editing beat part type on touch screens
 - [ ] Range multi-selecting (when holding shift, selects all from first selected up to currently hovered)
 
 ## DONE
 
+- [x] Playing bars in full-scores in parallel
 - [x] Full-scores (multiple bars connected together, as set of multiple parallel instruments)
 - [x] Printing
 - [x] Basic notes editing
