@@ -1,5 +1,5 @@
 
-.edit-view .editor-only {
+.editor-only {
     display: block;
 }
 
@@ -114,6 +114,54 @@
 
 .beat.playing { 
     background-color: #e2a8ff;
+}
+
+.change-beat-part-type-container {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.change-beat-part-type-container h3 {
+    position: absolute;
+    left: 0;
+    bottom: 100%;
+    width: 100%;
+    padding: 5px 0;
+    font-size: 20px;
+    text-align: center;
+    background-color: #a5cfac;
+    border-radius: 5px 5px 0 0;
+}
+
+.beat-part:hover .change-beat-part-type-container {
+    display: flex;
+}
+
+.change-beat-part-type-container button {   
+    background-color: #a5cfac;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    border: 1px solid #333;
+    background-size: cover;
+}
+
+.change-beat-part-type-container button.single {
+    background-image: url(../assets/BeatPartTypes/single.png);
+}
+.change-beat-part-type-container button.double {
+    background-image: url(../assets/BeatPartTypes/double.png);
+}
+.change-beat-part-type-container button.triplet {
+    background-image: url(../assets/BeatPartTypes/triplet.png);
+}
+.change-beat-part-type-container button.grace {
+    background-image: url(../assets/BeatPartTypes/grace.png);
 }
 
 .modal-wrapper {

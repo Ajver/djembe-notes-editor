@@ -55,8 +55,51 @@ const createBeatPartBtn = note => {
 
     const noteBtn = createNoteBtn(note)
     beatPartBtn.appendChild(noteBtn)
-   
+    
+    const changeBeatPartTypeBtn = createChangeBeatPartTypeBtn(beatPartBtn) 
+    beatPartBtn.appendChild(changeBeatPartTypeBtn)
+
     return beatPartBtn
+}
+
+const createChangeBeatPartTypeBtn = (beatPart) => {
+    const container = document.createElement("div")
+    container.classList.add("change-beat-part-type-container")
+    container.classList.add("editor-only")
+
+    const header = document.createElement("h3")
+    header.innerHTML = "Change type"
+    container.appendChild(header)
+
+    const singleTypeBtn = document.createElement("button")
+    singleTypeBtn.classList.add("single")
+    singleTypeBtn.addEventListener("click", () => {
+        changeOneBeatPartToSingle(beatPart)
+    })
+
+    const doubleTypeBtn = document.createElement("button")
+    doubleTypeBtn.classList.add("double")
+    doubleTypeBtn.addEventListener("click", () => {
+        changeOneBeatPartToDouble(beatPart)
+    })
+
+    const tripletTypeBtn = document.createElement("button")
+    tripletTypeBtn.classList.add("triplet")
+    tripletTypeBtn.addEventListener("click", () => {
+        changeOneBeatPartToTriplet(beatPart)
+    })
+    const graceTypeBtn = document.createElement("button")
+    graceTypeBtn.classList.add("grace")
+    graceTypeBtn.addEventListener("click", () => {
+        changeOneBeatPartToGrace(beatPart)
+    })
+
+    container.appendChild(graceTypeBtn)
+    container.appendChild(singleTypeBtn)
+    container.appendChild(doubleTypeBtn)
+    container.appendChild(tripletTypeBtn)
+
+    return container
 }
 
 const createEmptyBeat = () => {
