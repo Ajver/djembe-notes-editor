@@ -62,7 +62,7 @@ const playRhythm = () => {
     sortSelectedNotes()
 
     if (selectedNotes[0]) {
-        firstSelectedNote = selectedNotes[0]
+        nextNoteToPlay = selectedNotes[0]
     }else {
         nextNoteToPlay = getFirstNoteBtn()
     }
