@@ -1,10 +1,10 @@
 
 const IMG_URLS = {
-    "empty": "svg/dash.svg",
-    "bass": "svg/bass.svg",
-    "tone": "svg/tone.svg",
-    "slap": "svg/cross.svg",
-    "ghost": "svg/ghost.svg",
+    "empty": "assets/svg/dash.svg",
+    "bass": "assets/svg/bass.svg",
+    "tone": "assets/svg/tone.svg",
+    "slap": "assets/svg/cross.svg",
+    "ghost": "assets/svg/ghost.svg",
 }
 
 let selectedNotes = []
