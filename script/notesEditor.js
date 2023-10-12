@@ -172,7 +172,8 @@ const loadNotesFromText = (definition, startNoteBtn) => {
             beatPart = firstBeat.firstChild
         }
 
-        return beatPart.firstChild
+        // Return first note
+        return beatPart.querySelector(".note")
     }
 
     let lastBeatPart = null

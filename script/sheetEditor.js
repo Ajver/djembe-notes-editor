@@ -53,11 +53,11 @@ const createBeatPartBtn = note => {
     beatPartBtn.classList.add("beat-part")
     beatPartBtn.setAttribute("beat-part-type", "single")
 
-    const noteBtn = createNoteBtn(note)
-    beatPartBtn.appendChild(noteBtn)
-    
     const changeBeatPartTypeBtn = createChangeBeatPartTypeBtn(beatPartBtn) 
     beatPartBtn.appendChild(changeBeatPartTypeBtn)
+    
+    const noteBtn = createNoteBtn(note)
+    beatPartBtn.appendChild(noteBtn)
 
     return beatPartBtn
 }
