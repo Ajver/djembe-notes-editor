@@ -28,7 +28,7 @@
     top: 60%;
     width: 60px;
     height: 60px;
-    background-image: url(../svg/trash.svg);
+    background-image: url(../assets/svg/trash.svg);
     background-size: cover;
     cursor: pointer;
     border-radius: 3px;
