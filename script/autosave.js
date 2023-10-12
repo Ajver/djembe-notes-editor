@@ -1,4 +1,4 @@
 
 window.addEventListener("beforeunload", () => {
-    localStorage.previousRythm = saveToTxt()
+    localStorage.previousRhythm = saveToTxt()
 })

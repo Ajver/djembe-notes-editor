@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Djembe notes editor</title>
 
-    <link rel="stylesheet" href="style/main.css?11">
-    <link rel="stylesheet" href="style/editor.css?16">
+    <link rel="stylesheet" href="style/main.css?12">
+    <link rel="stylesheet" href="style/editor.css?17">
 </head>
 
 <body>
     <div class="top-section">
-        <button class="new-rythm-btn" id="new-rythm-btn">Create new rythm</button>
+        <button class="new-rhythm-btn" id="new-rhythm-btn">Create new rhythm</button>
         <label class="label-button button" for="import-btn">
             Import
             <input type="file" id="import-btn" accept=".json">
@@ -27,7 +27,7 @@
                 <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat&display=swap"
                     rel="stylesheet">
 
-                <link rel="stylesheet" href="style/printing.css?15">
+                <link rel="stylesheet" href="style/printing.css?16">
             </div>
         </div>
     </div>
@@ -35,10 +35,10 @@
         <button id="print-btn" class="print-btn">PRINT</button>
     </div>
 
-    <div class="modal-wrapper" id="create-rythm-modal-wrapper">
-        <div class="create-rythm-modal modal">
-            <h2>Creating new rythm</h2>
-            <p><span class="warning">Warning!</span> The previous rythm will be deleted! If you don't want to lose it, remember to export it first.</p>
+    <div class="modal-wrapper" id="create-rhythm-modal-wrapper">
+        <div class="create-rhythm-modal modal">
+            <h2>Creating new rhythm</h2>
+            <p><span class="warning">Warning!</span> The previous rhythm will be deleted! If you don't want to lose it, remember to export it first.</p>
             <div class="preset-selection-container">
                 <input type="radio" class="preset" name="preset-selection-btn" id="preset-4-4" value="4-4" checked>
                 <label for="preset-4-4" title="4 beats in bar, 4 parts in each beat">
@@ -58,26 +58,26 @@
                 </label>
             </div>
             <div class="bars-in-full-score-section">
-                <p title="How many rythms will be played together">Parallel instruments:</p>
-                <input type="number" class="bars-in-full-score-input" id="bars-in-full-score-input" min="1" max="10" value="1" title="How many rythms will be played together">
+                <p title="How many rhythms will be played together">Parallel instruments:</p>
+                <input type="number" class="bars-in-full-score-input" id="bars-in-full-score-input" min="1" max="10" value="1" title="How many rhythms will be played together">
             </div>
             <div class="buttons-section">
-                <button class="cancel" id="close-create-rythm-modal-btn">CANCEL</button>
-                <button class="submit" id="submit-create-rythm-btn">CREATE</button>
+                <button class="cancel" id="close-create-rhythm-modal-btn">CANCEL</button>
+                <button class="submit" id="submit-create-rhythm-btn">CREATE</button>
             </div>
         </div>
     </div>
 
     <div class="modal-wrapper" id="export-modal-wrapper">
         <div class="export-modal modal">
-            <h2>Export rythm</h2>
+            <h2>Export rhythm</h2>
             <div class="export-section">
                 <p>File name:</p>
                 <input type="text" name="export-file-name" id="export-file-name-input">
             </div>
             <div class="buttons-section">
-                <button class="cancel" id="close-export-rythm-modal-btn">CANCEL</button>
-                <a class="button submit" id="submit-export-rythm-btn">EXPORT</a>
+                <button class="cancel" id="close-export-rhythm-modal-btn">CANCEL</button>
+                <a class="button submit" id="submit-export-rhythm-btn">EXPORT</a>
             </div>
         </div>
     </div>
@@ -104,18 +104,18 @@
         <button id="play-btn">PLAY</button>
     </div>
 
-    <script src="script/printing.js?8"></script>
+    <script src="script/printing.js?9"></script>
 
-    <script src="script/notesEditor.js?20"></script>
-    <script src="script/sheetEditor.js?17"></script>
-    <script src="script/saveLoad.js?12"></script>
-    <script src="script/main.js?6"></script>
-    <script src="script/autosave.js?2"></script>
+    <script src="script/notesEditor.js?21"></script>
+    <script src="script/sheetEditor.js?18"></script>
+    <script src="script/saveLoad.js?13"></script>
+    <script src="script/main.js?7"></script>
+    <script src="script/autosave.js?3"></script>
     
-    <script src="script/Sound.js?1"></script>
-    <script src="script/play.js?12"></script>
+    <script src="script/Sound.js?2"></script>
+    <script src="script/play.js?13"></script>
 
-    <script src="script/initialSetup.js?1"></script>
+    <script src="script/initialSetup.js?2"></script>
 </body>
 
 </html>

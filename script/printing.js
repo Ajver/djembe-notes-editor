@@ -1,7 +1,7 @@
 document.querySelector("#print-btn").addEventListener('click', () => {
     let divToPrint = document.querySelector('#to-print');
 
-    printDiv(divToPrint, rythmTitle);
+    printDiv(divToPrint, rhythmTitle);
 });
 
 const printDiv = (divToPrint, title) => {

@@ -1,6 +1,6 @@
 // Global settings
-let rythmTitle = "Title of your rythm"
-let rythmTempo = 120
+let rhythmTitle = "Title of your rhythm"
+let rhythmTempo = 120
 let partsInBeat = 1
 let beatsInBar = 1
 let barsInFullScore = 2
@@ -55,7 +55,7 @@ const createBeatPartBtn = note => {
 
     const changeBeatPartTypeBtn = createChangeBeatPartTypeBtn(beatPartBtn) 
     beatPartBtn.appendChild(changeBeatPartTypeBtn)
-    
+
     const noteBtn = createNoteBtn(note)
     beatPartBtn.appendChild(noteBtn)
 
@@ -356,7 +356,7 @@ const createInputLabel = (className, content, editCallback) => {
             input.blur()
         } else if (event.key === "Escape") {
             // Cancel editing
-            input.value = rythmTitle
+            input.value = rhythmTitle
             input.blur()
         }
     })
@@ -377,20 +377,20 @@ const createInputLabel = (className, content, editCallback) => {
 }
 
 const createTitleInSheet = (sheet, content) => {
-    const title = createInputLabel("title", rythmTitle, (newContent) => {
-        rythmTitle = newContent
+    const title = createInputLabel("title", rhythmTitle, (newContent) => {
+        rhythmTitle = newContent
     })
 
     sheet.appendChild(title)
 }
 
 const createTempoInSheet = (sheet, tempo) => {
-    const tempoElement = createInputLabel("tempo", rythmTempo + " bmp", (newContent) => {
+    const tempoElement = createInputLabel("tempo", rhythmTempo + " bmp", (newContent) => {
         let newTempo = parseInt(newContent)
 
         if (isNaN(newTempo)) {
             // Invalid input
-            return rythmTempo + " bpm"
+            return rhythmTempo + " bpm"
         }
 
         if (newTempo < 10) {
@@ -398,8 +398,8 @@ const createTempoInSheet = (sheet, tempo) => {
         }
 
         // Input valid - let's overrdie global settings
-        rythmTempo = newTempo
-        const tempoText = rythmTempo + " bpm"
+        rhythmTempo = newTempo
+        const tempoText = rhythmTempo + " bpm"
 
         return tempoText
     })
@@ -407,10 +407,10 @@ const createTempoInSheet = (sheet, tempo) => {
     sheet.appendChild(tempoElement)
 }
 
-const createNewRythmWithGlobalSettings = () => {
+const createNewRhythmWithGlobalSettings = () => {
     const sheet = createEmptySheet()
-    createTitleInSheet(sheet, rythmTitle)
-    createTempoInSheet(sheet, rythmTempo)
+    createTitleInSheet(sheet, rhythmTitle)
+    createTempoInSheet(sheet, rhythmTempo)
     fillSheetWithEmptyFullRows(sheet)
     createAddFullScoreBtnInSheet(sheet)
 }
@@ -432,23 +432,23 @@ const loadDefaultSaveFile = async () => {
     }
 }
 
-document.querySelector("#new-rythm-btn").addEventListener("click", () => {
-    const modalContainer = document.querySelector("#create-rythm-modal-wrapper")
+document.querySelector("#new-rhythm-btn").addEventListener("click", () => {
+    const modalContainer = document.querySelector("#create-rhythm-modal-wrapper")
     modalContainer.classList.add("modal-visible")
     document.querySelector("body").classList.add("modal-visible")
 })
 
 const closeModal = () => {
-    const modalContainer = document.querySelector("#create-rythm-modal-wrapper")
+    const modalContainer = document.querySelector("#create-rhythm-modal-wrapper")
     modalContainer.classList.remove("modal-visible")
     document.querySelector("body").classList.remove("modal-visible")
 }
 
-document.querySelector("#close-create-rythm-modal-btn").addEventListener("click", () => {
+document.querySelector("#close-create-rhythm-modal-btn").addEventListener("click", () => {
     closeModal()
 })
 
-document.querySelector("#submit-create-rythm-btn").addEventListener("click", () => {
+document.querySelector("#submit-create-rhythm-btn").addEventListener("click", () => {
     const meterSelected = document.querySelector("input[name=preset-selection-btn]:checked").value
 
     const {
@@ -483,7 +483,7 @@ document.querySelector("#submit-create-rythm-btn").addEventListener("click", () 
 
     clearAllSheets()
 
-    createNewRythmWithGlobalSettings()
+    createNewRhythmWithGlobalSettings()
 
     closeModal()
 })

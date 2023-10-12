@@ -24,15 +24,15 @@ const beatPartTypeToDef = {
 
 const saveToTxt = () => {
     const allNotes = getAllNotes()
-    const rythmDefinition = getNotesDefinition(allNotes)
+    const rhythmDefinition = getNotesDefinition(allNotes)
 
     const saveObj = {
-        title: rythmTitle,
-        tempo: rythmTempo,
+        title: rhythmTitle,
+        tempo: rhythmTempo,
         partsInBeat: partsInBeat,
         beatsInBar: beatsInBar,
         barsInFullScore: barsInFullScore,
-        rythm: rythmDefinition,
+        rhythm: rhythmDefinition,
     }
     const txtSave = JSON.stringify(saveObj)    
     return txtSave
@@ -45,17 +45,17 @@ const loadFromTxt = (txtSave) => {
 
     let sheet = createEmptySheet()
 
-    rythmTitle = saveObj.title
-    rythmTempo = saveObj.tempo || 120
+    rhythmTitle = saveObj.title
+    rhythmTempo = saveObj.tempo || 120
 
     partsInBeat = saveObj.partsInBeat || 4
     beatsInBar = saveObj.beatsInBar || 4
     barsInFullScore = saveObj.barsInFullScore || 1
 
-    createTitleInSheet(sheet, rythmTitle)
-    createTempoInSheet(sheet, rythmTempo)
+    createTitleInSheet(sheet, rhythmTitle)
+    createTempoInSheet(sheet, rhythmTempo)
 
-    loadNotesFromText(saveObj.rythm, null)
+    loadNotesFromText(saveObj.rhythm, null)
 
     // Re-set sheet to the last sheet, so we edit the last sheet
     sheet = getLastSheet()

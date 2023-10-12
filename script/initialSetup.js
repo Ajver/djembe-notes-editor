@@ -1,9 +1,9 @@
 
 window.addEventListener("load", () => {
-    // createNewRythmWithGlobalSettings()
+    // createNewRhythmWithGlobalSettings()
 
-    if (localStorage.previousRythm) {
-        const saveTxt = localStorage.previousRythm
+    if (localStorage.previousRhythm) {
+        const saveTxt = localStorage.previousRhythm
         loadFromTxt(saveTxt)
     }else {
         loadDefaultSaveFile()

@@ -1,5 +1,5 @@
 
-let isPlayingRythm = false
+let isPlayingRhythm = false
 let nextTimeoutIds = []
 
 const sounds = {
@@ -14,7 +14,7 @@ Object.values(sounds).forEach(sound => {
 })
 
 
-const onRythmPlayEnd = () => {
+const onRhythmPlayEnd = () => {
     document.querySelector("#play-btn").innerHTML = "PLAY"
     document.querySelectorAll(".beat.playing").forEach(beat => beat.classList.remove("playing"))
     document.querySelector("body").classList.remove("playing")
@@ -28,26 +28,26 @@ const playNoteBtn = (noteBtn) => {
     }
 }
 
-const stopPlayingRythm = () => {
-    isPlayingRythm = false
+const stopPlayingRhythm = () => {
+    isPlayingRhythm = false
 
     nextTimeoutIds.forEach(nextTimeoutId => {
         window.clearTimeout(nextTimeoutId)
     })
 
-    onRythmPlayEnd()
+    onRhythmPlayEnd()
 }
 
-const playRythm = () => {
-    if (isPlayingRythm) {
-        stopPlayingRythm()
+const playRhythm = () => {
+    if (isPlayingRhythm) {
+        stopPlayingRhythm()
         return
     }
 
     document.querySelector("#play-btn").innerHTML = "PAUSE"
 
     // Delays are in millis
-    const singleBeatPartDuration = (60_000.0 / rythmTempo) / partsInBeat
+    const singleBeatPartDuration = (60_000.0 / rhythmTempo) / partsInBeat
 
     const durationPerTypes = {
         "single": singleBeatPartDuration,
@@ -56,7 +56,7 @@ const playRythm = () => {
         "grace": singleBeatPartDuration / 4,
     }
 
-    // From this note we'll start playing the rythm, if we find any selected note
+    // From this note we'll start playing the rhythm, if we find any selected note
     let nextNoteToPlay = null
 
     sortSelectedNotes()
@@ -77,7 +77,7 @@ const playRythm = () => {
      * @param {*} delay 
      */
     const playBarDelayed = (bar, nthBar, barPlayDelay) => {
-        if (!isPlayingRythm) {
+        if (!isPlayingRhythm) {
             return
         }
 
@@ -86,7 +86,7 @@ const playRythm = () => {
         let lastPlayedBeat = null
 
         const playNoteDelayedAndContinue = (noteIdx, delay) => {
-            if (!isPlayingRythm) {
+            if (!isPlayingRhythm) {
                 return
             }
 
@@ -123,7 +123,7 @@ const playRythm = () => {
             }
 
             const timeoutId = setTimeout(() => {
-                if (!isPlayingRythm) {
+                if (!isPlayingRhythm) {
                     return
                 }
                 
@@ -143,8 +143,8 @@ const playRythm = () => {
                         // There is nextBar - let's play it!
                         playBarDelayed(nextBar, nthBar, duration)
                     }else {
-                        // End of the rythm
-                        stopPlayingRythm()
+                        // End of the rhythm
+                        stopPlayingRhythm()
                     }
                 }
             }, delay)
@@ -169,12 +169,12 @@ const playRythm = () => {
     }
 
     document.querySelector("body").classList.add("playing")
-    isPlayingRythm = true
+    isPlayingRhythm = true
     playFullScore(firstFullScore)
 }
 
 document.querySelector("#play-btn").addEventListener("click", () => {
-    playRythm()
+    playRhythm()
 })
 
 addEventListener("keydown", event => {
@@ -185,10 +185,10 @@ addEventListener("keydown", event => {
     }
 
     if (event.code === "Space") {
-        if (isPlayingRythm) {
-            stopPlayingRythm()
+        if (isPlayingRhythm) {
+            stopPlayingRhythm()
         }else {
-            playRythm()
+            playRhythm()
         }
 
         event.preventDefault()

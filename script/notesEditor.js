@@ -590,7 +590,7 @@ addEventListener("keydown", event => {
         return
     }
 
-    if (isPlayingRythm) {
+    if (isPlayingRhythm) {
         return
     }
 
