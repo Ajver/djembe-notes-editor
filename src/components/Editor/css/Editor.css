@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #48404d;
+  font-family: 'Montserrat', sans-serif;
+  padding-top: 10px;
+  padding-bottom: 80px;
+  font-size: 24px;
+}
+
+body.modal-visible {
+  overflow: hidden;
+}
+
+body.playing {
+  background-color: #e2a8ff;
+}

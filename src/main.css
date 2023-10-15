@@ -1,0 +1,42 @@
+
+.button,
+button {
+    min-width: 180px;
+    background-color: #09a66f;
+    color: #eee;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    text-align: center;
+    user-select: none;
+    text-decoration: none;
+
+    transition: background-color .1s;
+}
+
+.button:hover,
+button:hover {
+    background-color: #10b750;
+}
+
+button.cancel {
+    background-color: #a60923;
+}
+
+button.cancel:hover {
+    background-color: #b71034;
+}
+
+.warning {
+    color: #b71034;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.label-button input {
+    display: none;
+}
+  

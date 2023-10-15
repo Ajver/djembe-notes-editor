@@ -1,0 +1,17 @@
+
+/* Styles for sheet to print ONLY in editor! */
+.editor .sheet {
+  box-shadow: 0 0 20px #000;
+  margin-top: 30px;
+}
+
+.sheet {
+  width: 100%;
+  height: 29.7cm;
+  padding: 15px;
+  background-color: #fff;
+}
+
+.sheet:empty {
+  display: none;
+}

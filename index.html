@@ -1,121 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Djembe notes editor</title>
-
-    <link rel="stylesheet" href="style/main.css?12">
-    <link rel="stylesheet" href="style/editor.css?17">
-</head>
-
-<body>
-    <div class="top-section">
-        <button class="new-rhythm-btn" id="new-rhythm-btn">Create new rhythm</button>
-        <label class="label-button button" for="import-btn">
-            Import
-            <input type="file" id="import-btn" accept=".json">
-        </label>
-        <button id="export-btn">Export</button>
-    </div>
-    <div class="editor edit-view">
-        <div id="to-print" class="to-print">
-            <div id="sheets-container">
-                <link rel="preconnect" href="https://fonts.googleapis.com">
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-                <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat&display=swap"
-                    rel="stylesheet">
-
-                <link rel="stylesheet" href="style/printing.css?16">
-            </div>
-        </div>
-    </div>
-    <div class="bottom-section">
-        <button id="print-btn" class="print-btn">PRINT</button>
-    </div>
-
-    <div class="modal-wrapper" id="create-rhythm-modal-wrapper">
-        <div class="create-rhythm-modal modal">
-            <h2>Creating new rhythm</h2>
-            <p><span class="warning">Warning!</span> The previous rhythm will be deleted! If you don't want to lose it, remember to export it first.</p>
-            <div class="preset-selection-container">
-                <input type="radio" class="preset" name="preset-selection-btn" id="preset-4-4" value="4-4" checked>
-                <label for="preset-4-4" title="4 beats in bar, 4 parts in each beat">
-                    4/4
-                </label>
-                <input type="radio" class="preset" name="preset-selection-btn" id="preset-3-4" value="3-4">
-                <label for="preset-3-4" title="3 beats in bar, 4 parts in each beat">
-                    3/4
-                </label>
-                <input type="radio" class="preset" name="preset-selection-btn" id="preset-12-8" value="12-8">
-                <label for="preset-12-8" title="4 beats in bar, 3 parts in each beat">
-                    12/8
-                </label>
-                <input type="radio" class="preset" name="preset-selection-btn" id="preset-9-8" value="9-8">
-                <label for="preset-9-8" title="3 beats in bar, 3 parts in each beat">
-                    9/8
-                </label>
-            </div>
-            <div class="bars-in-full-score-section">
-                <p title="How many rhythms will be played together">Parallel instruments:</p>
-                <input type="number" class="bars-in-full-score-input" id="bars-in-full-score-input" min="1" max="10" value="1" title="How many rhythms will be played together">
-            </div>
-            <div class="buttons-section">
-                <button class="cancel" id="close-create-rhythm-modal-btn">CANCEL</button>
-                <button class="submit" id="submit-create-rhythm-btn">CREATE</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal-wrapper" id="export-modal-wrapper">
-        <div class="export-modal modal">
-            <h2>Export rhythm</h2>
-            <div class="export-section">
-                <p>File name:</p>
-                <input type="text" name="export-file-name" id="export-file-name-input">
-            </div>
-            <div class="buttons-section">
-                <button class="cancel" id="close-export-rhythm-modal-btn">CANCEL</button>
-                <a class="button submit" id="submit-export-rhythm-btn">EXPORT</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="tips-panel" id="tips-panel">
-        <div class="key-tips-container">
-            <div class="key-tip">`~<img src="assets/svg/dash.svg"></div>
-            <div class="key-tip">1!<img src="assets/svg/bass.svg"></div>
-            <div class="key-tip">2@<img src="assets/svg/tone.svg"></div>
-            <div class="key-tip">3#<img src="assets/svg/cross.svg"></div>
-            <div class="key-tip">4$<img src="assets/svg/ghost.svg"></div>
-            <div class="key-tip">Shift + 1<p>single</p><img src="assets/svg/cross.svg"></div>
-            <div class="key-tip double">Shift + 2<img src="assets/svg/cross.svg"><img src="assets/svg/dash.svg"></div>
-            <div class="key-tip triplet">Shift + 3<img src="assets/svg/cross.svg"><img src="assets/svg/dash.svg"><img src="assets/svg/dash.svg"></div>
-            <div class="key-tip">Shift<p>multiselect</p></div>
-        </div>
-
-        <button class="tips-panel-hide-btn" id="tips-panel-hide-btn">HIDE</button>
-    </div>
-
-    <div class="playing-curtain"></div>
-
-    <div class="play-container">
-        <button id="play-btn">PLAY</button>
-    </div>
-
-    <script src="script/printing.js?9"></script>
-
-    <script src="script/notesEditor.js?21"></script>
-    <script src="script/sheetEditor.js?18"></script>
-    <script src="script/saveLoad.js?13"></script>
-    <script src="script/main.js?7"></script>
-    <script src="script/autosave.js?3"></script>
-    
-    <script src="script/Sound.js?2"></script>
-    <script src="script/play.js?14"></script>
-
-    <script src="script/initialSetup.js?2"></script>
-</body>
-
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

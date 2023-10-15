@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.to-print {
+  width: 21cm;
+  min-height: 29.7cm;
+  margin: auto;
+  font-family: 'Indie Flower', cursive;
+  font-size: 24px;
+}
