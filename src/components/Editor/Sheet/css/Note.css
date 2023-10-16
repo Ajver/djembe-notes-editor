@@ -1,14 +1,30 @@
 
 .note {
   position: relative;
-  min-width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
+  box-sizing: content-box;
+  margin-right: 10px;
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-.note img {
-  width: 100%;
-  height: 100%;
+.note.empty {
+  background-image: url(/assets/svg/dash.svg);
+}
+.note.bass {
+  background-image: url(/assets/svg/bass.svg);
+}
+.note.tone {
+  background-image: url(/assets/svg/tone.svg);
+}
+.note.slap {
+  background-image: url(/assets/svg/cross.svg);
+}
+.note.ghost {
+  background-image: url(/assets/svg/ghost.svg);
 }
 
 .note::before {
@@ -18,8 +34,7 @@
   left: 50%;
   bottom: 80%;
 
-  width: 30px;
-  height: 25px;
+  height: 22px;
 
   font-size: 0;
 
@@ -27,35 +42,39 @@
   border-top: 3px solid #777777;
 }
 
+.note:hover {
+  background-color: #a5cfac;
+}
+
 .note:last-child::before {
   border-top: none;
 }
 
-.beat[beat-type=double] .note {
-  top: 23%;
+.beat[beat-type=single] .note::before {
+  height: 25px;
 }
 
-.beat[beat-type=double] .note:nth-of-type(2) {
-  left: 90%;
+.beat[beat-type=double] .note {
+  margin-right: 7px;
+}
+.beat[beat-type=double] .note::before {
+  width: 27px;
 }
 
 .beat[beat-type=triplet] .note {
-  top: 24%;
+  margin-right: 3px;
+}
+.beat[beat-type=triplet] .note::before {
+  width: 23px;
 }
 
-.beat[beat-type=triplet] .note:nth-of-type(2) {
-  left: 80%;
+.beat[beat-type=quartet] .note {
+  margin-right: 0;
+}
+.beat[beat-type=quartet] .note::before {
+  width: 20px;
 }
 
-.beat[beat-type=triplet] .note:nth-of-type(3) {
-  left: 110%;
-}
-
-.beat[beat-type=grace] .note {
-  top: 15%;
-}
-
-/* grace note (pre-note) */
 .beat[beat-type=grace] .note:nth-of-type(1) {
   left: 16%;
   top: 0;

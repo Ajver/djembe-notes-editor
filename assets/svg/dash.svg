@@ -1,12 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-
-<!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="-6.88 -6.88 29.76 29.76" xmlns="http://www.w3.org/2000/svg" fill="#999999" class="bi bi-dash-lg" stroke="#999999">
-
-<g id="SVGRepo_bgCarrier" stroke-width="0"/>
-
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-
-<g id="SVGRepo_iconCarrier"> <path d="M0 8a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H1a1 1 0 0 1-1-1z"/> </g>
-
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="430.107px" height="54.764px" viewBox="178.066 365.738 430.107 54.764"
+	 enable-background="new 178.066 365.738 430.107 54.764" xml:space="preserve">
+<g id="SVGRepo_bgCarrier">
+</g>
+<g id="SVGRepo_tracerCarrier">
+</g>
+<g id="SVGRepo_iconCarrier">
+	<path fill="#999999" stroke="#999999" d="M178.066,393.12c0-14.847,12.035-26.882,26.881-26.882h376.344
+		c14.847,0,26.882,12.035,26.882,26.882s-12.035,26.882-26.882,26.882H204.948C190.102,420.002,178.066,407.967,178.066,393.12z"/>
+</g>
 </svg>

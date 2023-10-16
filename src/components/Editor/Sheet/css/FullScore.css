@@ -4,6 +4,7 @@
   display: grid;
   padding-left: 40px;
   width: min-content;
+  margin-top: 40px;
   grid-template-columns: auto auto auto auto;
 }
 
@@ -20,5 +21,5 @@
 
 /* If first bar is also 3rd child from end - we don't display before - border */
 .full-score:has(.bar:first-child:nth-last-child(3))::before {
-  /* display: none; */
+  display: none;
 }

@@ -1,11 +1,41 @@
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="-4.8 -4.8 33.60 33.60" fill="none" xmlns="http://www.w3.org/2000/svg">
 
-<g id="SVGRepo_bgCarrier" stroke-width="0"/>
-
-<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-
-<g id="SVGRepo_iconCarrier"> <path d="M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/> </g>
-
+<svg
+   width="500"
+   height="500"
+   viewBox="-4.8 -4.8 21 21"
+   fill="none"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="tone.svg"
+   inkscape:export-filename="tone.svg"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1" />
+  <g
+     id="SVGRepo_iconCarrier"
+     transform="translate(-6.3,-6.3)">
+    <path
+       d="m 21,12 c 0,4.9706 -4.0294,9 -9,9 -4.97056,0 -9,-4.0294 -9,-9 0,-4.97056 4.02944,-9 9,-9 4.9706,0 9,4.02944 9,9 z"
+       stroke="#000000"
+       stroke-width="2.5"
+       stroke-linecap="round"
+       stroke-linejoin="round"
+       id="path1" />
+  </g>
 </svg>
