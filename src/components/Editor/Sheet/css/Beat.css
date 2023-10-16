@@ -1,4 +1,18 @@
 
 .beat {
+  position: relative;
   display: flex;
+  align-items: flex-start;
+  margin-top: 60px;
+}
+
+.beat:first-child {
+  margin-top: 30px;
+}
+
+.beat[beat-type=triplet]::after {
+  content: "3";
+  position: absolute;
+  left: 70%;
+  top: -45%;
 }

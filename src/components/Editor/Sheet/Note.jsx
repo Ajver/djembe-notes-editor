@@ -3,8 +3,8 @@ import "./css/Note.css"
 
 export default function Note() {
   return (
-    <img className="note" src="assets/svg/dash.svg">
-      
-    </img>
+    <div className="note">
+      <img src="assets/svg/dash.svg" />
+    </div>
   )
 }

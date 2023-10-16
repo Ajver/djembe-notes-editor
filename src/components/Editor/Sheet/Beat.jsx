@@ -1,14 +1,11 @@
 import React from 'react'
 import "./css/Beat.css"
-import BeatPart from "./BeatPart"
+import Note from "./Note"
 
-export default function Beat() {
+export default function Beat({numOfNotes}) {
   return (
     <div className="beat">
-      <BeatPart />
-      <BeatPart />
-      <BeatPart />
-      <BeatPart />
+      {[...Array(numOfNotes)].map((idx) => (<Note key={idx} fpp={idx} />))}
     </div>
   )
 }

@@ -1,20 +1,24 @@
 
 .full-score {
   position: relative;
+  display: grid;
+  padding-left: 40px;
+  width: min-content;
+  grid-template-columns: auto auto auto auto;
 }
 
 .full-score::before {
   content: "";
   position: absolute;
   left: 15px;
-  top: 69px;
+  top: 44px;
   width: 10px;
-  height: calc(100% - 91px);
+  height: calc(100% - 62px);
   border: 2px solid #777777;
   border-right: none;
 }
 
 /* If first bar is also 3rd child from end - we don't display before - border */
 .full-score:has(.bar:first-child:nth-last-child(3))::before {
-  display: none;
+  /* display: none; */
 }

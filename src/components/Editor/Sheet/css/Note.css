@@ -1,46 +1,62 @@
 
 .note {
-  position: absolute;
-  width: 80%;
-  height: 80%;
-  left: 50%;
-  top: 10%;
-  transform: translate(-50%);
+  position: relative;
+  min-width: 30px;
+  height: 30px;
   cursor: pointer;
 }
 
-.beat-part[beat-part-type=double] .note {
-  width: 55%;
-  height: 55%;
+.note img {
+  width: 100%;
+  height: 100%;
+}
+
+.note::before {
+  content: "";
+
+  position: absolute;
+  left: 50%;
+  bottom: 80%;
+
+  width: 30px;
+  height: 25px;
+
+  font-size: 0;
+
+  border-left: 1px solid #777777;
+  border-top: 3px solid #777777;
+}
+
+.note:last-child::before {
+  border-top: none;
+}
+
+.beat[beat-type=double] .note {
   top: 23%;
 }
 
-.beat-part[beat-part-type=double] .note:nth-of-type(2) {
+.beat[beat-type=double] .note:nth-of-type(2) {
   left: 90%;
 }
 
-.beat-part[beat-part-type=triplet] .note {
-  width: 50%;
-  height: 50%;
+.beat[beat-type=triplet] .note {
   top: 24%;
 }
 
-.beat-part[beat-part-type=triplet] .note:nth-of-type(2) {
+.beat[beat-type=triplet] .note:nth-of-type(2) {
   left: 80%;
 }
 
-.beat-part[beat-part-type=triplet] .note:nth-of-type(3) {
+.beat[beat-type=triplet] .note:nth-of-type(3) {
   left: 110%;
 }
 
-.beat-part[beat-part-type=grace] .note {
-  width: 70%;
-  height: 70%;
+.beat[beat-type=grace] .note {
   top: 15%;
 }
 
 /* grace note (pre-note) */
-.beat-part[beat-part-type=grace] .note:nth-of-type(1) {
+.beat[beat-type=grace] .note:nth-of-type(1) {
   left: 16%;
   top: 0;
   width: 50%;

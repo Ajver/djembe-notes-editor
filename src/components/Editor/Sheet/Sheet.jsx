@@ -10,7 +10,6 @@ export default function Sheet() {
       <Title />
       <Tempo />
       <FullScore />
-      <FullScore />
     </div>
   )
 }
