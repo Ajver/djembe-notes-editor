@@ -1,39 +1,34 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import "./css/InputLabelContainer.css"
 
 export default function InputLabelContainer({className, text, editCallback}) {
+  const inputRef = useRef()
   const [visible, setVisible] = useState(false)
-  
+  const [tempText, setTempText] = useState(text)
+
   function show() {
     setVisible(true)
-    
-    // TODO: Deselect all notes
-    // Fixes bug when one can edit label with notes selected
-  }
-
-  function handleFocus(event) {
-    event.target.select()
+    setTimeout(() => {
+      inputRef.current.focus()
+      inputRef.current.select()
+      console.log(inputRef)
+    }, 1)
   }
 
   function onKeyDown(event) {
     if (event.key === "Enter") {
       event.target.blur()
     } else if (event.key === "Escape") {
-        // Cancel editing
-        event.target.value = rhythmTitle
-        event.target.blur()
+        // Cancel editing - reset temp-text to text
+        inputRef.current.value = text
+        inputRef.current.blur()
+        setTempText(text)
     }
   }
 
   function onBlur(event) {
     setVisible(false)
-    editCallback(input.value)
-    // if (newContent === undefined) {
-    //     label.innerHTML = input.value
-    // }else {
-    //     // Custom input content
-    //     label.innerHTML = newContent
-    // }
+    editCallback(event.target.value)
   }
 
   return (
@@ -44,12 +39,13 @@ export default function InputLabelContainer({className, text, editCallback}) {
     >
       <p>{text}</p>
       <input 
+        ref={inputRef}
         type="text" 
-        value={text}
+        value={tempText}
         className={visible ? "visible" : ""} 
-        onChange={event => onChange(event.target.value)}
-        onFocus={handleFocus}
+        onChange={event => setTempText(event.target.value)}
         onBlur={onBlur}
+        autoFocus={true}
       />
     </div>
   )

@@ -6,6 +6,6 @@ export default function Title() {
   const [title, setTitle] = useState("Initial title")
 
   return (
-    <InputLabelContainer className="title" text={title} onChange={setTitle} />
+    <InputLabelContainer className="title" text={title} editCallback={setTitle} />
   )
 }
