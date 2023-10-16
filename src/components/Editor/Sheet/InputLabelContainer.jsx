@@ -8,10 +8,10 @@ export default function InputLabelContainer({className, text, editCallback}) {
 
   function show() {
     setVisible(true)
+
     setTimeout(() => {
       inputRef.current.focus()
       inputRef.current.select()
-      console.log(inputRef)
     }, 1)
   }
 
@@ -33,9 +33,9 @@ export default function InputLabelContainer({className, text, editCallback}) {
 
   return (
     <div 
-    className={"input-label-container " + className} 
-    onClick={show}
-    onKeyDown={onKeyDown}
+      className={"input-label-container " + className} 
+      onClick={show}
+      onKeyDown={onKeyDown}
     >
       <p>{text}</p>
       <input 
