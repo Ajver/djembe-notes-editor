@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import "./css/Tempo.css"
 import InputLabelContainer from "./InputLabelContainer"
+import { useDispatch, useSelector } from "react-redux"
+import { setRhytmTempo } from "../../../Redux/rhythmSlice"
 
 export default function Tempo() {
-  const [tempo, setTempo] = useState(120)
+  const tempo = useSelector(store => store.rhythm.tempo)
+  const dispatch = useDispatch()
 
   function editCallback(newContent) {
     let newTempo = parseInt(newContent)
@@ -13,14 +16,7 @@ export default function Tempo() {
         return
     }
 
-    if (newTempo < 10) {
-        newTempo = 10
-    }
-
-    // Input valid - let's overrdie global settings
-    // TODO: Override global settings properly
-    // rhythmTempo = newTempo
-    setTempo(newTempo)
+    dispatch(setRhytmTempo(newTempo))
   }
 
   return (
