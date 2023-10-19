@@ -6,7 +6,7 @@ const MIN_TEMPO = 10
 export const rhythmSlice = createSlice({
   name: "rhythm",
   initialState: {
-    definition: [[]],
+    definition: [[], []],
     beatsInBar: 4,
     beatsCount: 0,
     tempo: 120,
@@ -25,6 +25,30 @@ export const rhythmSlice = createSlice({
       })
       state.beatsCount += state.beatsInBar
     },
+    setBeatType: (state, action) => {
+      const { instrumentIdx, beatIdx, newType } = action.payload
+      const beatDef = state.definition[instrumentIdx][beatIdx]
+      beatDef.type = newType
+
+      const expectedNotesCount = {
+        "single": 1,
+        "double": 2,
+        "triplet": 3,
+        "quartet": 4,
+        "grace": 2,
+      } [newType]
+      
+      // Add missing notes
+      while(beatDef.notes.length < expectedNotesCount) {
+          const note = "-"
+          beatDef.notes.push(note)
+      }
+
+      // Remove extra noteBtns
+      if(beatDef.notes.length > expectedNotesCount) {
+        beatDef.notes.splice(expectedNotesCount)
+      }
+    },
     setRhytmTempo: (state, action) => {
       const newTempo = Math.max(Math.min(action.payload, MAX_TEMPO), MIN_TEMPO)
       state.tempo = newTempo
@@ -35,6 +59,11 @@ export const rhythmSlice = createSlice({
   }
 })
 
-export const { addBar, setRhytmTempo, setRhythmTitle } = rhythmSlice.actions 
+export const { 
+  addBar, 
+  setBeatType, 
+  setRhytmTempo, 
+  setRhythmTitle,
+} = rhythmSlice.actions 
 
 export default rhythmSlice.reducer
