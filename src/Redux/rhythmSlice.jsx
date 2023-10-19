@@ -23,6 +23,7 @@ export const rhythmSlice = createSlice({
           instrument.push(beat)
         }
       })
+      state.beatsCount += state.beatsInBar
     },
     setRhytmTempo: (state, action) => {
       const newTempo = Math.max(Math.min(action.payload, MAX_TEMPO), MIN_TEMPO)
