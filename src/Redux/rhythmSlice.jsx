@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { NoteSymbol } from "../constants/NoteDef";
 import { BeatType } from "../constants/BeatDef";
+import { getIdxsFromNoteNumber } from "../helpers/RhythmElementNumber";
 
 const MAX_TEMPO = 1000
 const MIN_TEMPO = 10
@@ -29,15 +30,24 @@ export const rhythmSlice = createSlice({
     },
     setNote: (state, action) => {
       const { noteNumber, noteSymbol } = action.payload
-      const instrumentIdx = Math.floor(noteNumber / (state.beatsCount * 10))
-      const beatIdx = Math.floor((noteNumber % (state.beatsCount * 10)) / 10)
-      const noteIdx = noteNumber % 10
+      const {
+        instrumentIdx,
+        beatIdx,
+        noteIdx,
+      } = getIdxsFromNoteNumber(noteNumber, state.beatsCount)    
+  
       const beatDef = state.definition[instrumentIdx][beatIdx]
       beatDef.notes[noteIdx] = noteSymbol
     },
     setBeatType: (state, action) => {
       const { instrumentIdx, beatIdx, newType } = action.payload
       const beatDef = state.definition[instrumentIdx][beatIdx]
+      
+      if (beatDef.type == newType) {
+        // It's already of that type
+        return
+      }
+      
       beatDef.type = newType
 
       const expectedNotesCount = {

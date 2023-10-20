@@ -2,21 +2,35 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { NoteSymbol } from "../../constants/NoteDef"
 import { BeatType } from "../../constants/BeatDef"
-import { setNote } from "../../Redux/rhythmSlice"
+import { setBeatType, setNote } from "../../Redux/rhythmSlice"
+import { getIdxsFromNoteNumber } from "../../helpers/RhythmElementNumber"
 
 export default function NotesEditor() {
-  const selection = useSelector(store => store.selection)
+  const beatsCount = useSelector(store => store.rhythm.beatsCount)
+  const selectedIds = useSelector(store => store.selection.selectedIds)
   const dispatch = useDispatch()
 
   function changeNote(noteSymbol) {
-    const selectedIds = selection.selectedIds
     selectedIds.forEach(noteNumber => {
       dispatch(setNote({ noteNumber, noteSymbol }))
     })
   }
 
   function changeBeatType(beatType) {
+    selectedIds.forEach(noteNumber => {
+      const {
+        instrumentIdx,
+        beatIdx,
+      } = getIdxsFromNoteNumber(noteNumber, beatsCount)    
 
+      // TODO: Optimize by updating beat type only once!
+      
+      dispatch(setBeatType({
+        instrumentIdx,
+        beatIdx,
+        newType: beatType,
+      }))
+    })
   }
 
   function copyNotes() {
@@ -100,7 +114,7 @@ export default function NotesEditor() {
     return () => {
       window.removeEventListener("keydown", onKeyDown)
     }
-  }, [selection])
+  }, [selectedIds, beatsCount])
 
   return (
     <div></div>
