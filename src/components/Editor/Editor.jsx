@@ -1,15 +1,17 @@
 import React from 'react'
 import ToPrint from "./ToPrint"
 import "./css/Editor.css"
-import RhythmManagement from "./RhythmManagement"
+import RhythmManagementPanel from "./RhythmManagementPanel"
 import PrintContainer from "./PrintContainer"
 import TipsPanel from "./TipsPanel"
 import PlayContainer from "./PlayContainer"
+import NotesEditor from "./NotesEditor"
 
 export default function Editor() {
   return (
     <div className="editor">
-      <RhythmManagement />
+      <NotesEditor />
+      <RhythmManagementPanel />
       <ToPrint />
       <PrintContainer />
       <PlayContainer />

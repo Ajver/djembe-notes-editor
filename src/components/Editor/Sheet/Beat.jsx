@@ -28,7 +28,7 @@ export default function Beat({instrumentIdx, beatIdx}) {
 
   return (
     <div className="beat" beat-type={beatDef.type} onClick={handleClick}>
-      {beatDef.notes.map((noteSymbol, idx) => (<Note key={idx} noteSymbol={noteSymbol} />))}
+      {beatDef.notes.map((noteSymbol, idx) => (<Note key={idx} instrumentIdx={instrumentIdx} beatIdx={beatIdx} noteIdx={idx} />))}
     </div>
   )
 }

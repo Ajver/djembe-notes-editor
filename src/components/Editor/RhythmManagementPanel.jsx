@@ -1,7 +1,7 @@
 import React from 'react'
-import "./css/RhythmManagement.css"
+import "./css/RhythmManagementPanel.css"
 
-export default function RhythmManagement() {
+export default function RhythmManagementPanel() {
   return (
     <div className="rhythm-management">
       <button>Create new rhythm</button>

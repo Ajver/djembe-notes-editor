@@ -42,7 +42,7 @@
   border-top: 3px solid #777777;
 }
 
-.note:hover {
+.note.selected {
   background-color: #a5cfac;
 }
 
