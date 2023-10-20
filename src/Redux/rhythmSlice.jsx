@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { NoteSymbol } from "../constants/NoteDef";
+import { BeatType } from "../constants/BeatDef";
 
 const MAX_TEMPO = 1000
 const MIN_TEMPO = 10
@@ -17,13 +19,21 @@ export const rhythmSlice = createSlice({
       state.definition.forEach(instrument => {
         for (let i = 0; i < state.beatsInBar; i++) {
           const beat = {
-            type: "single",
-            notes: ["-"],
+            type: BeatType.SINGLE,
+            notes: [NoteSymbol.EMPTY],
           }
           instrument.push(beat)
         }
       })
       state.beatsCount += state.beatsInBar
+    },
+    setNote: (state, action) => {
+      const { noteNumber, noteSymbol } = action.payload
+      const instrumentIdx = Math.floor(noteNumber / (state.beatsCount * 10))
+      const beatIdx = Math.floor((noteNumber % (state.beatsCount * 10)) / 10)
+      const noteIdx = noteNumber % 10
+      const beatDef = state.definition[instrumentIdx][beatIdx]
+      beatDef.notes[noteIdx] = noteSymbol
     },
     setBeatType: (state, action) => {
       const { instrumentIdx, beatIdx, newType } = action.payload
@@ -61,6 +71,7 @@ export const rhythmSlice = createSlice({
 
 export const { 
   addBar, 
+  setNote,
   setBeatType, 
   setRhytmTempo, 
   setRhythmTitle,

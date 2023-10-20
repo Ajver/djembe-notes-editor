@@ -1,7 +1,9 @@
 import React from 'react'
 import "./css/Note.css"
 import { useDispatch, useSelector } from "react-redux"
-import { addToSelection, singleSelect, deselectAll } from "../../../Redux/selectionSlice"
+import { select, singleSelect, deselectAll } from "../../../Redux/selectionSlice"
+import { setNote } from "../../../Redux/rhythmSlice"
+import { NoteSymbol } from "../../../constants/NoteDef"
 
 export default function Note({instrumentIdx, beatIdx, noteIdx}) {
   const selection  = useSelector(store => store.selection)
@@ -24,18 +26,14 @@ export default function Note({instrumentIdx, beatIdx, noteIdx}) {
   }[noteSymbol]
   
   function handleMouseEnter(event) {
-    console.log("Mouse Enter", event);
-
     if (event.shiftKey || event.buttons == 1) {
-      dispatch(addToSelection(noteNumber))
+      dispatch(select(noteNumber))
     }else {
       dispatch(singleSelect(noteNumber))
     }
   }
 
   function handleMouseLeave(event) {
-    console.log("Mouse Leave", event);
-
     if (!event.shiftKey || event.buttons == 1) {
       dispatch(deselectAll(noteNumber))
     }
@@ -43,11 +41,11 @@ export default function Note({instrumentIdx, beatIdx, noteIdx}) {
 
   function handleRightClick(event) {
     event.preventDefault()
-    // TODO: Set to empty
+    dispatch(setNote({ noteNumber, noteSymbol: NoteSymbol.EMPTY }))
   }
 
   const hoverClass = (
-    (selection.startIdx <= noteNumber && noteNumber <= selection.endIdx) 
+    (selection.selectedIds.includes(noteNumber)) 
     ? "selected"
     : ""
   ) 
