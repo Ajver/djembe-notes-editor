@@ -33,6 +33,7 @@ export default function ToPrint() {
   }
   currentSheet.elements.push(currentFullScore)
 
+  let humanBarNumber = 0  // This will be incremented before creating new bar, so effectively we're starting from 1
   let currentBar = null  // New bar will be automatically created at the beginning of the loop
 
   function getBeatWidth(beatIdx) {
@@ -59,7 +60,10 @@ export default function ToPrint() {
     // Make sure fullscore is NOT overflowed, before we add new bar to it
     checkForFullScoreOverflow()
 
+    humanBarNumber++
+
     currentBar = {
+      humanBarNumber: humanBarNumber,
       beats: [],
       width: 17,  // 15px is padding + 2px bar line
     }

@@ -16,3 +16,10 @@
   border: 2px solid #777777;
   border-right: none;
 }
+
+.human-bar-number {
+  position: absolute;
+  left: 5px;
+  top: -5px;
+  font-size: 20px;
+}
