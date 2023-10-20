@@ -1,9 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./css/TipsPanel.css"
 
 export default function TipsPanel() {
+  const [visible, setVisible] = useState(true)
+
+  function toggleVisibility() {
+    setVisible(!visible)
+  }
+
   return (
-    <div className="tips-panel">
+    <div className={"tips-panel " + (visible ? "" : "hidden")}>
       <div className="key-tips-container">
           <div className="key-tip">`~<img src="assets/svg/dash.svg" /></div>
           <div className="key-tip">1!<img src="assets/svg/bass.svg" /></div>
@@ -16,7 +22,7 @@ export default function TipsPanel() {
           <div className="key-tip">Shift<p>multiselect</p></div>
       </div>
 
-      <button className="tips-panel-hide-btn" id="tips-panel-hide-btn">HIDE</button>
+      <button className="tips-panel-hide-btn" onClick={toggleVisibility}>HIDE</button>
     </div>
   )
 }
