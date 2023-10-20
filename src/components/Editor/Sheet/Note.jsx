@@ -9,22 +9,30 @@ export default function Note({instrumentIdx, beatIdx, noteIdx}) {
   const selection  = useSelector(store => store.selection)
   const beatsCount = useSelector(store => store.rhythm.beatsCount)
   const beatDef = useSelector(store => store.rhythm.definition[instrumentIdx][beatIdx])
-  
   const dispatch = useDispatch()
+
+  const noteSymbol = beatDef.notes[noteIdx]
 
   const beatNumber = beatIdx * 10
   const instrumentNumber = instrumentIdx * beatsCount * 10
   const noteNumber = instrumentNumber + beatNumber + noteIdx
-
-  const noteSymbol = beatDef.notes[noteIdx]
-  const noteClass = {
-    "-": "empty",
-    "B": "bass",
-    "T": "tone",
-    "S": "slap",
-    "G": "ghost",
-  }[noteSymbol]
   
+  function handleClick(event) {
+    const symbols = Object.values(NoteSymbol)
+    const currentIdx = symbols.findIndex(s => s == noteSymbol)
+    const nextIdx = (currentIdx + 1) % symbols.length
+    const nextSymbol = symbols[nextIdx]
+    dispatch(setNote({
+      noteNumber,
+      noteSymbol: nextSymbol,
+    }))
+  }
+
+  function handleRightClick(event) {
+    event.preventDefault()
+    dispatch(setNote({ noteNumber, noteSymbol: NoteSymbol.EMPTY }))
+  }
+
   function handleMouseEnter(event) {
     if (event.shiftKey || event.buttons == 1) {
       dispatch(select(noteNumber))
@@ -39,10 +47,13 @@ export default function Note({instrumentIdx, beatIdx, noteIdx}) {
     }
   }
 
-  function handleRightClick(event) {
-    event.preventDefault()
-    dispatch(setNote({ noteNumber, noteSymbol: NoteSymbol.EMPTY }))
-  }
+  const noteClass = {
+    "-": "empty",
+    "B": "bass",
+    "T": "tone",
+    "S": "slap",
+    "G": "ghost",
+  }[noteSymbol]
 
   const hoverClass = (
     (selection.selectedIds.includes(noteNumber)) 
@@ -53,10 +64,11 @@ export default function Note({instrumentIdx, beatIdx, noteIdx}) {
   return (
     <div 
       className={["note ", noteClass, hoverClass].join(" ")} 
+      onClick={handleClick}
+      onContextMenu={handleRightClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onDragStart={(e) => e.preventDefault()}
-      onContextMenu={handleRightClick}
     >
     </div>
   )
