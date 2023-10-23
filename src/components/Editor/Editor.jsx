@@ -9,6 +9,7 @@ import NotesEditor from "./NotesEditor"
 import loadRhythmFromLocalStorage from "../../helpers/loadRhythmFromLocalStorage"
 import LocalStorageSaver from "./LocalStorageSaver"
 import ExportModal from "./ExportModal"
+import CreateRhythmModal from "./CreateRhythmModal"
 
 export default function Editor() {
   (

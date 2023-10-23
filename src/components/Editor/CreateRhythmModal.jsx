@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import ModalWrapper from "./ModalWrapper"
-import { useDispatch, useSelector } from "react-redux"
-import { setCreateRhythmModalVisibility } from "../../Redux/modalsSlice"
+import React from 'react';
+import ModalWrapper from "./ModalWrapper";
+import { useDispatch, useSelector } from "react-redux";
+import { setCreateRhythmModalVisibility } from "../../Redux/modalsSlice";
+import './css/CreateRhythmModal.css';
 
 export default function CreateRhythmModal() {
   const isVisible = useSelector(store => store.modals.createRhythmModalVisible)
