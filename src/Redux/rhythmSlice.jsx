@@ -16,6 +16,12 @@ export const rhythmSlice = createSlice({
     title: "Rhythm title",
   },
   reducers: {
+    overrideWholeRhythm: (state, action) => {
+      console.log("OVERRIDING: ", action.payload)
+      Object.keys(state).forEach(key => {
+        state[key] = action.payload[key]
+      })
+    },
     addBar: state => {
       state.definition.forEach(instrument => {
         for (let i = 0; i < state.beatsInBar; i++) {
@@ -80,6 +86,7 @@ export const rhythmSlice = createSlice({
 })
 
 export const { 
+  overrideWholeRhythm,
   addBar, 
   setNote,
   setBeatType, 
