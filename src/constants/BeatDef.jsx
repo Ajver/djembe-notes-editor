@@ -5,3 +5,10 @@ export const BeatType = {
   TRIPLET: "triplet",
   QUARTET: "quartet",
 }
+
+export const NotesCount = {
+  "single": 1,
+  "double": 2,
+  "triplet": 3,
+  "quartet": 4,
+}

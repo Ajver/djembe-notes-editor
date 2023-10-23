@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { NoteSymbol } from "../constants/NoteDef";
-import { BeatType } from "../constants/BeatDef";
-import { getIdxsFromNoteNumber } from "../helpers/RhythmElementNumber";
+import { createSlice } from "@reduxjs/toolkit"
+import { NoteSymbol } from "../constants/NoteDef"
+import { BeatType, NotesCount } from "../constants/BeatDef"
+import { getIdxsFromNoteNumber } from "../helpers/RhythmElementNumber"
+import { RhythmMeterPresets } from "../constants/RhythmMeterPresets"
 
 const MAX_TEMPO = 1000
 const MIN_TEMPO = 10
@@ -23,14 +24,18 @@ export const rhythmSlice = createSlice({
         state[key] = action.payload[key]
       })
     },
+    createNewRhythm: (state, action) => {
+      const { preset, instrumentsAmount } = action.payload
+      const { beatsInBar, defaultBeatType } = RhythmMeterPresets[preset]
+      
+      state.beatsInBar = beatsInBar
+      state.defaultBeatType = defaultBeatType
+
+      state.definition = Array(instrumentsAmount).fill([])
+      state.beatsCount = 0
+    },
     addBar: state => {
-      const expectedNotesCount = {
-        "single": 1,
-        "double": 2,
-        "triplet": 3,
-        "quartet": 4,
-        "grace": 2,
-      }[state.defaultBeatType]
+      const expectedNotesCount = NotesCount[state.defaultBeatType]
 
       state.definition.forEach(instrument => {
         for (let i = 0; i < state.beatsInBar; i++) {
@@ -65,13 +70,7 @@ export const rhythmSlice = createSlice({
       
       beatDef.type = newType
 
-      const expectedNotesCount = {
-        "single": 1,
-        "double": 2,
-        "triplet": 3,
-        "quartet": 4,
-        "grace": 2,
-      } [newType]
+      const expectedNotesCount = NotesCount[newType]
       
       // Add missing notes
       while(beatDef.notes.length < expectedNotesCount) {
@@ -96,6 +95,7 @@ export const rhythmSlice = createSlice({
 
 export const { 
   overrideWholeRhythm,
+  createNewRhythm,
   addBar, 
   setNote,
   setBeatType, 
