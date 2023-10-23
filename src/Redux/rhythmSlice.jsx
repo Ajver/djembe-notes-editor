@@ -24,12 +24,25 @@ export const rhythmSlice = createSlice({
       })
     },
     addBar: state => {
+      const expectedNotesCount = {
+        "single": 1,
+        "double": 2,
+        "triplet": 3,
+        "quartet": 4,
+        "grace": 2,
+      }[state.defaultBeatType]
+
       state.definition.forEach(instrument => {
         for (let i = 0; i < state.beatsInBar; i++) {
           const beat = {
-            type: BeatType.SINGLE,
-            notes: [NoteSymbol.EMPTY],
+            type: state.defaultBeatType,
+            notes: [],
           }
+
+          for (let j = 0; j < expectedNotesCount; j++) {
+            beat.notes.push(NoteSymbol.EMPTY)
+          }
+
           instrument.push(beat)
         }
       })
