@@ -1,12 +1,12 @@
 import React from 'react'
 import "./css/Note.css"
 import { useDispatch, useSelector } from "react-redux"
-import { select, singleSelect, deselectAll } from "../../../Redux/selectionSlice"
+import { select, singleSelect, deselectAll } from "../../../Redux/editorSlice"
 import { setNote } from "../../../Redux/rhythmSlice"
 import { NoteSymbol } from "../../../constants/NoteDef"
 
 export default function Note({instrumentIdx, beatIdx, noteIdx}) {
-  const selection  = useSelector(store => store.selection)
+  const selectedIds  = useSelector(store => store.editor.selectedIds)
   const beatsCount = useSelector(store => store.rhythm.beatsCount)
   const beatDef = useSelector(store => store.rhythm.definition[instrumentIdx][beatIdx])
   const dispatch = useDispatch()
@@ -56,7 +56,7 @@ export default function Note({instrumentIdx, beatIdx, noteIdx}) {
   }[noteSymbol]
 
   const hoverClass = (
-    (selection.selectedIds.includes(noteNumber)) 
+    (selectedIds.includes(noteNumber)) 
     ? "selected"
     : ""
   ) 

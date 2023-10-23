@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const selectionSlice = createSlice({
-  name: "selection",
+export const editorSlice = createSlice({
+  name: "editor",
   initialState: {
     // startIdx: -1,
     // endIdx: -1,
@@ -49,6 +49,6 @@ export const {
   select, 
   singleSelect,
   deselectAll,
-} = selectionSlice.actions 
+} = editorSlice.actions 
 
-export default selectionSlice.reducer
+export default editorSlice.reducer

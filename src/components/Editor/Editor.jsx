@@ -11,6 +11,8 @@ export default function Editor() {
   return (
     <div className="editor">
       <NotesEditor />
+      
+
       <RhythmManagementPanel />
       <ToPrint />
       <PrintContainer />

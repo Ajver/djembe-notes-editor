@@ -7,7 +7,7 @@ import { getIdxsFromNoteNumber } from "../../helpers/RhythmElementNumber"
 
 export default function NotesEditor() {
   const beatsCount = useSelector(store => store.rhythm.beatsCount)
-  const selectedIds = useSelector(store => store.selection.selectedIds)
+  const selectedIds = useSelector(store => store.editor.selectedIds)
   const dispatch = useDispatch()
 
   function changeNote(noteSymbol) {
@@ -116,7 +116,5 @@ export default function NotesEditor() {
     }
   }, [selectedIds, beatsCount])
 
-  return (
-    <div></div>
-  )
+  return (null)
 }

@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import rhythmSlice from "./rhythmSlice";
-import selectionSlice from "./selectionSlice";
+import editorSlice from "./editorSlice";
 
 export default configureStore({
   reducer: {
     rhythm: rhythmSlice,
-    selection: selectionSlice,
+    editor: editorSlice,
   },
 })
