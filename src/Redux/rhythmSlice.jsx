@@ -14,6 +14,7 @@ export const rhythmSlice = createSlice({
     beatsCount: 0,
     tempo: 120,
     title: "Rhythm title",
+    defaultBeatType: "single",
   },
   reducers: {
     overrideWholeRhythm: (state, action) => {
