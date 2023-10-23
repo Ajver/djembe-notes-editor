@@ -28,6 +28,7 @@ export default function Editor() {
       <TipsPanel />
 
       <ExportModal />
+      <CreateRhythmModal />
     </div>
   )
 }
