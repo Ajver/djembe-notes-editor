@@ -14,7 +14,7 @@ export const rhythmSlice = createSlice({
     beatsCount: 0,
     tempo: 120,
     title: "Rhythm title",
-    defaultBeatType: "single",
+    defaultBeatType: BeatType.DOUBLE,
   },
   reducers: {
     overrideWholeRhythm: (state, action) => {
@@ -36,13 +36,8 @@ export const rhythmSlice = createSlice({
         for (let i = 0; i < state.beatsInBar; i++) {
           const beat = {
             type: state.defaultBeatType,
-            notes: [],
+            notes: Array(expectedNotesCount).fill(NoteSymbol.EMPTY),
           }
-
-          for (let j = 0; j < expectedNotesCount; j++) {
-            beat.notes.push(NoteSymbol.EMPTY)
-          }
-
           instrument.push(beat)
         }
       })
