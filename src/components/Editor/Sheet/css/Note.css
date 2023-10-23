@@ -32,11 +32,9 @@
 
   position: absolute;
   left: 50%;
-  bottom: 80%;
+  bottom: 20px;
 
-  height: 22px;
-
-  font-size: 0;
+  height: 17px;
 
   border-left: 1px solid #777777;
   border-top: 3px solid #777777;
@@ -51,7 +49,7 @@
 }
 
 .beat[beat-type=single] .note::before {
-  height: 25px;
+  height: 20px;
 }
 
 .beat[beat-type=double] .note {
@@ -73,6 +71,21 @@
 }
 .beat[beat-type=quartet] .note::before {
   width: 20px;
+}
+.beat[beat-type=quartet] .note::after {
+  content: "";
+
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+
+  height: 12px;
+  width: 20px;
+
+  border-top: 3px solid #777777;
+}
+.beat[beat-type=quartet] .note:last-child::after {
+  display: none;
 }
 
 .beat[beat-type=grace] .note:nth-of-type(1) {
