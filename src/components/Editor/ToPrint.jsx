@@ -11,8 +11,18 @@ export default function ToPrint() {
     beatsInBar,
   } = rhythmStore
 
+  // TODO: Move these sizes to external store (to make it central and editable)
+  // and don't need to fix these values after changing CSS (css should pull the values from the same store)
+  const TITLE_HEIGHT = 47
+  const TEMPO_HEIGHT = 26
+
+  const ONE_FULL_SCORE_HEIGHT = (definition.length - 1) * 70 + 90
+
+  const MAX_SHEET_HEIGHT = 1090
+  const MAX_FULL_SCORE_WIDTH = 730
+
   // List of sheet definition
-  const structure = []
+  const layout = []
   let currentSheet = {
     elements: [
       {
@@ -22,15 +32,16 @@ export default function ToPrint() {
         type: "tempo",
       }
     ],
-    height: 88,  // Height of title + tempo
+    height: TITLE_HEIGHT + TEMPO_HEIGHT,
   }
-  structure.push(currentSheet)
+  layout.push(currentSheet)
 
   let currentFullScore = {
     type: "full-score",
     bars: [],
     width: 0,
   }
+  currentSheet.height += ONE_FULL_SCORE_HEIGHT
   currentSheet.elements.push(currentFullScore)
 
   let humanBarNumber = 0  // This will be incremented before creating new bar, so effectively we're starting from 1
@@ -50,11 +61,6 @@ export default function ToPrint() {
     const beatWidth = Math.max(...eachInstrumentBeatWidth)
     return beatWidth
   }
-
-  const ONE_FULL_SCORE_HEIGHT = definition.length * 50 + 40
-
-  const MAX_SHEET_HEIGHT = 1060
-  const MAX_FULL_SCORE_WIDTH = 730
 
   function newBar() {
     // Make sure fullscore is NOT overflowed, before we add new bar to it
@@ -106,7 +112,7 @@ export default function ToPrint() {
         elements: [],
         height: 0,
       }
-      structure.push(currentSheet)
+      layout.push(currentSheet)
     }
   }
 
@@ -124,12 +130,12 @@ export default function ToPrint() {
   // At the end - let's make sure we didin't overflow any full score
   checkForFullScoreOverflow()
 
-  console.log(structure)
+  console.log(layout)
 
   return (
     <div className="to-print">
       {
-        structure.map((sheetStructure, idx) => (
+        layout.map((sheetStructure, idx) => (
           <Sheet key={idx} id={"sheet-" + idx} elements={sheetStructure.elements} />
         ))
       }
