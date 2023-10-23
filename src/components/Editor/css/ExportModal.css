@@ -1,0 +1,11 @@
+
+.export-section {
+  height: 100%;
+  padding: 30px;
+}
+
+.export-section input {
+  width: 100%;
+  font-size: 24px;
+  padding: 3px;
+}

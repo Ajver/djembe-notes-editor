@@ -6,6 +6,8 @@ import { setBeatType, setNote } from "../../Redux/rhythmSlice"
 import { getIdxsFromNoteNumber } from "../../helpers/RhythmElementNumber"
 
 export default function NotesEditor() {
+  const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
+
   const beatsCount = useSelector(store => store.rhythm.beatsCount)
   const selectedIds = useSelector(store => store.editor.selectedIds)
   const dispatch = useDispatch()
@@ -109,12 +111,17 @@ export default function NotesEditor() {
   }
   
   useEffect(() => {
+    if (anyPopupOpened) {
+      // Do NOT allow notes edition when any popup is opened
+      return
+    }
+
     window.addEventListener("keydown", onKeyDown)
 
     return () => {
       window.removeEventListener("keydown", onKeyDown)
     }
-  }, [selectedIds, beatsCount])
+  }, [selectedIds, beatsCount, anyPopupOpened])
 
   return (null)
 }

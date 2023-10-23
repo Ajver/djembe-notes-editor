@@ -8,6 +8,7 @@ import PlayContainer from "./PlayContainer"
 import NotesEditor from "./NotesEditor"
 import loadRhythmFromLocalStorage from "../../helpers/loadRhythmFromLocalStorage"
 import LocalStorageSaver from "./LocalStorageSaver"
+import ExportModal from "./ExportModal"
 
 export default function Editor() {
   (
@@ -25,6 +26,8 @@ export default function Editor() {
       <PrintContainer />
       <PlayContainer />
       <TipsPanel />
+
+      <ExportModal />
     </div>
   )
 }
