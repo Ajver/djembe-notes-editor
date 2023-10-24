@@ -10,6 +10,7 @@ import loadRhythmFromLocalStorage from "../../helpers/loadRhythmFromLocalStorage
 import LocalStorageSaver from "./LocalStorageSaver"
 import ExportModal from "./ExportModal"
 import CreateRhythmModal from "./CreateRhythmModal"
+import Player from "./Player"
 
 export default function Editor() {
   (
@@ -21,6 +22,7 @@ export default function Editor() {
     <div className="editor">
       <LocalStorageSaver />
       <NotesEditor />
+      <Player />
       
       <RhythmManagementPanel />
       <ToPrint />
