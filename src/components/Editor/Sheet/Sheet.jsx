@@ -3,15 +3,8 @@ import "./css/Sheet.css"
 import FullScore from "./FullScore"
 import Title from "./Title"
 import Tempo from "./Tempo"
-import { useDispatch, useSelector } from "react-redux"
-import { addBar } from "../../../Redux/rhythmSlice"
 
 export default function Sheet({elements}) {
-  const beatsCount = useSelector(store => store.rhythm.beatsCount)
-  const rhythmDefinition = useSelector(store => store.rhythm.definition)
-  const beatsInBar = useSelector(store => store.rhythm.beatsInBar)
-  const dispatch = useDispatch()
-
   return (
     <div className="sheet">
       {
@@ -28,7 +21,6 @@ export default function Sheet({elements}) {
           }
         })
       }
-      <button onClick={() => dispatch(addBar())}>Add Bar</button>
     </div>
   )
 }
