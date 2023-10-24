@@ -10,4 +10,6 @@
   justify-content: end;
   align-items: center;
   padding-right: 15px;
+
+  z-index: 50;
 }
