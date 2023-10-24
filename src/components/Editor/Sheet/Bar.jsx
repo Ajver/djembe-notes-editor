@@ -7,7 +7,7 @@ export default function Bar({beats}) {
   return (
     <div className="bar">
       {beats.map(beatIdx => <BeatsColumn key={beatIdx} beatIdx={beatIdx}/>)}
-      <InjectBarBtn />
+      <InjectBarBtn beatIdxToInject={beats[beats.length - 1] + 1} />
     </div>
   )
 }

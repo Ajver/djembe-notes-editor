@@ -39,19 +39,24 @@ export const rhythmSlice = createSlice({
 
       rhythmSlice.caseReducers.addBar(state)
     },
-    addBar: state => {
+    injectBarAtBeatIdx: (state, action) => {
+      const beatIdx = action.payload
+
       const expectedNotesCount = NotesCount[state.defaultBeatType]
 
       state.definition.forEach(instrument => {
-        for (let i = 0; i < state.beatsInBar; i++) {
-          const beat = {
+        const beats = Array(state.beatsInBar).fill(0).map(_ => {
+          return {
             type: state.defaultBeatType,
             notes: Array(expectedNotesCount).fill(NoteSymbol.EMPTY),
           }
-          instrument.push(beat)
-        }
+        })
+        instrument.splice(beatIdx, 0, ...beats)
       })
       state.beatsCount += state.beatsInBar
+    },
+    addBar: state => {
+      rhythmSlice.caseReducers.injectBarAtBeatIdx(state, {payload: state.beatsCount})
     },
     setNote: (state, action) => {
       const { noteNumber, noteSymbol } = action.payload
@@ -101,6 +106,7 @@ export const rhythmSlice = createSlice({
 export const { 
   overrideWholeRhythm,
   createNewRhythm,
+  injectBarAtBeatIdx,
   addBar, 
   setNote,
   setBeatType, 
