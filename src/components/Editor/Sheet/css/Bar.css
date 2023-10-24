@@ -11,20 +11,3 @@
   margin-left: 5px;
   border-right: 2px solid #666;
 }
-
-.inject-bar-btn {
-  position: absolute;
-  right: -9px;
-  bottom: 0;
-  width: 20px;
-  height: calc(100% + 17px);
-  background-size: contain;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.inject-bar-btn:hover {
-  background-color: #78d18165;
-  background-image: url(/assets/svg/plus-circle.svg);
-}
