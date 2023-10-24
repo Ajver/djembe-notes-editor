@@ -19,7 +19,6 @@ export const rhythmSlice = createSlice({
   },
   reducers: {
     overrideWholeRhythm: (state, action) => {
-      console.log("OVERRIDING: ", action.payload)
       Object.keys(state).forEach(key => {
         state[key] = action.payload[key]
       })
@@ -30,9 +29,15 @@ export const rhythmSlice = createSlice({
       
       state.beatsInBar = beatsInBar
       state.defaultBeatType = defaultBeatType
-
-      state.definition = Array(instrumentsAmount).fill([])
+      
+      // Reset rhythm to empty
+      state.definition = []
+      for (let i = 0; i < instrumentsAmount; i++) {
+        state.definition.push([])
+      }
       state.beatsCount = 0
+
+      rhythmSlice.caseReducers.addBar(state)
     },
     addBar: state => {
       const expectedNotesCount = NotesCount[state.defaultBeatType]
