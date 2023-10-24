@@ -11,12 +11,13 @@ import LocalStorageSaver from "./LocalStorageSaver"
 import ExportModal from "./ExportModal"
 import CreateRhythmModal from "./CreateRhythmModal"
 import Player from "./Player"
+import { useDispatch } from "react-redux"
 
 export default function Editor() {
-  (
-    // TODO: loadRhythmFromDb() ||
-    loadRhythmFromLocalStorage()
-  )
+  const dispatch = useDispatch()
+  
+  // TODO: loadRhythmFromDb() ||
+  loadRhythmFromLocalStorage(dispatch)
 
   return (
     <div className="editor">
