@@ -12,7 +12,7 @@ export const RhythmMeterPresets = {
     defaultBeatType: BeatType.SINGLE,
     title: "3 single beats in bar",
   },
-  "8-4": {
+  "8-8": {
     beatsInBar: 4,
     defaultBeatType: BeatType.DOUBLE,
     title: "4 double beats in bar",
