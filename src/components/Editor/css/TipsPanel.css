@@ -23,8 +23,7 @@
   bottom: 100%;
   left: 10px;
   min-width: 70px;
-  width: 70px;
-  padding: 5px;
+  padding: 5px 10px;
   font-size: 12px;
   text-align: center;
   cursor: pointer;
