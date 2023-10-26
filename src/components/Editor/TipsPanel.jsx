@@ -19,6 +19,7 @@ export default function TipsPanel() {
           <div className="key-tip">Shift + 1<p>single</p><img src="assets/svg/cross.svg" /></div>
           <div className="key-tip double">Shift + 2<img src="assets/svg/cross.svg" /><img src="assets/svg/dash.svg" /></div>
           <div className="key-tip triplet">Shift + 3<img src="assets/svg/cross.svg" /><img src="assets/svg/dash.svg" /><img src="assets/svg/dash.svg" /></div>
+          <div className="key-tip quartet">Shift + 4<img src="assets/svg/cross.svg" /><img src="assets/svg/dash.svg" /><img src="assets/svg/dash.svg" /><img src="assets/svg/dash.svg" /></div>
           <div className="key-tip">Shift<p>multiselect</p></div>
       </div>
 
