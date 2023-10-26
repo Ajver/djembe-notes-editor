@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React from 'react'
 import "./css/TipsPanel.css"
+import useLocalStorage from "../../hooks/useLocalStorage"
+import { TIPS_PANEL_VISIBLE_KEY } from "../../constants/LocalStorage"
 
 export default function TipsPanel() {
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useLocalStorage(TIPS_PANEL_VISIBLE_KEY, true)
 
   function toggleVisibility() {
     setVisible(!visible)
