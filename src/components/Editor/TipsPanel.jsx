@@ -23,7 +23,7 @@ export default function TipsPanel() {
           <div className="key-tip">Shift<p>multiselect</p></div>
       </div>
 
-      <button className="tips-panel-hide-btn" onClick={toggleVisibility}>HIDE</button>
+      <button className="tips-panel-hide-btn" onClick={toggleVisibility}>{visible ? "HIDE" : "SHOW"}</button>
     </div>
   )
 }
