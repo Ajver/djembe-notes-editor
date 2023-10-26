@@ -58,6 +58,15 @@ export const rhythmSlice = createSlice({
     addBar: state => {
       rhythmSlice.caseReducers.injectBarAtBeatIdx(state, {payload: state.beatsCount})
     },
+    deleteBar: (state, action) => {
+      const beatIdx = action.payload
+      
+      state.definition.forEach(instrument => {
+        instrument.splice(beatIdx, state.beatsInBar)
+      })
+
+      state.beatsCount -= state.beatsInBar
+    },
     setNote: (state, action) => {
       const { noteNumber, noteSymbol } = action.payload
       const {
@@ -108,6 +117,7 @@ export const {
   createNewRhythm,
   injectBarAtBeatIdx,
   addBar, 
+  deleteBar,
   setNote,
   setBeatType, 
   setRhytmTempo, 

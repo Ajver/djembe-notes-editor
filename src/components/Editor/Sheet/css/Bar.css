@@ -6,6 +6,10 @@
   padding-left: 10px;
 }
 
+.bar:hover {
+  background-color: #a5e7e8ac;
+}
+
 .bar::after {
   content: "";
   margin-left: 5px;

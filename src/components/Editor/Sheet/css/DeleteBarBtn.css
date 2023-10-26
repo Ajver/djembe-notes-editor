@@ -1,0 +1,29 @@
+
+.bar .delete-bar-btn {
+  display: none;
+}
+
+.delete-bar-btn {
+  position: absolute;
+  left: 50%;
+  top: -20px;
+  min-width: 0;
+  width: 30px;
+  height: 30px;
+  background-image: url(assets/svg/trash.svg);
+  background-size: cover;
+  cursor: pointer;
+  border-radius: 3px;
+  transform: translateX(-50%);
+  background-color: #ffffff93;
+
+  transition: background-color .1s;
+}
+
+.bar:hover .delete-bar-btn {
+  display: block;
+}
+
+.delete-bar-btn:hover {
+  background-color: #e47575;
+}

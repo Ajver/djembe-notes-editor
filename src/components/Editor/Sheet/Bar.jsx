@@ -3,6 +3,7 @@ import BeatsColumn from "./BeatsColumn"
 import "./css/Bar.css"
 import InjectBarBtn from "./InjectBarBtn"
 import { useSelector } from "react-redux"
+import DeleteBarBtn from "./DeleteBarBtn"
 
 export default function Bar({barIdx, beats}) {
   const currentBarIdx = useSelector(store => store.player.currentBarIdx)
@@ -13,6 +14,7 @@ export default function Bar({barIdx, beats}) {
     <div className={"bar " + playingClass}>
       {beats.map(beatIdx => <BeatsColumn key={beatIdx} beatIdx={beatIdx}/>)}
       <InjectBarBtn beatIdxToInject={beats[beats.length - 1] + 1} />
+      <DeleteBarBtn beatIdxDeleteFrom={beats[0]} />
     </div>
   )
 }
