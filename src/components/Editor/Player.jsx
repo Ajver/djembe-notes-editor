@@ -1,27 +1,10 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Sound } from "../../helpers/Sound"
 import { setCurrentBarIdx, stop } from "../../Redux/playerSlice"
+import { playNote } from "../../helpers/playing/playing"
 
 let localRhythmCopy = null
 let isPlayingRhythm = false
-
-const sounds = {
-  "B": new Sound("assets/sound/Djembe_bass.wav"),
-  "T": new Sound("assets/sound/Djembe_tone.wav"),
-  "S": new Sound("assets/sound/Djembe_slap.wav"),
-  "G": new Sound("assets/sound/Djembe_ghost.wav"),
-}
-Object.values(sounds).forEach(sound => {
-    sound.load()
-})
-
-function playNote(noteSymbol) {
-  const sound = sounds[noteSymbol]
-  if (sound) {
-    sound.play()
-  }
-}
 
 
 function playRhythm(dispatch) {

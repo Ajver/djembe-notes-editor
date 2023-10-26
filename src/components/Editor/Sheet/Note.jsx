@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { select, singleSelect, deselectAll } from "../../../Redux/editorSlice"
 import { setNote } from "../../../Redux/rhythmSlice"
 import { NoteSymbol } from "../../../constants/NoteDef"
+import { playNote } from "../../../helpers/playing/playing"
 
 export default function Note({instrumentIdx, beatIdx, noteIdx}) {
   const selectedIds  = useSelector(store => store.editor.selectedIds)
@@ -22,10 +23,13 @@ export default function Note({instrumentIdx, beatIdx, noteIdx}) {
     const currentIdx = symbols.findIndex(s => s == noteSymbol)
     const nextIdx = (currentIdx + 1) % symbols.length
     const nextSymbol = symbols[nextIdx]
+
     dispatch(setNote({
       noteNumber,
       noteSymbol: nextSymbol,
     }))
+
+    playNote(nextSymbol)
   }
 
   function handleRightClick(event) {

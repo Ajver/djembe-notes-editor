@@ -10,6 +10,8 @@ class Sound {
 
     constructor(url) {
         this.url = url;
+
+        this.load()
     }
 
     load() {

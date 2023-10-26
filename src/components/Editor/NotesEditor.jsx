@@ -4,6 +4,7 @@ import { NoteSymbol } from "../../constants/NoteDef"
 import { BeatType } from "../../constants/BeatDef"
 import { setBeatType, setNote } from "../../Redux/rhythmSlice"
 import { getIdxsFromNoteNumber } from "../../helpers/RhythmElementNumber"
+import { playNote } from "../../helpers/playing/playing"
 
 export default function NotesEditor() {
   const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
@@ -16,6 +17,8 @@ export default function NotesEditor() {
     selectedIds.forEach(noteNumber => {
       dispatch(setNote({ noteNumber, noteSymbol }))
     })
+
+    playNote(noteSymbol)
   }
 
   function changeBeatType(beatType) {
