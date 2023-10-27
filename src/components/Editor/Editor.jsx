@@ -13,6 +13,7 @@ import CreateRhythmModal from "./CreateRhythmModal"
 import Player from "./Player"
 import { useDispatch, useSelector } from "react-redux"
 import { useStyledReactToPrint } from "../../hooks/useStyledReactToPrint"
+import { setCanAutosave } from "../../Redux/editorSlice"
 
 export default function Editor() {
   const dispatch = useDispatch()
@@ -24,6 +25,9 @@ export default function Editor() {
   useEffect(() => {
     // TODO: loadRhythmFromDb() ||
     loadRhythmFromLocalStorage(dispatch)
+
+    // Enable autosaving (after rhytm is loaded)
+    dispatch(setCanAutosave(true))
   })
   
   return (
