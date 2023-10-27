@@ -71,7 +71,7 @@ export default function ExportModal() {
         </div>
         <div className="buttons-section">
             <button className="cancel" id="close-export-rhythm-modal-btn" type="reset" onClick={hide}>CANCEL</button>
-            <a className="button submit" id="submit-export-rhythm-btn" ref={exportBtnRef}>EXPORT</a>
+            <a className="button submit" id="submit-export-rhythm-btn" ref={exportBtnRef} onClick={hide}>EXPORT</a>
         </div>
       </form>
     </ModalWrapper>
