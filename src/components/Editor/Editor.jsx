@@ -11,16 +11,20 @@ import LocalStorageSaver from "./LocalStorageSaver"
 import ExportModal from "./ExportModal"
 import CreateRhythmModal from "./CreateRhythmModal"
 import Player from "./Player"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useStyledReactToPrint } from "../../hooks/useStyledReactToPrint"
 
 export default function Editor() {
   const dispatch = useDispatch()
   const sheetsContainerRef = useRef()
-  const handlePrint = useStyledReactToPrint(sheetsContainerRef)
 
-  // TODO: loadRhythmFromDb() ||
-  loadRhythmFromLocalStorage(dispatch)
+  const rhythmTitle = useSelector(store => store.rhythm.title) 
+  const handlePrint = useStyledReactToPrint(sheetsContainerRef, rhythmTitle)
+
+  useEffect(() => {
+    // TODO: loadRhythmFromDb() ||
+    loadRhythmFromLocalStorage(dispatch)
+  })
   
   return (
     <div className="editor">
