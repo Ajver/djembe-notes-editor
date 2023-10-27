@@ -10,7 +10,7 @@
   min-width: 0;
   width: 30px;
   height: 30px;
-  background-image: url(assets/svg/trash.svg);
+  background-image: url(/assets/svg/trash.svg);
   background-size: cover;
   cursor: pointer;
   border-radius: 3px;
