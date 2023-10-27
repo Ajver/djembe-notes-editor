@@ -11,20 +11,13 @@
   background-position: center;
 }
 
-.note.empty {
-  background-image: url(/assets/svg/dash.svg);
-}
-.note.bass {
-  background-image: url(/assets/svg/bass.svg);
-}
-.note.tone {
-  background-image: url(/assets/svg/tone.svg);
-}
-.note.slap {
-  background-image: url(/assets/svg/cross.svg);
-}
-.note.ghost {
-  background-image: url(/assets/svg/ghost.svg);
+.note img {
+  user-select: none;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 2px;
+  left: 2px;
 }
 
 .note::before {

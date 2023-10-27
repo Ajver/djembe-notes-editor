@@ -51,29 +51,30 @@ export default function Note({instrumentIdx, beatIdx, noteIdx}) {
     }
   }
 
-  const noteClass = {
-    "-": "empty",
-    "B": "bass",
-    "T": "tone",
-    "S": "slap",
-    "G": "ghost",
-  }[noteSymbol]
-
   const hoverClass = (
     (selectedIds.includes(noteNumber)) 
     ? "selected"
     : ""
-  ) 
+  )
+
+  const imgSrc = {
+    "-": "assets/svg/dash.svg",
+    "B": "assets/svg/bass.svg",
+    "T": "assets/svg/tone.svg",
+    "S": "assets/svg/cross.svg",
+    "G": "assets/svg/ghost.svg",
+  }[noteSymbol]
 
   return (
     <div 
-      className={["note ", noteClass, hoverClass].join(" ")} 
+      className={["note ", hoverClass].join(" ")} 
       onClick={handleClick}
       onContextMenu={handleRightClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onDragStart={(e) => e.preventDefault()}
     >
+      <img src={imgSrc} alt={noteSymbol} />
     </div>
   )
 }

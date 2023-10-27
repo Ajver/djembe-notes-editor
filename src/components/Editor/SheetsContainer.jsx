@@ -1,9 +1,9 @@
 import React from 'react'
 import Sheet from "./Sheet/Sheet"
-import "./css/ToPrint.css"
+import "./css/SheetsContainer.css"
 import { useSelector } from "react-redux"
 
-export default function ToPrint() {
+const SheetsContainer = React.forwardRef((_props, ref) => {
   const rhythmStore = useSelector(store => store.rhythm)
   const { 
     definition,
@@ -132,7 +132,7 @@ export default function ToPrint() {
   console.log(layout)
 
   return (
-    <div className="to-print">
+    <div className="sheets-container" ref={ref}>
       {
         layout.map((sheetStructure, idx) => (
           <Sheet key={idx} id={"sheet-" + idx} elements={sheetStructure.elements} />
@@ -140,4 +140,6 @@ export default function ToPrint() {
       }
     </div>
   )
-}
+})
+
+export default SheetsContainer

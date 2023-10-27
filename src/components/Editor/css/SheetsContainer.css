@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-.to-print {
+.sheets-container {
   width: 21cm;
   min-height: 29.7cm;
   margin: auto;
