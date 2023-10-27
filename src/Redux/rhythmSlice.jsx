@@ -10,17 +10,31 @@ const MIN_TEMPO = 10
 export const rhythmSlice = createSlice({
   name: "rhythm",
   initialState: {
-    definition: [[], []],
+    definition: [[]],
     beatsInBar: 4,
     beatsCount: 0,
     tempo: 120,
     title: "Rhythm title",
-    defaultBeatType: BeatType.DOUBLE,
+    defaultBeatType: BeatType.SINGLE,
   },
   reducers: {
     overrideWholeRhythm: (state, action) => {
       Object.keys(state).forEach(key => {
-        state[key] = action.payload[key]
+        state[key] = action.payload[key] || rhythmSlice.getInitialState()[key]
+      })
+
+      const beatsCount = Math.max(...state.definition.map(instrument => instrument.length))
+      state.definition.forEach((instrument, instrumentIdx) => {
+        if (instrument.length < beatsCount) {
+          instrument.push({
+            type: state.defaultBeatType,
+            notes: Array(expectedNotesCount).fill(NoteSymbol.EMPTY),
+          })
+        }
+
+        if (instrument.length > beatsCount) {
+          instrument.splice(beatsCount)
+        }
       })
     },
     createNewRhythm: (state, action) => {
