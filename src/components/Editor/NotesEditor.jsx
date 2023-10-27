@@ -18,7 +18,9 @@ export default function NotesEditor() {
       dispatch(setNote({ noteNumber, noteSymbol }))
     })
 
-    playNote(noteSymbol)
+    if (selectedIds.length > 0) {
+      playNote(noteSymbol)
+    }
   }
 
   function changeBeatType(beatType) {
