@@ -12,33 +12,12 @@ import ExportModal from "./ExportModal"
 import CreateRhythmModal from "./CreateRhythmModal"
 import Player from "./Player"
 import { useDispatch } from "react-redux"
-import { useReactToPrint } from "react-to-print"
+import { useStyledReactToPrint } from "../../hooks/useStyledReactToPrint"
 
 export default function Editor() {
   const dispatch = useDispatch()
   const sheetsContainerRef = useRef()
-
-  const customStyle = `
-    .editor-only {
-      display: none;
-    }
-    html, body {
-      margin: 0 !important;
-      padding: 0 !important;
-      overflow: hidden;
-    }
-  `
-
-  const handlePrint = useReactToPrint({
-    content: () => sheetsContainerRef.current,
-    copyStyles: true,
-    pageStyle: customStyle,
-  })
-
-  function printSheetsContainer() {
-    console.log("Printing... ", sheetsContainerRef)
-    handlePrint()
-  }
+  const handlePrint = useStyledReactToPrint(sheetsContainerRef)
 
   // TODO: loadRhythmFromDb() ||
   loadRhythmFromLocalStorage(dispatch)
@@ -51,7 +30,7 @@ export default function Editor() {
       
       <RhythmManagementPanel />
       <SheetsContainer ref={sheetsContainerRef} />
-      <PrintContainer triggerPrint={printSheetsContainer} />
+      <PrintContainer triggerPrint={handlePrint} />
       <PlayContainer />
       <TipsPanel />
 
