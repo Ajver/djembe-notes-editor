@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { NoteSymbol } from "../../constants/NoteDef"
 import { BeatType } from "../../constants/BeatDef"
+import { deselectAll } from "../../Redux/editorSlice"
 import { setBeatType, setNote } from "../../Redux/rhythmSlice"
 import { getIdxsFromNoteNumber } from "../../helpers/RhythmElementNumber"
 import { playNote } from "../../helpers/playing/playing"
@@ -57,7 +58,7 @@ export default function NotesEditor() {
   }
 
   function deselectAllNotes() {
-
+    dispatch(deselectAll())
   }
 
   function moveSelectionLeft() {
