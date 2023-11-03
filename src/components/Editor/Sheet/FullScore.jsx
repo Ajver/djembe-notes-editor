@@ -7,6 +7,8 @@ import InjectBarBtn from "./InjectBarBtn"
 export default function FullScore({bars}) {
   const multiInstruments = useSelector(store => store.rhythm.definition.length > 1)
   
+  console.log("FullScore Update")
+
   let injectBarAfterBtn = ""
   let humanBarNumber = ""
 

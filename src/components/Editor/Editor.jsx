@@ -11,6 +11,7 @@ import LocalStorageSaver from "./LocalStorageSaver"
 import ExportModal from "./ExportModal"
 import CreateRhythmModal from "./CreateRhythmModal"
 import Player from "./Player"
+import LayoutBuilder from "./LayoutBuilder"
 import { useDispatch, useSelector } from "react-redux"
 import { useStyledReactToPrint } from "../../hooks/useStyledReactToPrint"
 import { setCanAutosave } from "../../Redux/editorSlice"
@@ -34,6 +35,7 @@ export default function Editor() {
     <div className="editor">
       <LocalStorageSaver />
       <NotesEditor />
+      <LayoutBuilder />
       <Player />
       
       <RhythmManagementPanel />

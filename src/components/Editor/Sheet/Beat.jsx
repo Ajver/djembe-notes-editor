@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
 import "./css/Beat.css"
 import Note from "./Note"
-import { useDispatch, useSelector } from "react-redux"
-import { setBeatType } from "../../../Redux/rhythmSlice"
+import { useSelector } from "react-redux"
 
 export default function Beat({instrumentIdx, beatIdx}) {
-  const beatDef = useSelector(store => store.rhythm.definition[instrumentIdx][beatIdx])
+  const definition = useSelector(store => store.rhythm.definition)
+  const beatDef = definition[instrumentIdx][beatIdx]
+
+  if (!beatDef) {
+    // Prevent crash when rhythm is re-created, 
+    // but all the beats are forced to be re-rendered, before layout is updated
+    return null
+  }
 
   return (
     <div className="beat" beat-type={beatDef.type}>
