@@ -3,13 +3,13 @@ import "./css/BeatsColumn.css"
 import Beat from "./Beat"
 import { useSelector } from "react-redux"
 
-export default function BeatsColumn({beatIdx}) {
+export default function BeatsColumn({beatLayout}) {
   const rhythmDefinition = useSelector(store => store.rhythm.definition)
 
   return (
     <div className="beats-column">
-      {rhythmDefinition.map((_, idx) => (
-        <Beat key={idx} instrumentIdx={idx} beatIdx={beatIdx} />
+      {rhythmDefinition.map((_, instrumentIdx) => (
+        <Beat key={instrumentIdx} instrumentIdx={instrumentIdx} beatLayout={beatLayout} />
       ))}
     </div>
   )

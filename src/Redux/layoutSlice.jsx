@@ -1,5 +1,49 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+function _buildNotesOrderList(state, action) {
+  const { definition } = action.payload
+
+  const notesOrder = []
+
+  state.layout.forEach(sheet => {
+    sheet.elements.forEach(element => {
+      if (element.type !== "full-score") {
+        // Ignore non-full-scores (i.e. headers)
+        return
+      }
+
+      // Now we know that the element is a Full Score
+      const fullScore = element
+
+      for (let instrumentIdx = 0; instrumentIdx < definition.length; instrumentIdx++) {
+        // We need to loop through each instrument in this full score
+        // to gather correct order of notes
+
+        fullScore.bars.forEach(bar => {
+          bar.beats.forEach(beat => {
+            const beatIdx = beat.index
+            const beatDef = definition[instrumentIdx][beatIdx]
+            beat.notesPerInstrument[instrumentIdx] = []
+
+            beatDef.notes.forEach((_symbol, noteIdx) => {
+              const noteLocation = {
+                instrumentIdx,
+                beatIdx,
+                noteIdx,
+              }
+              const thisNotesOrderIdx = notesOrder.length
+              notesOrder.push(noteLocation)
+              beat.notesPerInstrument[instrumentIdx].push(thisNotesOrderIdx)
+            })
+          })
+        })
+      }
+    })
+  });
+
+  state.notesOrder = notesOrder
+}
+
 export const layoutSlice = createSlice({
   name: "layout",
   initialState: {
@@ -118,13 +162,20 @@ export const layoutSlice = createSlice({
         }
       }
 
+      const instrumentsCount = definition.lengthg
+
       for (let i = 0; i < beatsCount; i++) {
         if (i % beatsInBar == 0) {
           // We need a new bar
           newBar()
         }
 
-        currentBar.beats.push(i)
+        const beat = {
+          index: i,
+          notesPerInstrument: Array(instrumentsCount),  // For now this is empty - will be filled in _buildNotesOrderList function
+        }
+
+        currentBar.beats.push(beat)
         const beatWidth = getBeatWidth(i)
         currentBar.width += beatWidth
       }
@@ -135,6 +186,8 @@ export const layoutSlice = createSlice({
       console.log("Layout re-built", layout)
 
       state.layout = layout
+
+      _buildNotesOrderList(state, action)
     }
   }
 })

@@ -6,7 +6,10 @@ import { setNote } from "../../../Redux/rhythmSlice"
 import { NoteSymbol } from "../../../constants/NoteDef"
 import { playNote } from "../../../helpers/playing/playing"
 
-export default function Note({instrumentIdx, beatIdx, noteIdx}) {
+export default function Note({notesOrderIdx}) {
+  const noteLocation = useSelector(store => store.layout.notesOrder[notesOrderIdx])
+  const { instrumentIdx, beatIdx, noteIdx } = noteLocation
+
   const selectedIds  = useSelector(store => store.editor.selectedIds)
   const beatsCount = useSelector(store => store.rhythm.beatsCount)
   const beatDef = useSelector(store => store.rhythm.definition[instrumentIdx][beatIdx])
@@ -67,7 +70,7 @@ export default function Note({instrumentIdx, beatIdx, noteIdx}) {
 
   return (
     <div 
-      className={["note ", hoverClass].join(" ")} 
+      className={["note", hoverClass].join(" ")} 
       onClick={handleClick}
       onContextMenu={handleRightClick}
       onMouseEnter={handleMouseEnter}
@@ -75,6 +78,7 @@ export default function Note({instrumentIdx, beatIdx, noteIdx}) {
       onDragStart={(e) => e.preventDefault()}
     >
       <img src={imgSrc} alt={noteSymbol} />
+      {/* <span>{notesOrderIdx}</span> */}
     </div>
   )
 }

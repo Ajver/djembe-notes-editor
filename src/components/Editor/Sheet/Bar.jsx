@@ -12,8 +12,8 @@ export default function Bar({barIdx, beats}) {
 
   return (
     <div className={"bar " + playingClass}>
-      {beats.map(beatIdx => <BeatsColumn key={beatIdx} beatIdx={beatIdx}/>)}
-      <InjectBarBtn beatIdxToInject={beats[beats.length - 1] + 1} />
+      {beats.map(beatLayout => <BeatsColumn key={beatLayout.index} beatLayout={beatLayout}/>)}
+      <InjectBarBtn beatIdxToInject={beats[beats.length - 1].index + 1} />
       <DeleteBarBtn beatIdxDeleteFrom={beats[0]} />
     </div>
   )
