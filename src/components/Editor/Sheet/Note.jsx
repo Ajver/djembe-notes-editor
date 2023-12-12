@@ -1,7 +1,7 @@
 import React from 'react'
 import "./css/Note.css"
 import { useDispatch, useSelector } from "react-redux"
-import { select, singleSelect, deselectAll } from "../../../Redux/editorSlice"
+import { singleSelect, deselectAll, addToSelection } from "../../../Redux/editorSlice"
 import { setNote } from "../../../Redux/rhythmSlice"
 import { NoteSymbol } from "../../../constants/NoteDef"
 import { playNote } from "../../../helpers/playing/playing"
@@ -10,17 +10,13 @@ export default function Note({notesOrderIdx}) {
   const noteLocation = useSelector(store => store.layout.notesOrder[notesOrderIdx])
   const { instrumentIdx, beatIdx, noteIdx } = noteLocation
 
-  const selectedIds  = useSelector(store => store.editor.selectedIds)
-  const beatsCount = useSelector(store => store.rhythm.beatsCount)
+  const startIdx  = useSelector(store => store.editor.startIdx)
+  const endIdx  = useSelector(store => store.editor.endIdx)
   const beatDef = useSelector(store => store.rhythm.definition[instrumentIdx][beatIdx])
   const dispatch = useDispatch()
 
   const noteSymbol = beatDef.notes[noteIdx]
 
-  const beatNumber = beatIdx * 10
-  const instrumentNumber = instrumentIdx * beatsCount * 10
-  const noteNumber = instrumentNumber + beatNumber + noteIdx
-  
   function handleClick(event) {
     const symbols = Object.values(NoteSymbol)
     const currentIdx = symbols.findIndex(s => s == noteSymbol)
@@ -28,7 +24,7 @@ export default function Note({notesOrderIdx}) {
     const nextSymbol = symbols[nextIdx]
 
     dispatch(setNote({
-      noteNumber,
+      noteLocation,
       noteSymbol: nextSymbol,
     }))
 
@@ -37,25 +33,33 @@ export default function Note({notesOrderIdx}) {
 
   function handleRightClick(event) {
     event.preventDefault()
-    dispatch(setNote({ noteNumber, noteSymbol: NoteSymbol.EMPTY }))
+    dispatch(setNote({ noteLocation, noteSymbol: NoteSymbol.EMPTY }))
   }
 
   function handleMouseEnter(event) {
     if (event.shiftKey || event.buttons == 1) {
-      dispatch(select(noteNumber))
+      dispatch(addToSelection(notesOrderIdx))
     }else {
-      dispatch(singleSelect(noteNumber))
+      dispatch(singleSelect(notesOrderIdx))
     }
   }
 
   function handleMouseLeave(event) {
     if (!event.shiftKey || event.buttons == 1) {
-      dispatch(deselectAll(noteNumber))
+      dispatch(deselectAll())
     }
   }
 
+  if (notesOrderIdx == 7) {
+    console.log("NOTES ORDER SELECTED")
+    console.log(notesOrderIdx)
+    console.log(startIdx, endIdx)
+    console.log(notesOrderIdx >= startIdx && notesOrderIdx <= endIdx)
+    console.log("NOTES ORDER SELECTED >>>")
+  }
+
   const hoverClass = (
-    (selectedIds.includes(noteNumber)) 
+    (notesOrderIdx >= startIdx && notesOrderIdx <= endIdx) 
     ? "selected"
     : ""
   )

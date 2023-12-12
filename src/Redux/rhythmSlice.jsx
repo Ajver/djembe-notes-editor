@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { NoteSymbol } from "../constants/NoteDef"
 import { BeatType, NotesCount } from "../constants/BeatDef"
-import { getIdxsFromNoteNumber } from "../helpers/RhythmElementNumber"
 import { RhythmMeterPresets } from "../constants/RhythmMeterPresets"
 
 const MAX_TEMPO = 1000
@@ -82,12 +81,12 @@ export const rhythmSlice = createSlice({
       state.beatsCount -= state.beatsInBar
     },
     setNote: (state, action) => {
-      const { noteNumber, noteSymbol } = action.payload
+      const { noteLocation, noteSymbol } = action.payload
       const {
         instrumentIdx,
         beatIdx,
         noteIdx,
-      } = getIdxsFromNoteNumber(noteNumber, state.beatsCount)    
+      } = noteLocation
   
       const beatDef = state.definition[instrumentIdx][beatIdx]
       beatDef.notes[noteIdx] = noteSymbol

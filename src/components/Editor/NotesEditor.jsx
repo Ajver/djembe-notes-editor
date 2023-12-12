@@ -4,41 +4,51 @@ import { NoteSymbol } from "../../constants/NoteDef"
 import { BeatType } from "../../constants/BeatDef"
 import { deselectAll } from "../../Redux/editorSlice"
 import { setBeatType, setNote } from "../../Redux/rhythmSlice"
-import { getIdxsFromNoteNumber } from "../../helpers/RhythmElementNumber"
 import { playNote } from "../../helpers/playing/playing"
 
 export default function NotesEditor() {
   const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
 
   const beatsCount = useSelector(store => store.rhythm.beatsCount)
-  const selectedIds = useSelector(store => store.editor.selectedIds)
+  const notesOrder = useSelector(store => store.layout.notesOrder)
+  const startIdx = useSelector(store => store.editor.startIdx)
+  const endIdx = useSelector(store => store.editor.endIdx)
   const dispatch = useDispatch()
 
   function changeNote(noteSymbol) {
-    selectedIds.forEach(noteNumber => {
-      dispatch(setNote({ noteNumber, noteSymbol }))
-    })
+    let anythingChanged = false
 
-    if (selectedIds.length > 0) {
+    for (let i = startIdx; i <= endIdx; i++) {
+      const noteLocation = notesOrder[i]
+      if (noteLocation) {
+        dispatch(setNote({ noteLocation, noteSymbol }))
+        anythingChanged = true
+      }
+    }
+
+    if (anythingChanged) {
       playNote(noteSymbol)
     }
   }
 
   function changeBeatType(beatType) {
-    selectedIds.forEach(noteNumber => {
-      const {
-        instrumentIdx,
-        beatIdx,
-      } = getIdxsFromNoteNumber(noteNumber, beatsCount)    
+    for (let i = startIdx; i <= endIdx; i++) {
+      const noteLocation = notesOrder[i]
+      if (noteLocation) {
+        const {
+          instrumentIdx,
+          beatIdx,
+        } = noteLocation
 
-      // TODO: Optimize by updating beat type only once!
-      
-      dispatch(setBeatType({
-        instrumentIdx,
-        beatIdx,
-        newType: beatType,
-      }))
-    })
+        // TODO: Optimize by updating beat type only once!
+        
+        dispatch(setBeatType({
+          instrumentIdx,
+          beatIdx,
+          newType: beatType,
+        }))
+      }
+    }
   }
 
   function copyNotes() {
@@ -127,7 +137,7 @@ export default function NotesEditor() {
     return () => {
       window.removeEventListener("keydown", onKeyDown)
     }
-  }, [selectedIds, beatsCount, anyPopupOpened])
+  }, [startIdx, endIdx, beatsCount, anyPopupOpened])
 
   return (null)
 }
