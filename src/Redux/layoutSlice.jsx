@@ -183,8 +183,6 @@ export const layoutSlice = createSlice({
       // At the end - let's make sure we didin't overflow any full score
       checkForFullScoreOverflow()
 
-      console.log("Layout re-built", layout)
-
       state.layout = layout
 
       _buildNotesOrderList(state, action)

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import SheetsContainer from "./SheetsContainer"
 import "./css/Editor.css"
 import RhythmManagementPanel from "./RhythmManagementPanel"
@@ -14,7 +14,7 @@ import Player from "./Player"
 import LayoutBuilder from "./LayoutBuilder"
 import { useDispatch, useSelector } from "react-redux"
 import { useStyledReactToPrint } from "../../hooks/useStyledReactToPrint"
-import { setCanAutosave } from "../../Redux/editorSlice"
+import UndoRedoManager from "./UndoRedoManager"
 
 export default function Editor() {
   const dispatch = useDispatch()
@@ -23,20 +23,28 @@ export default function Editor() {
   const rhythmTitle = useSelector(store => store.rhythm.title) 
   const handlePrint = useStyledReactToPrint(sheetsContainerRef, rhythmTitle)
 
+  const [initiallyLoaded, setInitiallyLoaded] = useState(false)
+
   useEffect(() => {
     // TODO: loadRhythmFromDb() ||
     loadRhythmFromLocalStorage(dispatch)
 
-    // Enable autosaving (after rhytm is loaded)
-    dispatch(setCanAutosave(true))
+    setInitiallyLoaded(true)
   })
 
   return (
     <div className="editor">
-      <LocalStorageSaver />
-      <NotesEditor />
+      {
+        initiallyLoaded
+        && <>
+          <LocalStorageSaver />
+          <NotesEditor />
+          <UndoRedoManager />
+          <Player />
+        </>
+      }
+
       <LayoutBuilder />
-      <Player />
       
       <RhythmManagementPanel />
       <SheetsContainer ref={sheetsContainerRef} />

@@ -3,10 +3,7 @@ import { NotesCount } from "../constants/BeatDef"
 const SAVE_VERSION = "2"
 
 export default function saveRhythmToTxt(rhythm) {
-  console.log(rhythm)
   const definition = shortenRhythmDefinition(rhythm.definition)
-
-  console.log(definition)
 
   const toSaveObj = {
     // All rhythm meta, such as name, tempo, etc.

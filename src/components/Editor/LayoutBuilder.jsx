@@ -10,7 +10,5 @@ export default function LayoutBuilder() {
     dispatch(buildLayout(rhythm))
   }, [rhythm, dispatch])
 
-  console.log("LAYOUT BUILDER RENDER")
-
   return null
 }

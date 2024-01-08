@@ -7,7 +7,9 @@ export const editorSlice = createSlice({
     _selectionBeginIdx: -1,
     startIdx: -1,
     endIdx: -1,
+
     canAutosave: false,
+    canUndoRedo: false,
   },
   reducers: {
     singleSelect: (state, action) => {
@@ -15,9 +17,6 @@ export const editorSlice = createSlice({
       state._selectionBeginIdx = idx
       state.startIdx = idx
       state.endIdx = idx
-    },
-    setCanAutosave: (state, action) => {
-      state.canAutosave = action.payload
     },
     addToSelection: (state, action) => {
       const idx = action.payload
@@ -48,7 +47,6 @@ export const {
   rangeSelect,
   singleSelect,
   deselectAll,
-  setCanAutosave,
 } = editorSlice.actions 
 
 export default editorSlice.reducer

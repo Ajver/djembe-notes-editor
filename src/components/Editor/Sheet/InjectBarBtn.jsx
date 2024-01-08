@@ -7,8 +7,6 @@ export default function InjectBarBtn({ beatIdxToInject }) {
   const dispatch = useDispatch()
 
   function injectBar() {
-    console.log("Injecting bar at this idx: ", beatIdxToInject)
-
     dispatch(injectBarAtBeatIdx(beatIdxToInject))
   }
 

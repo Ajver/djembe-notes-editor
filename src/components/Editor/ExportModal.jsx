@@ -16,7 +16,6 @@ export default function ExportModal() {
 
   function generateRhythmFile() {
     const rhythmTxt = saveRhythmToTxt(rhythm)
-    console.log("Got rhythm: ", rhythmTxt)
     
     const myBlob = new Blob([rhythmTxt], {type: "application/json"});
     const blobUrl = window.URL.createObjectURL(myBlob);
