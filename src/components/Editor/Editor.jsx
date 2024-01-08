@@ -30,7 +30,7 @@ export default function Editor() {
     // Enable autosaving (after rhytm is loaded)
     dispatch(setCanAutosave(true))
   })
-  
+
   return (
     <div className="editor">
       <LocalStorageSaver />

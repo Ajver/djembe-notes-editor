@@ -50,14 +50,6 @@ export default function Note({notesOrderIdx}) {
     }
   }
 
-  if (notesOrderIdx == 7) {
-    console.log("NOTES ORDER SELECTED")
-    console.log(notesOrderIdx)
-    console.log(startIdx, endIdx)
-    console.log(notesOrderIdx >= startIdx && notesOrderIdx <= endIdx)
-    console.log("NOTES ORDER SELECTED >>>")
-  }
-
   const hoverClass = (
     (notesOrderIdx >= startIdx && notesOrderIdx <= endIdx) 
     ? "selected"
