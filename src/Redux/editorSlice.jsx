@@ -3,6 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 export const editorSlice = createSlice({
   name: "editor",
   initialState: {
+    // Where selection started from?
+    _selectionBeginIdx: -1,
     startIdx: -1,
     endIdx: -1,
     canAutosave: false,
@@ -10,6 +12,7 @@ export const editorSlice = createSlice({
   reducers: {
     singleSelect: (state, action) => {
       const idx = action.payload
+      state._selectionBeginIdx = idx
       state.startIdx = idx
       state.endIdx = idx
     },
@@ -18,8 +21,14 @@ export const editorSlice = createSlice({
     },
     addToSelection: (state, action) => {
       const idx = action.payload
-      state.startIdx = Math.min(state.startIdx, idx)
-      state.endIdx = Math.max(state.endIdx, idx)
+
+      if (idx < state._selectionBeginIdx) {
+        state.startIdx = idx
+        state.endIdx = state._selectionBeginIdx
+      }else {
+        state.startIdx = state._selectionBeginIdx
+        state.endIdx = idx
+      }
     },
     rangeSelect: (state, action) => {
       const { startIdx, endIdx } = action.payload
