@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { NoteSymbol } from "../../constants/NoteDef"
 import { BeatType } from "../../constants/BeatDef"
-import { deselectAll } from "../../Redux/editorSlice"
+import { deselectAll, moveSelectionLeft, moveSelectionRight } from "../../Redux/editorSlice"
 import { setBeatType, setNote } from "../../Redux/rhythmSlice"
 import { playNote } from "../../helpers/playing/playing"
 
@@ -11,14 +11,14 @@ export default function NotesEditor() {
 
   const beatsCount = useSelector(store => store.rhythm.beatsCount)
   const notesOrder = useSelector(store => store.layout.notesOrder)
-  const startIdx = useSelector(store => store.editor.startIdx)
-  const endIdx = useSelector(store => store.editor.endIdx)
+  const selectionStartIdx = useSelector(store => store.editor.selectionStartIdx)
+  const selectionEndIdx = useSelector(store => store.editor.selectionEndIdx)
   const dispatch = useDispatch()
 
   function changeNote(noteSymbol) {
     let anythingChanged = false
 
-    for (let i = startIdx; i <= endIdx; i++) {
+    for (let i = selectionStartIdx; i <= selectionEndIdx; i++) {
       const noteLocation = notesOrder[i]
       if (noteLocation) {
         dispatch(setNote({ noteLocation, noteSymbol }))
@@ -32,7 +32,7 @@ export default function NotesEditor() {
   }
 
   function changeBeatType(beatType) {
-    for (let i = startIdx; i <= endIdx; i++) {
+    for (let i = selectionStartIdx; i <= selectionEndIdx; i++) {
       const noteLocation = notesOrder[i]
       if (noteLocation) {
         const {
@@ -71,12 +71,12 @@ export default function NotesEditor() {
     dispatch(deselectAll())
   }
 
-  function moveSelectionLeft() {
-
+  function moveNotesSelectionLeft() {
+    dispatch(moveSelectionLeft())
   }
 
-  function moveSelectionRight() {
-
+  function moveNotesSelectionRight() {
+    dispatch(moveSelectionRight(notesOrder.length))
   }
 
   function onKeyDown(event) {
@@ -116,8 +116,8 @@ export default function NotesEditor() {
           }
       },
       "Escape": () => deselectAllNotes(),
-      "ArrowLeft": () => moveSelectionLeft(),
-      "ArrowRight": () => moveSelectionRight(),
+      "ArrowLeft": () => moveNotesSelectionLeft(),
+      "ArrowRight": () => moveNotesSelectionRight(),
     }
 
     const handler = keyHandler[event.key]
@@ -137,7 +137,7 @@ export default function NotesEditor() {
     return () => {
       window.removeEventListener("keydown", onKeyDown)
     }
-  }, [startIdx, endIdx, beatsCount, anyPopupOpened])
+  }, [selectionStartIdx, selectionEndIdx, beatsCount, anyPopupOpened])
 
   return (null)
 }

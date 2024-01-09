@@ -5,8 +5,8 @@ export const editorSlice = createSlice({
   initialState: {
     // Where selection started from?
     _selectionBeginIdx: -1,
-    startIdx: -1,
-    endIdx: -1,
+    selectionStartIdx: -1,
+    selectionEndIdx: -1,
 
     canAutosave: false,
     canUndoRedo: false,
@@ -15,30 +15,46 @@ export const editorSlice = createSlice({
     singleSelect: (state, action) => {
       const idx = action.payload
       state._selectionBeginIdx = idx
-      state.startIdx = idx
-      state.endIdx = idx
+      state.selectionStartIdx = idx
+      state.selectionEndIdx = idx
     },
     addToSelection: (state, action) => {
       const idx = action.payload
 
       if (idx < state._selectionBeginIdx) {
-        state.startIdx = idx
-        state.endIdx = state._selectionBeginIdx
+        state.selectionStartIdx = idx
+        state.selectionEndIdx = state._selectionBeginIdx
       }else {
-        state.startIdx = state._selectionBeginIdx
-        state.endIdx = idx
+        state.selectionStartIdx = state._selectionBeginIdx
+        state.selectionEndIdx = idx
       }
     },
     rangeSelect: (state, action) => {
-      const { startIdx, endIdx } = action.payload
-      state.startIdx = startIdx
-      state.endIdx = endIdx
+      const { selectionStartIdx, selectionEndIdx } = action.payload
+      state.selectionStartIdx = selectionStartIdx
+      state.selectionEndIdx = selectionEndIdx
     },
     deselectAll: state => {
-      state.startIdx = -1
-      state.endIdx = -1
-    }
-    // TODO: Move selection left/right
+      state.selectionStartIdx = -1
+      state.selectionEndIdx = -1
+    },
+    moveSelectionLeft: state => {
+      if (state.selectionStartIdx <= 0) {
+        return
+      }
+
+      state.selectionStartIdx--
+      state.selectionEndIdx--
+    },
+    moveSelectionRight: (state, action) => {
+      const totalNotesCount = action.payload
+      if (state.selectionEndIdx >= totalNotesCount - 1) {
+        return
+      }
+      
+      state.selectionStartIdx++
+      state.selectionEndIdx++
+    },
   }
 })
 
@@ -47,6 +63,8 @@ export const {
   rangeSelect,
   singleSelect,
   deselectAll,
+  moveSelectionLeft,
+  moveSelectionRight,
 } = editorSlice.actions 
 
 export default editorSlice.reducer

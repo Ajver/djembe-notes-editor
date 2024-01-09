@@ -10,8 +10,8 @@ export default function Note({notesOrderIdx}) {
   const noteLocation = useSelector(store => store.layout.notesOrder[notesOrderIdx])
   const { instrumentIdx, beatIdx, noteIdx } = noteLocation
 
-  const startIdx  = useSelector(store => store.editor.startIdx)
-  const endIdx  = useSelector(store => store.editor.endIdx)
+  const selectionStartIdx  = useSelector(store => store.editor.selectionStartIdx)
+  const selectionEndIdx  = useSelector(store => store.editor.selectionEndIdx)
   const beatDef = useSelector(store => store.rhythm.definition[instrumentIdx][beatIdx])
   const dispatch = useDispatch()
 
@@ -51,7 +51,7 @@ export default function Note({notesOrderIdx}) {
   }
 
   const hoverClass = (
-    (notesOrderIdx >= startIdx && notesOrderIdx <= endIdx) 
+    (notesOrderIdx >= selectionStartIdx && notesOrderIdx <= selectionEndIdx) 
     ? "selected"
     : ""
   )
