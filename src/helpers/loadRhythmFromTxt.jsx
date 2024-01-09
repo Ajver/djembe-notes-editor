@@ -28,49 +28,6 @@ function load_v2(loadedRhythm, dispatch) {
   const shortDefinition = loadedRhythm.definition || [""]
   const definition = Array(shortDefinition.length)
 
-  function decodeInstrument(shortInstrument) {
-    const instrument = []
-
-    let currentBeatDef = null
-
-    for (let i = 0; i < shortInstrument.length; i++) {
-      const char = shortInstrument[i]
-
-      if (currentBeatDef == null || currentBeatDef.notes.length >= NotesCount[currentBeatDef.type]) {
-        // We need a new beat
-        currentBeatDef = {
-          notes: [],
-          type: BeatType.SINGLE,
-        }
-
-        instrument.push(currentBeatDef)
-      }
-
-      switch (char) {
-        case "2":
-          currentBeatDef.type = BeatType.DOUBLE
-          break
-        case "3":
-          currentBeatDef.type = BeatType.TRIPLET
-          break
-        case "4":
-          currentBeatDef.type = BeatType.QUARTET
-          break
-        case "-":
-        case "B":
-        case "T":
-        case "S":
-        case "G":
-          currentBeatDef.notes.push(char)
-          break
-        default:
-          console.error("unknown save symbol: ", char)
-      }
-    }
-
-    return instrument
-  }
-
   shortDefinition.forEach((shortInstrument, instrumentIdx) => {
     definition[instrumentIdx] = decodeInstrument(shortInstrument)
   })
@@ -86,4 +43,47 @@ function load_v2(loadedRhythm, dispatch) {
   dispatch(overrideWholeRhythm(rhythmToOverride))
 
   return true
+}
+
+export function decodeInstrument(shortInstrument) {
+  const instrument = []
+
+  let currentBeatDef = null
+
+  for (let i = 0; i < shortInstrument.length; i++) {
+    const char = shortInstrument[i]
+
+    if (currentBeatDef == null || currentBeatDef.notes.length >= NotesCount[currentBeatDef.type]) {
+      // We need a new beat
+      currentBeatDef = {
+        notes: [],
+        type: BeatType.SINGLE,
+      }
+
+      instrument.push(currentBeatDef)
+    }
+
+    switch (char) {
+      case "2":
+        currentBeatDef.type = BeatType.DOUBLE
+        break
+      case "3":
+        currentBeatDef.type = BeatType.TRIPLET
+        break
+      case "4":
+        currentBeatDef.type = BeatType.QUARTET
+        break
+      case "-":
+      case "B":
+      case "T":
+      case "S":
+      case "G":
+        currentBeatDef.notes.push(char)
+        break
+      default:
+        console.error("unknown save symbol: ", char)
+    }
+  }
+
+  return instrument
 }

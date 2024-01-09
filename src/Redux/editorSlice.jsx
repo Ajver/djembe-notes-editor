@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { decodeInstrument } from "../helpers/loadRhythmFromTxt"
 
 export const editorSlice = createSlice({
   name: "editor",
@@ -7,9 +8,8 @@ export const editorSlice = createSlice({
     _selectionBeginIdx: 0,
     selectionStartIdx: -1,
     selectionEndIdx: -1,
-
-    canAutosave: false,
-    canUndoRedo: false,
+    
+    copyClipboard: [],
   },
   reducers: {
     singleSelect: (state, action) => {
@@ -96,6 +96,39 @@ export const editorSlice = createSlice({
       state.selectionStartIdx++
       state.selectionEndIdx++
     },
+    setCopyClipboard: (state, action) => {
+      state.copyClipboard = action.payload
+    },
+    pasteFromClipboard: (state, action) => {
+      if (state.selectionStartIdx < 0) {
+        // Nothing is selected - let's select the first note
+        state._selectionBeginIdx = 0
+        state.selectionStartIdx = 0
+      }
+
+      const { notesOrder } = action.payload
+
+      const decoded = decodeInstrument(state.copyClipboard)
+
+      let i = 0
+      while (decoded.length > 0) {
+        const beat = decoded.shift()
+
+        beat.notes.forEach(note => {
+          // Offset the idx by where selection starts
+          const idx = i + state.selectionStartIdx
+  
+          const noteLocation = notesOrder[idx]
+          const {
+            instrumentIdx,
+            beatIdx,
+            noteIdx,
+          } = noteLocation
+  
+          i++
+        })
+      }
+    }
   }
 })
 
@@ -109,6 +142,7 @@ export const {
   moveSelectionRight,
   extendSelectionLeft,
   extendSelectionRight,
+  setCopyClipboard,
 } = editorSlice.actions 
 
 export default editorSlice.reducer
