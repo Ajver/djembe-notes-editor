@@ -34,6 +34,38 @@ export const editorSlice = createSlice({
       state.selectionStartIdx = selectionStartIdx
       state.selectionEndIdx = selectionEndIdx
     },
+    extendSelectionLeft: state => {
+      if (
+        state._selectionBeginIdx == state.selectionStartIdx 
+        && state.selectionEndIdx != state.selectionStartIdx
+      ) {
+        // We are selecting Left -> Right, so let's shrink the selection
+        state.selectionEndIdx--
+      }else {
+        // We are selecting Right -> Left, so let's expand the selection to the left
+        if (state.selectionStartIdx > 0) {
+          // There is some space to expand the selection
+          state.selectionStartIdx--
+        }
+      }
+    },
+    extendSelectionRight: (state, action) => {
+      const totalNotesCount = action.payload
+
+      if (state._selectionBeginIdx == state.selectionStartIdx) {
+        // We are selecting Left -> Right, so let's expand the selection
+        if (state.selectionEndIdx < totalNotesCount - 1) {
+          // There is some space to expand the selection
+          state.selectionEndIdx++
+        }
+      }else {
+        // We are selecting Right -> Left, so let's shrink the selection to the right
+        if (state.selectionStartIdx < state.selectionEndIdx) {
+          // More than one note is selected, so let's shrink it
+          state.selectionStartIdx++
+        }
+      }
+    },
     deselectAll: state => {
       state.selectionStartIdx = -1
       state.selectionEndIdx = -1
@@ -43,6 +75,7 @@ export const editorSlice = createSlice({
         return
       }
 
+      state._selectionBeginIdx--
       state.selectionStartIdx--
       state.selectionEndIdx--
     },
@@ -52,6 +85,7 @@ export const editorSlice = createSlice({
         return
       }
       
+      state._selectionBeginIdx++
       state.selectionStartIdx++
       state.selectionEndIdx++
     },
@@ -65,6 +99,8 @@ export const {
   deselectAll,
   moveSelectionLeft,
   moveSelectionRight,
+  extendSelectionLeft,
+  extendSelectionRight,
 } = editorSlice.actions 
 
 export default editorSlice.reducer

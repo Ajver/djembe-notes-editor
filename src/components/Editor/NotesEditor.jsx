@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { NoteSymbol } from "../../constants/NoteDef"
 import { BeatType } from "../../constants/BeatDef"
-import { deselectAll, moveSelectionLeft, moveSelectionRight } from "../../Redux/editorSlice"
+import { deselectAll, extendSelectionLeft, extendSelectionRight, moveSelectionLeft, moveSelectionRight } from "../../Redux/editorSlice"
 import { setBeatType, setNote } from "../../Redux/rhythmSlice"
 import { playNote } from "../../helpers/playing/playing"
 
@@ -79,6 +79,14 @@ export default function NotesEditor() {
     dispatch(moveSelectionRight(notesOrder.length))
   }
 
+  function extendNotesSelectionLeft() {
+    dispatch(extendSelectionLeft())
+  }
+
+  function extendNotesSelectionRight() {
+    dispatch(extendSelectionRight(notesOrder.length))
+  }
+
   function onKeyDown(event) {
     const keyHandler = {
       "`": () => changeNote(NoteSymbol.EMPTY),
@@ -116,8 +124,20 @@ export default function NotesEditor() {
           }
       },
       "Escape": () => deselectAllNotes(),
-      "ArrowLeft": () => moveNotesSelectionLeft(),
-      "ArrowRight": () => moveNotesSelectionRight(),
+      "ArrowLeft": () => {
+        if (event.shiftKey) {
+          extendNotesSelectionLeft()
+        }else {
+          moveNotesSelectionLeft()
+        }
+      },
+      "ArrowRight": () => {
+        if (event.shiftKey) {
+          extendNotesSelectionRight()
+        }else {
+          moveNotesSelectionRight()
+        }
+      },
     }
 
     const handler = keyHandler[event.key]
