@@ -4,7 +4,7 @@ export const editorSlice = createSlice({
   name: "editor",
   initialState: {
     // Where selection started from?
-    _selectionBeginIdx: -1,
+    _selectionBeginIdx: 0,
     selectionStartIdx: -1,
     selectionEndIdx: -1,
 
@@ -66,7 +66,14 @@ export const editorSlice = createSlice({
         }
       }
     },
+    selectAll: (state, action) => {
+      const totalNotesCount = action.payload
+      state._selectionBeginIdx = 0
+      state.selectionStartIdx = 0
+      state.selectionEndIdx = totalNotesCount
+    },
     deselectAll: state => {
+      state._selectionBeginIdx = 0
       state.selectionStartIdx = -1
       state.selectionEndIdx = -1
     },
@@ -96,6 +103,7 @@ export const {
   addToSelection, 
   rangeSelect,
   singleSelect,
+  selectAll,
   deselectAll,
   moveSelectionLeft,
   moveSelectionRight,
