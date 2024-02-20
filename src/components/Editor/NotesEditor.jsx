@@ -2,29 +2,44 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { NoteSymbol } from "../../constants/NoteDef"
 import { BeatType } from "../../constants/BeatDef"
-import { selectAll, deselectAll, extendSelectionLeft, extendSelectionRight, moveSelectionLeft, moveSelectionRight } from "../../Redux/editorSlice"
+import { selectAll, deselectAll, extendSelectionLeft, extendSelectionRight, extendSelectionUp, extendSelectionDown, moveSelectionLeft, moveSelectionRight, moveSelectionUp, moveSelectionDown } from "../../Redux/editorSlice"
 import { setBeatType, setNote } from "../../Redux/rhythmSlice"
 import { playNote } from "../../helpers/playing/playing"
+import { calculateNoteNumber, getLocationFromNoteNumber } from "../../helpers/noteNumber"
 
 export default function NotesEditor() {
   const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
 
   const beatsCount = useSelector(store => store.rhythm.beatsCount)
-  const notesOrder = useSelector(store => store.layout.notesOrder)
+  const definition = useSelector(store => store.rhythm.definition)
+  // const notesOrder = useSelector(store => store.layout.notesOrder)
   const selectionStartIdx = useSelector(store => store.editor.selectionStartIdx)
+  const selectionStartInstrument = useSelector(store => store.editor.selectionStartInstrument)
   const selectionEndIdx = useSelector(store => store.editor.selectionEndIdx)
+  const selectionEndInstrument = useSelector(store => store.editor.selectionEndInstrument)
   const dispatch = useDispatch()
+
+  function forEachSelectedNote(callback) {
+    for (let instrumentIdx = selectionStartInstrument; instrumentIdx <= selectionEndInstrument; instrumentIdx++) {
+      for (let noteNumber = selectionStartIdx; noteNumber <= selectionEndIdx; noteNumber++) {
+        const noteLocation = getLocationFromNoteNumber(noteNumber, instrumentIdx)
+        const noteExists = (
+          noteLocation.noteIdx < definition[instrumentIdx][noteLocation.beatIdx].notes.length
+        )
+        if (noteExists) {
+          callback(noteLocation)
+        }
+      }
+    }
+  }
 
   function changeNote(noteSymbol) {
     let anythingChanged = false
 
-    for (let i = selectionStartIdx; i <= selectionEndIdx; i++) {
-      const noteLocation = notesOrder[i]
-      if (noteLocation) {
-        dispatch(setNote({ noteLocation, noteSymbol }))
-        anythingChanged = true
-      }
-    }
+    forEachSelectedNote(noteLocation => {
+      dispatch(setNote({ noteLocation, noteSymbol }))
+      anythingChanged = true
+    })
 
     if (anythingChanged) {
       playNote(noteSymbol)
@@ -32,23 +47,20 @@ export default function NotesEditor() {
   }
 
   function changeBeatType(beatType) {
-    for (let i = selectionStartIdx; i <= selectionEndIdx; i++) {
-      const noteLocation = notesOrder[i]
-      if (noteLocation) {
-        const {
-          instrumentIdx,
-          beatIdx,
-        } = noteLocation
+    forEachSelectedNote(noteLocation => {
+      const {
+        instrumentIdx,
+        beatIdx,
+      } = noteLocation
 
-        // TODO: Optimize by updating beat type only once!
-        
-        dispatch(setBeatType({
-          instrumentIdx,
-          beatIdx,
-          newType: beatType,
-        }))
-      }
-    }
+      // TODO: Optimize by updating beat type only once!
+      
+      dispatch(setBeatType({
+        instrumentIdx,
+        beatIdx,
+        newType: beatType,
+      }))
+    })
   }
 
   function copyNotes() {
@@ -64,7 +76,11 @@ export default function NotesEditor() {
   }
 
   function selectAllNotes() {
-    dispatch(selectAll(notesOrder.length))
+    const selectionData = {
+      totalNotesCount: calculateNoteNumber(beatsCount, 0),
+      totalInstrumentsCount: definition.length,
+    }
+    dispatch(selectAll(selectionData))
   }
 
   function deselectAllNotes() {
@@ -76,7 +92,15 @@ export default function NotesEditor() {
   }
 
   function moveNotesSelectionRight() {
-    dispatch(moveSelectionRight(notesOrder.length))
+    dispatch(moveSelectionRight(calculateNoteNumber(beatsCount, 0)))
+  }
+
+  function moveNotesSelectionUp() {
+    dispatch(moveSelectionUp())
+  }
+
+  function moveNotesSelectionDown() {
+    dispatch(moveSelectionDown(definition.length))
   }
 
   function extendNotesSelectionLeft() {
@@ -84,7 +108,15 @@ export default function NotesEditor() {
   }
 
   function extendNotesSelectionRight() {
-    dispatch(extendSelectionRight(notesOrder.length))
+    dispatch(extendSelectionRight(calculateNoteNumber(beatsCount, 0)))
+  }
+
+  function extendNotesSelectionUp() {
+    dispatch(extendSelectionUp())
+  }
+
+  function extendNotesSelectionDown() {
+    dispatch(extendSelectionDown(definition.length))
   }
 
   function onKeyDown(event) {
@@ -138,6 +170,22 @@ export default function NotesEditor() {
           moveNotesSelectionRight()
         }
       },
+      "ArrowUp": () => {
+        if (event.shiftKey) {
+          extendNotesSelectionUp()
+        }else {
+          moveNotesSelectionUp()
+        }
+        event.preventDefault()
+      },
+      "ArrowDown": () => {
+        if (event.shiftKey) {
+          extendNotesSelectionDown()
+        }else {
+          moveNotesSelectionDown()
+        }
+        event.preventDefault()
+      }
     }
 
     const handler = keyHandler[event.key]
@@ -157,7 +205,15 @@ export default function NotesEditor() {
     return () => {
       window.removeEventListener("keydown", onKeyDown)
     }
-  }, [selectionStartIdx, selectionEndIdx, beatsCount, anyPopupOpened])
+  }, [
+    selectionStartIdx, 
+    selectionStartInstrument, 
+    selectionEndIdx, 
+    selectionEndInstrument, 
+    beatsCount, 
+    anyPopupOpened, 
+    definition
+  ])
 
   return (null)
 }

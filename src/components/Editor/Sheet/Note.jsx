@@ -5,17 +5,23 @@ import { singleSelect, deselectAll, addToSelection } from "../../../Redux/editor
 import { setNote } from "../../../Redux/rhythmSlice"
 import { NoteSymbol } from "../../../constants/NoteDef"
 import { playNote } from "../../../helpers/playing/playing"
+import { calculateNoteNumber } from "../../../helpers/noteNumber"
 
 export default function Note({notesOrderIdx}) {
   const noteLocation = useSelector(store => store.layout.notesOrder[notesOrderIdx])
   const { instrumentIdx, beatIdx, noteIdx } = noteLocation
 
   const selectionStartIdx  = useSelector(store => store.editor.selectionStartIdx)
+  const selectionStartInstrument  = useSelector(store => store.editor.selectionStartInstrument)
   const selectionEndIdx  = useSelector(store => store.editor.selectionEndIdx)
+  const selectionEndInstrument  = useSelector(store => store.editor.selectionEndInstrument)
+
   const beatDef = useSelector(store => store.rhythm.definition[instrumentIdx][beatIdx])
   const dispatch = useDispatch()
 
   const noteSymbol = beatDef.notes[noteIdx]
+
+  const noteNumberInInstrument = calculateNoteNumber(beatIdx, noteIdx)
 
   function handleClick(event) {
     const symbols = Object.values(NoteSymbol)
@@ -37,21 +43,31 @@ export default function Note({notesOrderIdx}) {
   }
 
   function handleMouseEnter(event) {
-    if (event.shiftKey || event.buttons == 1) {
-      dispatch(addToSelection(notesOrderIdx))
+    const selectionData = {
+      idx: noteNumberInInstrument,
+      instrument: instrumentIdx,
+    }
+
+    if (event.shiftKey || event.buttons === 1) {
+      dispatch(addToSelection(selectionData))
     }else {
-      dispatch(singleSelect(notesOrderIdx))
+      dispatch(singleSelect(selectionData))
     }
   }
 
   function handleMouseLeave(event) {
-    if (!event.shiftKey || event.buttons == 1) {
+    if (!event.shiftKey && event.buttons !== 1) {
       dispatch(deselectAll())
     }
   }
 
   const hoverClass = (
-    (notesOrderIdx >= selectionStartIdx && notesOrderIdx <= selectionEndIdx) 
+    (
+      noteNumberInInstrument >= selectionStartIdx 
+      && noteNumberInInstrument <= selectionEndIdx
+      && instrumentIdx >= selectionStartInstrument
+      && instrumentIdx <= selectionEndInstrument
+    ) 
     ? "selected"
     : ""
   )
@@ -74,7 +90,7 @@ export default function Note({notesOrderIdx}) {
       onDragStart={(e) => e.preventDefault()}
     >
       <img src={imgSrc} alt={noteSymbol} />
-      {/* <span>{notesOrderIdx}</span> */}
+      {/* <span style={{fontSize: 15}}>{noteNumberInInstrument}</span> */}
     </div>
   )
 }
