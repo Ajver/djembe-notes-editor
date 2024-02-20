@@ -74,6 +74,8 @@ export const rhythmSlice = createSlice({
     deleteBar: (state, action) => {
       const beatIdx = action.payload
       
+      console.log("DELETING from", beatIdx, "amount:", state.beatsInBar)
+
       state.definition.forEach(instrument => {
         instrument.splice(beatIdx, state.beatsInBar)
       })

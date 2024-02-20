@@ -8,5 +8,6 @@
 
 ## DONE
 
+- [x] Fix bugs with deleting bars
 - [x] Range multi-selecting (when holding shift, selects all from first selected up to currently hovered)
 - [x] Undo/Redo
