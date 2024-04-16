@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 import { NoteSymbol } from "../constants/NoteDef"
 import { BeatType, NotesCount } from "../constants/BeatDef"
 import { RhythmMeterPresets } from "../constants/RhythmMeterPresets"
+import { decodeInstrument } from "../helpers/loadRhythmFromTxt"
 
 const MAX_TEMPO = 1000
 const MIN_TEMPO = 10
@@ -34,6 +35,45 @@ export const rhythmSlice = createSlice({
         if (instrument.length > beatsCount) {
           instrument.splice(beatsCount)
         }
+      })
+    },
+    pasteRhythmFragment: (state, action) => {
+      console.log("Pasting: ", action.payload)
+      const { rhythmFragmentDef, pasteStartIdx, pasteStartInstrument } = action.payload
+
+      const allInstrumentsDef = rhythmFragmentDef.split("\n")
+
+      allInstrumentsDef.forEach((instrumentDef, instrumentOffset) => {
+        const decodedInstrument = decodeInstrument(instrumentDef)
+        const instrumentIdx = pasteStartInstrument + instrumentOffset
+
+        if (state.definition.length <= instrumentIdx) {
+          // Instrument out of bounds
+          return
+        }
+
+        const instrument = state.definition[instrumentIdx]
+
+        decodedInstrument.forEach((beat, beatOffset) => {
+          const beatIdx = pasteStartIdx + beatOffset
+
+          if (instrument.length <= beatIdx) {
+            // Beat out of bounds
+            return
+          }
+
+          // Make sure the beat has the right type (and so the right amount of nodes)
+          // ...before we start overriding the notes
+          rhythmSlice.caseReducers.setBeatType(state, {payload: {
+            instrumentIdx,
+            beatIdx,
+            newType: beat.type
+          }})
+
+          beat.notes.forEach((noteDef, noteIdx) => {
+            instrument[beatIdx].notes[noteIdx] = noteDef
+          })
+        })
       })
     },
     createNewRhythm: (state, action) => {
@@ -129,6 +169,7 @@ export const rhythmSlice = createSlice({
 
 export const { 
   overrideWholeRhythm,
+  pasteRhythmFragment,
   createNewRhythm,
   injectBarAtBeatIdx,
   addBar, 

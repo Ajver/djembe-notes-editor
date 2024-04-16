@@ -19,7 +19,7 @@ export default function saveRhythmToTxt(rhythm) {
   return rhythmTxt
 }
 
-function shortenRhythmDefinition(definition) {
+export function shortenRhythmDefinition(definition) {
   const shortDef = Array(definition.length)
 
   definition.forEach((instrument, instrumentIdx) => {
@@ -29,7 +29,7 @@ function shortenRhythmDefinition(definition) {
   return shortDef
 }
 
-function shortenInstrument(instrument) {
+export function shortenInstrument(instrument) {
   let shortInst = ""
 
   instrument.forEach(beatDef => {

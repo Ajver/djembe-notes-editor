@@ -180,36 +180,6 @@ export const editorSlice = createSlice({
     setCopyClipboard: (state, action) => {
       state.copyClipboard = action.payload
     },
-    pasteFromClipboard: (state, action) => {
-      if (state.selectionStartIdx < 0) {
-        // Nothing is selected - let's select the first note
-        state._selectionBeginIdx = 0
-        state.selectionStartIdx = 0
-      }
-
-      const { notesOrder } = action.payload
-
-      const decoded = decodeInstrument(state.copyClipboard)
-
-      let i = 0
-      while (decoded.length > 0) {
-        const beat = decoded.shift()
-
-        beat.notes.forEach(note => {
-          // Offset the idx by where selection starts
-          const idx = i + state.selectionStartIdx
-  
-          const noteLocation = notesOrder[idx]
-          const {
-            instrumentIdx,
-            beatIdx,
-            noteIdx,
-          } = noteLocation
-  
-          i++
-        })
-      }
-    }
   }
 })
 

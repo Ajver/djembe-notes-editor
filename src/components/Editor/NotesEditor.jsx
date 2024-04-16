@@ -2,21 +2,23 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { NoteSymbol } from "../../constants/NoteDef"
 import { BeatType } from "../../constants/BeatDef"
-import { selectAll, deselectAll, extendSelectionLeft, extendSelectionRight, extendSelectionUp, extendSelectionDown, moveSelectionLeft, moveSelectionRight, moveSelectionUp, moveSelectionDown } from "../../Redux/editorSlice"
-import { setBeatType, setNote } from "../../Redux/rhythmSlice"
+import { selectAll, deselectAll, extendSelectionLeft, extendSelectionRight, extendSelectionUp, extendSelectionDown, moveSelectionLeft, moveSelectionRight, moveSelectionUp, moveSelectionDown, setCopyClipboard } from "../../Redux/editorSlice"
+import { pasteRhythmFragment, setBeatType, setNote } from "../../Redux/rhythmSlice"
 import { playNote } from "../../helpers/playing/playing"
 import { calculateNoteNumber, getLocationFromNoteNumber } from "../../helpers/noteNumber"
+import { shortenInstrument } from "../../helpers/saveRhythmToTxt"
 
 export default function NotesEditor() {
   const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
 
   const beatsCount = useSelector(store => store.rhythm.beatsCount)
   const definition = useSelector(store => store.rhythm.definition)
-  // const notesOrder = useSelector(store => store.layout.notesOrder)
   const selectionStartIdx = useSelector(store => store.editor.selectionStartIdx)
   const selectionStartInstrument = useSelector(store => store.editor.selectionStartInstrument)
   const selectionEndIdx = useSelector(store => store.editor.selectionEndIdx)
   const selectionEndInstrument = useSelector(store => store.editor.selectionEndInstrument)
+  const clipboardContent = useSelector(store => store.editor.copyClipboard)
+
   const dispatch = useDispatch()
 
   function forEachSelectedNote(callback) {
@@ -63,16 +65,51 @@ export default function NotesEditor() {
     })
   }
 
-  function copyNotes() {
-    // TODO
+  function copyBeats() {
+    const instrumentsToCopyList = []
+
+    const firstBeatToCopyIdx = Math.floor(selectionStartIdx / 4)
+    const lastBeatToCopyIdx = Math.floor(selectionEndIdx / 4)
+
+    for (let instrumentIdx = selectionStartInstrument; instrumentIdx <= selectionEndInstrument; instrumentIdx++) {
+      const instrumentToCopy = definition[instrumentIdx].slice(firstBeatToCopyIdx, lastBeatToCopyIdx + 1)
+      const shortInstrumentDef = shortenInstrument(instrumentToCopy)
+      instrumentsToCopyList.push(shortInstrumentDef)
+    }
+    const strInstrumentsToCopy = instrumentsToCopyList.join("\n")
+
+    const textArea = document.createElement('textarea');
+    textArea.value = strInstrumentsToCopy;
+    
+    // Make sure the text area is not visible on the page
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-9999px';
+    
+    document.body.appendChild(textArea);
+    
+    textArea.select();
+    console.log("Trying to copy:", strInstrumentsToCopy)
+
+    dispatch(setCopyClipboard(strInstrumentsToCopy))
+    window.setTimeout(() => textArea.remove(), 10)
   }
 
-  function cutNotes() {
-    // TODO
+  function cutBeats() {
+    copyBeats()
+    
+    // TODO: clear notes
   }
 
-  function pasteNotes() {
-    // TODO
+  function pasteBeats() {
+    if (selectionStartIdx < 0 || selectionStartInstrument < 0) {
+      // Nothing selected - we can't paste when we don't know where to paste
+      return
+    }
+
+    const rhythmFragmentDef = clipboardContent
+    const pasteStartIdx = Math.floor(selectionStartIdx / 4)
+    const pasteStartInstrument = selectionStartInstrument
+    dispatch(pasteRhythmFragment({ rhythmFragmentDef, pasteStartIdx, pasteStartInstrument }))
   }
 
   function selectAllNotes() {
@@ -136,17 +173,17 @@ export default function NotesEditor() {
       "$": () => changeBeatType(BeatType.QUARTET),
       "c": () => {
           if (event.ctrlKey || event.metaKey) {
-              copyNotes()
+              copyBeats()
           }
       },
       "v": () => {
           if (event.ctrlKey || event.metaKey) {
-              pasteNotes()
+              pasteBeats()
           }
       },
       "x": () => {
           if (event.ctrlKey || event.metaKey) {
-              cutNotes()
+              cutBeats()
           }
       },
       "a": () => {
