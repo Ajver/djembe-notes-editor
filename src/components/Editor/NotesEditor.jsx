@@ -97,7 +97,21 @@ export default function NotesEditor() {
   function cutBeats() {
     copyBeats()
     
-    // TODO: clear notes
+    const copyStartBeatIdx = Math.floor(selectionStartIdx / 4)
+    const copyEndBeatIdx = Math.floor(selectionEndIdx / 4)
+    for (let instrumentIdx = selectionStartInstrument; instrumentIdx <= selectionEndInstrument; instrumentIdx++) {
+      for (let beatIdx = copyStartBeatIdx; beatIdx <= copyEndBeatIdx; beatIdx++) {
+        definition[instrumentIdx][beatIdx].notes.forEach((_, noteIdx) => {
+          const noteLocation = {
+            instrumentIdx,
+            beatIdx,
+            noteIdx,
+          }
+          const noteSymbol = NoteSymbol.EMPTY
+          dispatch(setNote({noteLocation, noteSymbol}))
+        })
+      }
+    }
   }
 
   function pasteBeats() {
