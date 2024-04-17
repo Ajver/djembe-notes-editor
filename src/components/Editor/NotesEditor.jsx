@@ -88,7 +88,6 @@ export default function NotesEditor() {
     document.body.appendChild(textArea);
     
     textArea.select();
-    console.log("Trying to copy:", strInstrumentsToCopy)
 
     dispatch(setCopyClipboard(strInstrumentsToCopy))
     window.setTimeout(() => textArea.remove(), 10)

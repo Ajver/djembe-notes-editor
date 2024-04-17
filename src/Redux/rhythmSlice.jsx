@@ -38,7 +38,6 @@ export const rhythmSlice = createSlice({
       })
     },
     pasteRhythmFragment: (state, action) => {
-      console.log("Pasting: ", action.payload)
       const { rhythmFragmentDef, pasteStartIdx, pasteStartInstrument } = action.payload
 
       const allInstrumentsDef = rhythmFragmentDef.split("\n")
@@ -114,8 +113,6 @@ export const rhythmSlice = createSlice({
     deleteBar: (state, action) => {
       const beatIdx = action.payload
       
-      console.log("DELETING from", beatIdx, "amount:", state.beatsInBar)
-
       state.definition.forEach(instrument => {
         instrument.splice(beatIdx, state.beatsInBar)
       })
