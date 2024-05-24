@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import SheetsContainer from "./SheetsContainer"
 import "./css/Editor.css"
-import RhythmManagementPanel from "./RhythmManagementPanel"
 import PrintContainer from "./PrintContainer"
 import TipsPanel from "./TipsPanel"
 import PlayContainer from "./PlayContainer"
@@ -15,6 +14,7 @@ import LayoutBuilder from "./LayoutBuilder"
 import { useDispatch, useSelector } from "react-redux"
 import { useStyledReactToPrint } from "../../hooks/useStyledReactToPrint"
 import UndoRedoManager from "./UndoRedoManager"
+import TopPanel from "./TopPanel"
 
 export default function Editor() {
   const dispatch = useDispatch()
@@ -43,10 +43,9 @@ export default function Editor() {
           <Player />
         </>
       }
-
       <LayoutBuilder />
       
-      <RhythmManagementPanel />
+      <TopPanel />
       <SheetsContainer ref={sheetsContainerRef} />
       <PrintContainer triggerPrint={handlePrint} />
       <PlayContainer />

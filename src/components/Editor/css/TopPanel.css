@@ -1,0 +1,41 @@
+.top-panel {
+  width: 100%;
+  height: 80px;
+  padding: 0 20px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  border-bottom: 1px solid #333;
+}
+
+.top-panel > div {
+  width: 100%;
+}
+
+.rhythms-collection {
+
+}
+
+.rhythm-management {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rhythm-management > * {
+  margin-right: 10px;
+}
+
+.sharing-section {
+  display: flex;
+  justify-content: end;
+}
+
+.title-label {
+  
+}
