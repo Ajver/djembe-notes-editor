@@ -136,7 +136,6 @@ export default function Player() {
 
   useEffect(() => {
     localRepeat = repeat
-    console.log("Updating localRepeat to: ", localRepeat)
   }, [repeat])
 
   useEffect(() => {
