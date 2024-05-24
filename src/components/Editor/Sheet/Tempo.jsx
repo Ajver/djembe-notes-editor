@@ -1,8 +1,8 @@
 import React from 'react'
 import "./css/Tempo.css"
-import InputLabelContainer from "./InputLabelContainer"
 import { useDispatch, useSelector } from "react-redux"
 import { setRhytmTempo } from "../../../Redux/rhythmSlice"
+import InputLabelContainer from "../../Common/InputLabelContainer"
 
 export default function Tempo() {
   const tempo = useSelector(store => store.rhythm.tempo)

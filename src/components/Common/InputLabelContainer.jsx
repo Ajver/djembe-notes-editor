@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import "./css/InputLabelContainer.css"
 
-export default function InputLabelContainer({className, text, editCallback}) {
+export default function InputLabelContainer({className, text, editCallback, placeholder}) {
   const inputRef = useRef()
   const [visible, setVisible] = useState(false)
   const [tempText, setTempText] = useState(text)
@@ -38,7 +38,7 @@ export default function InputLabelContainer({className, text, editCallback}) {
       onClick={show}
       onKeyDown={onKeyDown}
     >
-      <p>{text}</p>
+      <p>{text || placeholder}</p>
       <input 
         ref={inputRef}
         type="text" 
