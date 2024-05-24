@@ -52,6 +52,9 @@ export default function TopPanel() {
         <button className="icon-btn">
           <img src="/assets/svg/ui/share.svg" alt="Share rhythm" />
         </button>
+        <button className="icon-btn">
+          <img src="/assets/svg/ui/user.svg" alt="Profile options" />
+        </button>
         {/* <button onClick={showExportModal}>Export</button> */}
       </div>
     </div>
