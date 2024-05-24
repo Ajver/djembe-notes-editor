@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import "./css/TopPanel.css"
-import { setCreateRhythmModalVisibility, setExportModalVisibility } from "../../Redux/modalsSlice"
+import { setCreateRhythmModalVisibility } from "../../Redux/modalsSlice"
 import loadRhythmFromFile from "../../helpers/loadRhythmFromFile"
 import InputLabelContainer from "./Sheet/InputLabelContainer"
 import { setRhythmTitle } from "../../Redux/rhythmSlice"
@@ -17,10 +17,6 @@ export default function TopPanel() {
   function importRhythm(event) {
     console.log("IMPORTING: ", event)
     loadRhythmFromFile(event.target.files[0], dispatch)
-  }
-
-  function showExportModal() {
-    dispatch(setExportModalVisibility(true))
   }
 
   function onRhythmTitleEdited(newTitle) {
@@ -49,6 +45,9 @@ export default function TopPanel() {
       </div>
 
       <div className="sharing-section">
+        <button className="icon-btn">
+          <img src="/assets/svg/ui/cloud-check.svg" alt="Rhythm saved in cloud" />
+        </button>
         <button className="icon-btn">
           <img src="/assets/svg/ui/share.svg" alt="Share rhythm" />
         </button>
