@@ -7,6 +7,7 @@ export default function InputLabelContainer({className, text, editCallback}) {
   const [tempText, setTempText] = useState(text)
 
   function show() {
+    setTempText(text)
     setVisible(true)
 
     setTimeout(() => {
