@@ -5,6 +5,7 @@ export const playerSlice = createSlice({
   name: "player",
   initialState: {
     isPlaying: false,
+    repeat: false,
     currentBarIdx: -1,
   },
   reducers: {
@@ -22,6 +23,9 @@ export const playerSlice = createSlice({
         playerSlice.caseReducers.play(state)
       }
     },
+    toggleRepeat: state => {
+      state.repeat = !state.repeat
+    },
     setCurrentBarIdx: (state, action) => {
       state.currentBarIdx = action.payload
     }
@@ -32,6 +36,7 @@ export const {
   play,
   stop,
   togglePlaying,
+  toggleRepeat,
   setCurrentBarIdx,
 } = playerSlice.actions
 

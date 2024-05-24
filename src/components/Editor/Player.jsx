@@ -5,6 +5,7 @@ import { playNote } from "../../helpers/playing/playing"
 
 let localRhythmCopy = null
 let isPlayingRhythm = false
+let localRepeat = false
 
 
 function playRhythm(dispatch) {
@@ -22,11 +23,17 @@ function playRhythm(dispatch) {
 
   let instrumentsStillPlaying = localRhythmCopy.definition.length
   
-  function onInstrumentFinished() {
+  function onInstrumentFinished(replay, replayDelay) {
     instrumentsStillPlaying--
 
     if (instrumentsStillPlaying <= 0) {
-      dispatch(stop())
+      if (replay) {
+        // Play again after delay, so that the previous rhythm fully finishes
+        setTimeout(() => playRhythm(dispatch), replayDelay)
+      } else {
+        // We don't repeat OR this is force stop (i.e. due to no notes found)
+        dispatch(stop())
+      }
     }
   }
 
@@ -48,8 +55,8 @@ function playRhythm(dispatch) {
     const beatDef = instrumentDefinition[beatIdx]
 
     if (beatDef === undefined) {
-      // No beats found - stopping!
-      onInstrumentFinished()
+      // No beats found - stopping without replay!
+      onInstrumentFinished(false)
       return
     }
 
@@ -99,7 +106,8 @@ function playRhythm(dispatch) {
               playNoteDelayedAndContinue(nthInstrument, nextBeatIdx, 0, duration)
           }else {
               // End of the rhythm
-              onInstrumentFinished()
+              const replayDelay = Math.max(duration - standardDelay, 0)
+              onInstrumentFinished(localRepeat, replayDelay)
           }
       }
     }, delay)
@@ -119,11 +127,17 @@ function onRhythmPlayingStopped(dispatch) {
 export default function Player() {
   const rhythmData = useSelector(store => store.rhythm)
   const isPlaying = useSelector(store => store.player.isPlaying)
+  const repeat = useSelector(store => store.player.repeat)
   const dispatch = useDispatch()
 
   useEffect(() => {
     localRhythmCopy = rhythmData
   }, [rhythmData])
+
+  useEffect(() => {
+    localRepeat = repeat
+    console.log("Updating localRepeat to: ", localRepeat)
+  }, [repeat])
 
   useEffect(() => {
     if (isPlaying) {

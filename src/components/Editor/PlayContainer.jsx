@@ -1,19 +1,24 @@
 import React from 'react'
 import "./css/PlayContainer.css"
 import { useDispatch, useSelector } from "react-redux"
-import { togglePlaying } from "../../Redux/playerSlice"
+import { togglePlaying, toggleRepeat } from "../../Redux/playerSlice"
 
 export default function PlayContainer() {
   const isPlaying = useSelector(store => store.player.isPlaying)
+  const repeat = useSelector(store => store.player.repeat)
   const dispatch = useDispatch()
 
   function togglePlay() {
     dispatch(togglePlaying())
   }
 
+  function toggleRepeatBtn() {
+    dispatch(toggleRepeat())
+  }
+
   return (
     <div className="play-container">
-      <button className="icon-btn toggle">
+      <button className={"icon-btn " + (repeat && "pressed")} onClick={toggleRepeatBtn}>
         <img src="/assets/svg/ui/repeat.svg" alt="Repeat playing" />
       </button>
       <button className="icon-btn" onClick={togglePlay}>{
