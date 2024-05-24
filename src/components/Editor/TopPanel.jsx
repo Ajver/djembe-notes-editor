@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 import "./css/TopPanel.css"
 import { setCreateRhythmModalVisibility } from "../../Redux/modalsSlice"
 import loadRhythmFromFile from "../../helpers/loadRhythmFromFile"
-import InputLabelContainer from "./Sheet/InputLabelContainer"
 import { setRhythmTitle } from "../../Redux/rhythmSlice"
+import InputLabelContainer from "../Common/InputLabelContainer"
 
 export default function TopPanel() {
   const dispatch = useDispatch()
@@ -41,7 +41,11 @@ export default function TopPanel() {
         <button className="icon-btn">
           <img src="/assets/svg/ui/settings.svg" alt="Rhythm settings" />
         </button>
-        <InputLabelContainer className="rhythm-title" text={rhythmTitle} editCallback={onRhythmTitleEdited} />
+        <InputLabelContainer 
+          className="title-edit" 
+          text={rhythmTitle} 
+          editCallback={onRhythmTitleEdited}
+        />
       </div>
 
       <div className="sharing-section">

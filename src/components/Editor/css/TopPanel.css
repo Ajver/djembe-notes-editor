@@ -31,6 +31,22 @@
   margin-right: 10px;
 }
 
+.rhythm-management .input-label-container {
+  min-height: 24px;
+  min-width: 200px;
+  overflow: hidden;
+  font-size: 22px;
+  border: none;
+  border-bottom: 1px solid #000;
+}
+
+.rhythm-management .input-label-container input {
+  min-height: 30px;
+  width: 100%;
+  padding: 2px 3px;
+  font-size: 22px;
+}
+
 .sharing-section {
   display: flex;
   justify-content: end;
