@@ -1,15 +1,7 @@
 
 .play-container {
-  position: fixed;
-  left: 50%;
-  bottom: 85px;
-
-  transform: translateX(-50%);
-
   display: flex;
-  justify-content: end;
+  justify-content: center;
   align-items: center;
   padding-right: 15px;
-
-  z-index: 50;
 }
