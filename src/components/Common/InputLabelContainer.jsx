@@ -25,6 +25,8 @@ export default function InputLabelContainer({className, text, editCallback, plac
         inputRef.current.blur()
         setTempText(text)
     }
+
+    event.stopPropagation()
   }
 
   function onBlur(event) {
@@ -36,7 +38,6 @@ export default function InputLabelContainer({className, text, editCallback, plac
     <div 
       className={"input-label-container " + className} 
       onClick={show}
-      onKeyDown={onKeyDown}
     >
       <p>{text || placeholder}</p>
       <input 
@@ -47,6 +48,7 @@ export default function InputLabelContainer({className, text, editCallback, plac
         onChange={event => setTempText(event.target.value)}
         onBlur={onBlur}
         autoFocus={true}
+        onKeyDown={onKeyDown}
       />
     </div>
   )
