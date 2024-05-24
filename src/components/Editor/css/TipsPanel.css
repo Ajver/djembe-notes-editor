@@ -1,21 +1,17 @@
 
 .tips-panel {
-  height: 70px;
-  width: 100%;
+  height: 500px;
+  width: 340px;
   position: -webkit-sticky;
   position: fixed;
   bottom: 0;
   background-color: #fff;
-  border-radius: 3px 3px 0 0;
+  border-radius: 0 3px 0 0;
   box-shadow: 0 0 20px #000;
-  display: flex;
-
-  transition: all .3s;
 }
 
 .tips-panel.hidden {
-  box-shadow: 0 0 0 #000;
-  transform: translateY(100%);
+  display: none;
 }
 
 .tips-panel-hide-btn {
@@ -31,19 +27,37 @@
 }
 
 .key-tips-container {
-  display: flex;
-  padding-top: 10px;
+  padding: 10px; 
   width: 100%;
+}
+
+.key-tips-container h4 {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.key-tips-container section {
+  margin-bottom: 20px;
+}
+
+.tips-list {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .key-tip {
   position: relative;
+  width: max-content;
   min-width: 50px;
   height: 50px;
   border: 1px solid #000;
-  margin-left: 15px;
+  margin-right: 15px;
+  margin-bottom: 15px;
   padding: 2px 5px;
   font-size: 20px;
+}
+.key-tip:last-child {
+  margin: 0;
 }
 
 .key-tip img {
