@@ -49,6 +49,12 @@ button.icon-btn:hover {
     border: 1px solid #333;
 }
 
+.button.icon-btn.pressed,
+button.icon-btn.pressed {
+    background-color: #70be5f;
+    border: 1px solid #333;
+}
+
 .warning {
     color: #b71034;
     font-weight: bold;
