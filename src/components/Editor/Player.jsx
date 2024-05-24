@@ -46,6 +46,13 @@ function playRhythm(dispatch) {
   
     const instrumentDefinition = localRhythmCopy.definition[nthInstrument]
     const beatDef = instrumentDefinition[beatIdx]
+
+    if (beatDef === undefined) {
+      // No beats found - stopping!
+      onInstrumentFinished()
+      return
+    }
+
     const noteSymbol = beatDef.notes[noteIdx]
 
     /**
