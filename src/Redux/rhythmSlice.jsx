@@ -159,7 +159,7 @@ export const rhythmSlice = createSlice({
       state.tempo = newTempo
     },
     setRhythmTitle: (state, action) => {
-      state.title = action.payload
+      state.title = action.payload.trim()
     }
   }
 })
