@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import SheetsContainer from "./SheetsContainer"
 import "./css/Editor.css"
-import PrintContainer from "./PrintContainer"
-import TipsPanel from "./TipsPanel"
-import PlayContainer from "./PlayContainer"
 import NotesEditor from "./NotesEditor"
 import loadRhythmFromLocalStorage from "../../helpers/loadRhythmFromLocalStorage"
 import LocalStorageSaver from "./LocalStorageSaver"
@@ -11,17 +8,14 @@ import ExportModal from "./ExportModal"
 import CreateRhythmModal from "./CreateRhythmModal"
 import Player from "./Player"
 import LayoutBuilder from "./LayoutBuilder"
-import { useDispatch, useSelector } from "react-redux"
-import { useStyledReactToPrint } from "../../hooks/useStyledReactToPrint"
+import { useDispatch } from "react-redux"
 import UndoRedoManager from "./UndoRedoManager"
 import TopPanel from "./TopPanel"
+import BottomPanel from "./BottomPanel"
 
 export default function Editor() {
   const dispatch = useDispatch()
   const sheetsContainerRef = useRef()
-
-  const rhythmTitle = useSelector(store => store.rhythm.title) 
-  const handlePrint = useStyledReactToPrint(sheetsContainerRef, rhythmTitle)
 
   const [initiallyLoaded, setInitiallyLoaded] = useState(false)
 
@@ -47,10 +41,9 @@ export default function Editor() {
       
       <TopPanel />
       <SheetsContainer ref={sheetsContainerRef} />
-      <PrintContainer triggerPrint={handlePrint} />
-      <PlayContainer />
-      <TipsPanel />
-
+      
+      <BottomPanel sheetsContainerRef={sheetsContainerRef} />
+      
       <ExportModal />
       <CreateRhythmModal />
     </div>
