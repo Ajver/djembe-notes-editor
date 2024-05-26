@@ -22,6 +22,10 @@ export default function NotesEditor() {
   const dispatch = useDispatch()
 
   function forEachSelectedNote(callback) {
+    if (selectionStartInstrument < 0) {
+      // Nothing selected
+      return
+    }
     for (let instrumentIdx = selectionStartInstrument; instrumentIdx <= selectionEndInstrument; instrumentIdx++) {
       for (let noteNumber = selectionStartIdx; noteNumber <= selectionEndIdx; noteNumber++) {
         const noteLocation = getLocationFromNoteNumber(noteNumber, instrumentIdx)
