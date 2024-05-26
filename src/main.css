@@ -74,4 +74,12 @@ button.icon-btn.pressed {
 .label-button input {
     display: none;
 }
-  
+
+input[type=text],
+input[type=number] {
+    width: 100%;
+    font-size: 24px;
+    padding: 3px 5px;
+    border: 1px solid #777;
+    border-radius: 3px;
+}
