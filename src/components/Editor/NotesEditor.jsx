@@ -242,8 +242,6 @@ export default function NotesEditor() {
     const handler = keyHandler[event.key]
     if (handler) {
         handler()
-    }else {
-      console.log("Pressed: ", event.key)
     }
   }
   
