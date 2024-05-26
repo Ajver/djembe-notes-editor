@@ -172,6 +172,7 @@ export default function NotesEditor() {
   function onKeyDown(event) {
     const keyHandler = {
       "`": () => changeNote(NoteSymbol.EMPTY),
+      "§": () => changeNote(NoteSymbol.EMPTY),  // For mac keyboards
       "1": () => changeNote(NoteSymbol.BASS),
       "2": () => changeNote(NoteSymbol.TONE),
       "3": () => changeNote(NoteSymbol.SLAP),
@@ -241,6 +242,8 @@ export default function NotesEditor() {
     const handler = keyHandler[event.key]
     if (handler) {
         handler()
+    }else {
+      console.log("Pressed: ", event.key)
     }
   }
   
