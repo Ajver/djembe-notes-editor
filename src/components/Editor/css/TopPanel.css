@@ -17,8 +17,8 @@
   width: 100%;
 }
 
-.rhythms-collection {
-
+.rhythms-collection label {
+  display: inline-block;
 }
 
 .rhythm-management {

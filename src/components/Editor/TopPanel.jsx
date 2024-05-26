@@ -25,16 +25,15 @@ export default function TopPanel() {
 
   return (
     <div className="top-panel">
-      {/* <label className="label-button button">
-          Import
-          <input type="file" id="import-btn" accept=".json" onChange={importRhythm} />
-      </label> */}
-
       <div className="rhythms-collection">
         <button className="icon-btn"><img src="/assets/svg/ui/library.svg" alt="Show collection" /></button>
         <button className="icon-btn" onClick={showCreateNewRhythmModal}>
-          <img src="/assets/svg/ui/add-document.svg" alt="create rhythm" />
+          <img src="/assets/svg/ui/create-document.svg" alt="create rhythm" />
         </button>
+        <label className="label-button button icon-btn" title="Import rhythm from file">
+          <img src="/assets/svg/ui/import.svg" alt="Import rhythm from file" />
+          <input type="file" id="import-btn" accept=".json" onChange={importRhythm} />
+        </label>
       </div>
 
       <div className="rhythm-management">
@@ -58,7 +57,6 @@ export default function TopPanel() {
         <button className="icon-btn">
           <img src="/assets/svg/ui/user.svg" alt="Profile options" />
         </button>
-        {/* <button onClick={showExportModal}>Export</button> */}
       </div>
     </div>
   )
