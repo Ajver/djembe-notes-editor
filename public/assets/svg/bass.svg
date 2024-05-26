@@ -1,21 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" transform="rotate(180)"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="475.396px"
-	 height="427.234px" viewBox="0 0 475.396 427.234" enable-background="new 0 0 475.396 427.234" xml:space="preserve">
-<g id="SVGRepo_bgCarrier">
+<svg width="476" height="428" viewBox="0 0 476 428" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_5_2)">
+<path d="M260.043 421.292C267.026 417.301 272.814 411.514 276.804 404.53L469.454 67.394C481.797 45.793 474.292 18.278 452.692 5.935C445.886 2.045 438.182 0 430.343 0H45.045C20.167 0 0 20.167 0 45.045C0 52.884 2.045 60.587 5.935 67.394L198.585 404.53C210.927 426.13 238.442 433.635 260.043 421.292Z" fill="black"/>
 </g>
-<g id="SVGRepo_tracerCarrier">
-</g>
-<g id="SVGRepo_iconCarrier">
-	<title>triangle-filled</title>
-	<g id="Page-1">
-		<g id="drop" transform="translate(32.000000, 42.666667)">
-			<path id="Combined-Shape" d="M228.043-36.724c6.983,3.991,12.771,9.778,16.761,16.762l192.65,337.136
-				c12.343,21.601,4.838,49.116-16.762,61.459c-6.806,3.89-14.51,5.935-22.349,5.935H13.045c-24.878,0-45.045-20.167-45.045-45.045
-				c0-7.839,2.045-15.542,5.935-22.349l192.65-337.136C178.927-41.562,206.442-49.067,228.043-36.724z"/>
-		</g>
-	</g>
-</g>
+<defs>
+<clipPath id="clip0_5_2">
+<rect width="475.396" height="427.234" fill="white"/>
+</clipPath>
+</defs>
 </svg>
