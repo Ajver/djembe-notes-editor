@@ -13,7 +13,7 @@
 
 .inject-bar-btn:hover {
   background-color: #78d18165;
-  background-image: url(/assets/svg/plus-circle.svg);
+  background-image: url(/assets/svg/ui/plus-circle.svg);
 }
 
 .full-score > .inject-bar-btn {
