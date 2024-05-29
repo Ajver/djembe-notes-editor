@@ -1,5 +1,7 @@
 # Djembe notes editor
 
+Try online: https://djembenotes.com/
+
 This is an open-source project aimed at creating a djembe rhythms, playing them and printing. It's a great tool for musicians, who wants to create a new rhythm or save something they heard.
 
 ## Technology Stack
