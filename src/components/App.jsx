@@ -1,5 +1,5 @@
 import Editor from './Editor/Editor'
-import LoginPage from "./LoginPage/LoginPage"
+import LoginPage from "./SignInUpPages/LoginPage"
 import PageNotFound from "./PageNotFound/PageNotFound"
 import { Route, Routes } from "react-router-dom"
 
