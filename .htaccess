@@ -1,0 +1,6 @@
+AddHandler application/x-httpd-php82 php
+
+Options -MultiViews
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.html [QSA,L]
