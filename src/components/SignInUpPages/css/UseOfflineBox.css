@@ -1,0 +1,26 @@
+
+.choose-offline {
+  position: relative;
+  transition: transform .3s;
+}
+
+.choose-offline:hover {
+  box-shadow: 0px 2px 6px #333;
+  cursor: pointer;
+  transform: translateY(-5px);
+}
+
+.choose-box .offline-img {
+  width: 50%;
+  display: block;
+  margin: auto;
+  margin-top: 80px;
+  filter: invert(.6);
+}
+
+.choose-box .enter-img {
+  position: absolute;
+  height: 40px;
+  right: 10px;
+  bottom: 10px;
+}
