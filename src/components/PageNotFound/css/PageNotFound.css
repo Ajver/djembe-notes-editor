@@ -1,17 +1,18 @@
 
 .page-not-found-container {
-  color: #eee;
+  color: #333;
   text-align: center;
+  padding-top: 70px;
 }
 
-h1 {
+.page-not-found-container h1 {
   font-size: 80px;
 }
 
-p {
+.page-not-found-container p {
   margin: 30px 0;
 }
 
-a {
-  color: #70bd22;
+.page-not-found-container a {
+  color: #3a581b;
 }
