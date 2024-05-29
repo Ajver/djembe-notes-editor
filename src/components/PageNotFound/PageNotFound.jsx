@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 import "./css/PageNotFound.css"
 
 export default function PageNotFound() {
@@ -5,7 +6,7 @@ export default function PageNotFound() {
     <div className="page-not-found-container">
       <h1>404</h1>
       <p>Page not found</p>
-      <a href="/">Return to home page</a>
+      <Link to="/">Return to home page</Link>
     </div>
   )
 }

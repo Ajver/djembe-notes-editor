@@ -80,6 +80,7 @@ button.icon-btn.pressed {
 }
 
 input[type=text],
+input[type=password],
 input[type=number] {
     width: 100%;
     font-size: 24px;
