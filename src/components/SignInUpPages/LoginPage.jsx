@@ -17,7 +17,7 @@ export default function LoginPage() {
             <input type="text" name="username-email" id="username-email" required />
             <label htmlFor="password">Password</label>
             <input type="password" name="password" id="password" required />
-            <p className="forgot-password"><Link to="reset-password">Forgot password</Link></p>
+            <p className="forgot-password"><Link to="/reset-password">Forgot password</Link></p>
             <button type="submit">Login</button>
           </form>
           <p>Don't have an account yet? Sign up <Link to="/signup">here</Link>!</p>
