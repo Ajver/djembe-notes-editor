@@ -55,3 +55,11 @@
 .title-label {
   
 }
+
+@media screen and (max-width: 830px) {
+  
+  .top-panel * {
+    display: none;
+  }
+
+}

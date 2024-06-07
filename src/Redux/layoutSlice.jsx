@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 function _buildNotesOrderList(state, action) {
-  const { definition } = action.payload
+  const { definition } = action.payload.rhythm
 
   const notesOrder = []
 
@@ -52,11 +52,16 @@ export const layoutSlice = createSlice({
   },
   reducers: {
     buildLayout: (state, action) => {
+      const {
+        rhythm,
+        containerWidth,
+        isDesktop,
+      } = action.payload
       const { 
         definition, 
         beatsInBar, 
         beatsCount 
-      } = action.payload
+      } = rhythm
 
       // TODO: Move these sizes to external store (to make it central and editable)
       // and don't need to fix these values after changing CSS (css should pull the values from the same store)
@@ -66,7 +71,8 @@ export const layoutSlice = createSlice({
       const ONE_FULL_SCORE_HEIGHT = (definition.length - 1) * 70 + 90
 
       const MAX_SHEET_HEIGHT = 1090
-      const MAX_FULL_SCORE_WIDTH = 730
+      const FULL_SCORE_MARGIN = isDesktop ? 100 : 40
+      const MAX_FULL_SCORE_WIDTH = containerWidth - FULL_SCORE_MARGIN
 
       // List of sheet definition
       const layout = []

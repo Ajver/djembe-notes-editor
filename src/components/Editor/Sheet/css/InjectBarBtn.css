@@ -29,3 +29,12 @@
   margin-left: 5px;
   border-right: 2px dashed #666;
 }
+
+
+@media screen and (max-width: 830px) {
+  
+  .full-score > .inject-bar-btn {
+    left: -5px;
+  }
+
+}

@@ -1,0 +1,10 @@
+
+.edit-popup {
+  width: 150px;
+  height: 75px;
+  position: absolute;
+  left: 0;
+  top: 20px;
+  background-color: #fff;
+  border: 1px solid #333;
+}

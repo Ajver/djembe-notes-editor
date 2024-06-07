@@ -38,10 +38,10 @@ export default function Editor() {
         </>
       }
       <LayoutBuilder />
-      
+
       <TopPanel />
       <SheetsContainer ref={sheetsContainerRef} />
-      
+
       <BottomPanel sheetsContainerRef={sheetsContainerRef} />
       
       <ExportModal />

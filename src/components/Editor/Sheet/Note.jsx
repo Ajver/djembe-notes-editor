@@ -61,16 +61,14 @@ export default function Note({notesOrderIdx}) {
     }
   }
 
-  const hoverClass = (
-    (
-      noteNumberInInstrument >= selectionStartIdx 
-      && noteNumberInInstrument <= selectionEndIdx
-      && instrumentIdx >= selectionStartInstrument
-      && instrumentIdx <= selectionEndInstrument
-    ) 
-    ? "selected"
-    : ""
+  const isSelected = (
+    noteNumberInInstrument >= selectionStartIdx 
+    && noteNumberInInstrument <= selectionEndIdx
+    && instrumentIdx >= selectionStartInstrument
+    && instrumentIdx <= selectionEndInstrument
   )
+
+  const hoverClass = isSelected ? "selected": ""
 
   const imgSrc = {
     "-": "assets/svg/dash.svg",
