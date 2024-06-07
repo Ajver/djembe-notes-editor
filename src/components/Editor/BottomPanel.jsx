@@ -2,16 +2,14 @@ import React from "react";
 import "./css/BottomPanel.css"
 import PlayContainer from "./PlayContainer";
 import TipsPanel from "./TipsPanel";
-import { useDispatch, useSelector } from "react-redux";
-import { useStyledReactToPrint } from "../../hooks/useStyledReactToPrint";
+import { useDispatch } from "react-redux";
 import { setExportModalVisibility } from "../../Redux/modalsSlice";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { TIPS_PANEL_VISIBLE_KEY } from "../../constants/LocalStorage";
+import PrintingSystem from "./PrintingSystem";
 
-export default function BottomPanel({sheetsContainerRef}) {
+export default function BottomPanel() {
   const dispatch = useDispatch()
-  const rhythmTitle = useSelector(store => store.rhythm.title) 
-  const handlePrint = useStyledReactToPrint(sheetsContainerRef, rhythmTitle)
   const [tipsVisible, setTipsVisible] = useLocalStorage(TIPS_PANEL_VISIBLE_KEY, true)
 
   function toggleTipsPanel() {
@@ -36,9 +34,7 @@ export default function BottomPanel({sheetsContainerRef}) {
           <button className="icon-btn" onClick={showExportModal}>
             <img src="/assets/svg/ui/download.svg" alt="Download rhythm definition" />
           </button>
-          <button className="icon-btn" onClick={handlePrint}>
-            <img src="/assets/svg/ui/print.svg" alt="Print rhythm" />
-          </button>
+          <PrintingSystem />
         </div>
       </div>
     </>

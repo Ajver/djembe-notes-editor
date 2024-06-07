@@ -42,7 +42,7 @@ export default function Editor() {
       <TopPanel />
       <SheetsContainer ref={sheetsContainerRef} />
 
-      <BottomPanel sheetsContainerRef={sheetsContainerRef} />
+      <BottomPanel />
       
       <ExportModal />
       <CreateRhythmModal />
