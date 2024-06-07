@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { buildLayout } from '../../Redux/layoutSlice'
+import { buildLayoutAndNotesOrder } from '../../Redux/layoutSlice'
 
 export default function LayoutBuilder() {
   const dispatch = useDispatch()
@@ -8,7 +8,7 @@ export default function LayoutBuilder() {
 
   const [containerWidth, setContainerWidth] = useState(Math.min(830, document.body.offsetWidth))
 
-  const isDesktop = containerWidth >= 830
+  const toDesktop = containerWidth >= 830
 
   window.addEventListener("resize", () => {
     const newWidth = Math.min(830, document.body.offsetWidth)
@@ -18,8 +18,8 @@ export default function LayoutBuilder() {
   console.log("Container width: ", containerWidth)
   
   useEffect(() => {
-    dispatch(buildLayout({rhythm, containerWidth, isDesktop}))
-  }, [rhythm, dispatch, containerWidth, isDesktop])
+    dispatch(buildLayoutAndNotesOrder({rhythm, containerWidth, toDesktop}))
+  }, [rhythm, dispatch, containerWidth, toDesktop])
 
   return null
 }
