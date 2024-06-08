@@ -9,18 +9,42 @@ export default function PrintingSystem() {
   // Set this to True, to trigger printing
   const [isPrintingStage, setPrintingStage] = useState(false)
 
+  function startPrinting() {
+    setPrintingStage(true)
+  }
+
+  function endPrinting() {
+    setPrintingStage(false)
+  }
+
+  function onKeyDown(event) {
+    if ((event.ctrlKey || event.metaKey) && event.key == "p") {
+      // Ctrl + P
+      event.preventDefault()
+      startPrinting()
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", onKeyDown)
+
+    return () => {
+      window.removeEventListener("keydown", onKeyDown)
+    }
+  }, [])
+
   return (
     <div>
-      <button className="icon-btn" onClick={() => setPrintingStage(true)}>
+      <button className="icon-btn" onClick={startPrinting}>
         <img src="/assets/svg/ui/print.svg" alt="Print rhythm" />
       </button>
-      { isPrintingStage && <PrintingContainer endPrintingStageCallback={() => setPrintingStage(false)} /> }
+      { isPrintingStage && <PrintingContainer endPrintingCallback={endPrinting} /> }
     </div>
   )
 }
 
 
-function PrintingContainer({endPrintingStageCallback}) {
+function PrintingContainer({endPrintingCallback}) {
   // We render separate SheetsContainer in this component, which is invisible.
   // This is only for printing, and we need to make it separate from the main
   // sheets container defined in Editor, because on mobile devices the main
@@ -36,7 +60,7 @@ function PrintingContainer({endPrintingStageCallback}) {
 
   useEffect(() => {
     toPrint()
-    endPrintingStageCallback()
+    endPrintingCallback()
   }, [])
   
   return (
