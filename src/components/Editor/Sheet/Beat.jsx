@@ -7,7 +7,6 @@ export default function Beat({instrumentIdx, beatLayout}) {
   const beatIdx = beatLayout.index
   const definition = useSelector(store => store.rhythm.definition)
   const beatDef = definition[instrumentIdx][beatIdx]
-  const notesOrder = useSelector(store => store.layout.notesOrder)
   const notes = beatLayout.notesPerInstrument[instrumentIdx]
 
   if (!beatDef) {
@@ -25,10 +24,9 @@ export default function Beat({instrumentIdx, beatLayout}) {
   return (
     <div className="beat" beat-type={beatDef.type}>
       {
-        notes.map(notesOrderIdx => {
-          const noteIdx = notesOrder[notesOrderIdx].noteIdx
+        notes.map(noteLocation => {
           return (
-            <Note key={notesOrderIdx} instrumentIdx={instrumentIdx} beatIdx={beatIdx} noteIdx={noteIdx} notesOrderIdx={notesOrderIdx} />
+            <Note key={noteLocation.noteIdx} noteLocation={noteLocation} />
           )
         })
       }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { buildLayoutAndNotesOrder } from '../../Redux/layoutSlice'
+import { generateLayout } from '../../Redux/layoutSlice'
 
 export default function LayoutBuilder() {
   const dispatch = useDispatch()
@@ -18,7 +18,7 @@ export default function LayoutBuilder() {
   console.log("Container width: ", containerWidth)
   
   useEffect(() => {
-    dispatch(buildLayoutAndNotesOrder({rhythm, containerWidth, toDesktop}))
+    dispatch(generateLayout({rhythm, containerWidth, toDesktop}))
   }, [rhythm, dispatch, containerWidth, toDesktop])
 
   return null

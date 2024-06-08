@@ -12,17 +12,17 @@ export default function PrintingSystem() {
   const handlePrint = useStyledReactToPrint(sheetsContainerRef, rhythmTitle)
 
   const containerWidth = 830  // A4 size
-  const customLayout = buildLayout(rhythm, containerWidth, true)
+  const layout = buildLayout(rhythm, containerWidth, true)
 
-  console.log("Layout to print: ", customLayout)
+  console.log("Layout to print: ", layout)
 
   return (
     <div>
       <button className="icon-btn" onClick={handlePrint}>
         <img src="/assets/svg/ui/print.svg" alt="Print rhythm" />
       </button>
-      <div className="printing-system" >
-        <SheetsContainer customLayout={customLayout} ref={sheetsContainerRef} />
+      <div className="printing-system" style={{display: "none"}}>
+        <SheetsContainer mode="printing" customLayout={layout} ref={sheetsContainerRef} />
       </div>
     </div>
   )

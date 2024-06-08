@@ -7,8 +7,7 @@ import { NoteSymbol } from "../../../constants/NoteDef"
 import { playNote } from "../../../helpers/playing/playing"
 import { calculateNoteNumber } from "../../../helpers/noteNumber"
 
-export default function Note({notesOrderIdx}) {
-  const noteLocation = useSelector(store => store.layout.notesOrder[notesOrderIdx])
+export default function Note({noteLocation}) {
   const { instrumentIdx, beatIdx, noteIdx } = noteLocation
 
   const selectionStartIdx  = useSelector(store => store.editor.selectionStartIdx)

@@ -1,5 +1,47 @@
 
 
+function fillLayoutWithNotesAndCalculateOrder(layout, definition) {
+  const notesOrder = []
+
+  layout.forEach(sheet => {
+    sheet.elements.forEach(element => {
+      if (element.type !== "full-score") {
+        // Ignore non-full-scores (i.e. headers)
+        return
+      }
+
+      // Now we know that the element is a Full Score
+      const fullScore = element
+
+      for (let instrumentIdx = 0; instrumentIdx < definition.length; instrumentIdx++) {
+        // We need to loop through each instrument in this full score
+        // to gather correct order of notes
+
+        fullScore.bars.forEach(bar => {
+          bar.beats.forEach(beat => {
+            const beatIdx = beat.index
+            const beatDef = definition[instrumentIdx][beatIdx]
+            beat.notesPerInstrument[instrumentIdx] = []
+
+            beatDef.notes.forEach((_symbol, noteIdx) => {
+              const noteLocation = {
+                instrumentIdx,
+                beatIdx,
+                noteIdx,
+              }
+              const thisNotesOrderIdx = notesOrder.length
+              notesOrder.push(noteLocation)
+              beat.notesPerInstrument[instrumentIdx].push(thisNotesOrderIdx)
+            })
+          })
+        })
+      }
+    })
+  });
+
+  return notesOrder
+}
+
 export default function buildLayout(rhythm, containerWidth, toDesktop) {
   const { 
     definition, 
@@ -112,21 +154,35 @@ export default function buildLayout(rhythm, containerWidth, toDesktop) {
     }
   }
 
-  const instrumentsCount = definition.lengthg
+  const instrumentsCount = definition.length
 
-  for (let i = 0; i < beatsCount; i++) {
-    if (i % beatsInBar == 0) {
+  for (let beatIdx = 0; beatIdx < beatsCount; beatIdx++) {
+    if (beatIdx % beatsInBar == 0) {
       // We need a new bar
       newBar()
     }
 
     const beat = {
-      index: i,
-      notesPerInstrument: Array(instrumentsCount),  // For now this is empty - will be filled in _buildNotesOrderList function
+      index: beatIdx,
+      notesPerInstrument: Array(instrumentsCount),
+    }
+
+    for (let instrumentIdx = 0; instrumentIdx < definition.length; instrumentIdx++) {
+      const beatDef = definition[instrumentIdx][beatIdx]
+      beat.notesPerInstrument[instrumentIdx] = []
+
+      beatDef.notes.forEach((_symbol, noteIdx) => {
+        const noteLocation = {
+          instrumentIdx,
+          beatIdx,
+          noteIdx,
+        }
+        beat.notesPerInstrument[instrumentIdx].push(noteLocation)
+      })
     }
 
     currentBar.beats.push(beat)
-    const beatWidth = getBeatWidth(i)
+    const beatWidth = getBeatWidth(beatIdx)
     currentBar.width += beatWidth
   }
 

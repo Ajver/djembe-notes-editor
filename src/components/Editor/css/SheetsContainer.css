@@ -9,7 +9,7 @@
 
 @media screen and (max-width: 830px) {
   
-  .sheets-container {
+  .sheets-container.edit-mode {
     width: 100%;
     min-height: 0;
     height: max-content;

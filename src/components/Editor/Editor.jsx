@@ -40,7 +40,7 @@ export default function Editor() {
       <LayoutBuilder />
 
       <TopPanel />
-      <SheetsContainer ref={sheetsContainerRef} />
+      <SheetsContainer mode={"editor"} ref={sheetsContainerRef} />
 
       <BottomPanel />
       
