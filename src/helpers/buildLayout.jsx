@@ -104,6 +104,12 @@ export default function buildLayout(rhythm, containerWidth, toDesktop) {
   }
 
   function checkForSheetOverflow() {
+    if (!toDesktop) {
+      // This is for mobile, where we have one infinite long sheet,
+      // which cannot overflow
+      return
+    }
+
     if (currentSheet.height + ONE_FULL_SCORE_HEIGHT > MAX_SHEET_HEIGHT) {
       // We need new sheet to fit this full score
       currentSheet = {
