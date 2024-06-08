@@ -48,6 +48,7 @@ button.cancel:hover {
 .icon-btn,
 .icon-btn {
     min-width: 40px;
+    width: 40px;
     height: 40px;
     padding: 5px;
     cursor: pointer;
