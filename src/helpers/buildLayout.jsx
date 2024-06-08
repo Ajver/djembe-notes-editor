@@ -1,47 +1,4 @@
 
-
-function fillLayoutWithNotesAndCalculateOrder(layout, definition) {
-  const notesOrder = []
-
-  layout.forEach(sheet => {
-    sheet.elements.forEach(element => {
-      if (element.type !== "full-score") {
-        // Ignore non-full-scores (i.e. headers)
-        return
-      }
-
-      // Now we know that the element is a Full Score
-      const fullScore = element
-
-      for (let instrumentIdx = 0; instrumentIdx < definition.length; instrumentIdx++) {
-        // We need to loop through each instrument in this full score
-        // to gather correct order of notes
-
-        fullScore.bars.forEach(bar => {
-          bar.beats.forEach(beat => {
-            const beatIdx = beat.index
-            const beatDef = definition[instrumentIdx][beatIdx]
-            beat.notesPerInstrument[instrumentIdx] = []
-
-            beatDef.notes.forEach((_symbol, noteIdx) => {
-              const noteLocation = {
-                instrumentIdx,
-                beatIdx,
-                noteIdx,
-              }
-              const thisNotesOrderIdx = notesOrder.length
-              notesOrder.push(noteLocation)
-              beat.notesPerInstrument[instrumentIdx].push(thisNotesOrderIdx)
-            })
-          })
-        })
-      }
-    })
-  });
-
-  return notesOrder
-}
-
 export default function buildLayout(rhythm, containerWidth, toDesktop) {
   const { 
     definition, 
@@ -59,6 +16,9 @@ export default function buildLayout(rhythm, containerWidth, toDesktop) {
   const MAX_SHEET_HEIGHT = 1090
   const FULL_SCORE_MARGIN = toDesktop ? 100 : 40
   const MAX_FULL_SCORE_WIDTH = containerWidth - FULL_SCORE_MARGIN
+
+  // 15px is padding + 2px bar line, no beats included
+  const EMPTY_BAR_WIDTH = 17
 
   // List of sheet definition
   const layout = []
@@ -108,7 +68,7 @@ export default function buildLayout(rhythm, containerWidth, toDesktop) {
     currentBar = {
       barIdx: nextBarIdx,
       beats: [],
-      width: 17,  // 15px is padding + 2px bar line
+      width: EMPTY_BAR_WIDTH,
     }
     currentFullScore.bars.push(currentBar)
     nextBarIdx++
