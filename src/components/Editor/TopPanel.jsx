@@ -5,14 +5,15 @@ import { setCreateRhythmModalVisibility } from "../../Redux/modalsSlice"
 import loadRhythmFromFile from "../../helpers/loadRhythmFromFile"
 import { setRhythmTitle } from "../../Redux/rhythmSlice"
 import InputLabelContainer from "../Common/InputLabelContainer"
+import { MOBILE_MAX_WIDTH } from "../../constants/MobileUi"
 
 export default function TopPanel() {
   const dispatch = useDispatch()
   
-  const [toDesktop, setToDesktop] = useState(document.body.offsetWidth >= 830)
+  const [toDesktop, setToDesktop] = useState(window.innerWidth > MOBILE_MAX_WIDTH)
 
   window.addEventListener("resize", () => {
-    setToDesktop(document.body.offsetWidth >= 830)
+    setToDesktop(window.innerWidth > MOBILE_MAX_WIDTH)
   })
 
   function showCreateNewRhythmModal() {
