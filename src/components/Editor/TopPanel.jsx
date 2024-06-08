@@ -100,61 +100,64 @@ function MobileTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleEd
   const menuVisibleClass = isMenuVisible ? "menu-visible" : ""
 
   return (
-    <div className={"top-panel " + menuVisibleClass}>
-      <section className="top-bar">
-        <button className="icon-btn" onClick={toggleMenu}>
-          { 
-            isMenuVisible 
-            ? <img src="/assets/svg/ui/close.svg" alt="Hide main menu" />
-            : <img src="/assets/svg/ui/hamburger.svg" alt="Show main menu" />
-          }
-        </button>
-        <InputLabelContainer 
-          className="title-edit" 
-          text={rhythmTitle} 
-          editCallback={onRhythmTitleEdited}
-        />
-        <button className="icon-btn">
-          <img src="/assets/svg/ui/cloud-check.svg" alt="Rhythm saved in cloud" />
-        </button>
-      </section>
-      <nav className="hamburger-menu">
-        <label>
-          <button className="icon-btn" onClick={showCreateNewRhythmModal}>
-            <img src="/assets/svg/ui/create-document.svg" alt="create rhythm" />
+    <>
+      { isMenuVisible && <div className="dark-background" onClick={() => setMenuVisible(false)}></div> }
+      <div className={"top-panel " + menuVisibleClass}>
+        <section className="top-bar">
+          <button className="icon-btn" onClick={toggleMenu}>
+            { 
+              isMenuVisible 
+              ? <img src="/assets/svg/ui/close.svg" alt="Hide main menu" />
+              : <img src="/assets/svg/ui/hamburger.svg" alt="Show main menu" />
+            }
           </button>
-          Create new rhythm
-        </label>
-        <label className="label-button" title="Import rhythm from file">
-          <div className="icon-btn" >
-            <img src="/assets/svg/ui/import.svg" alt="Import rhythm from file" />
-          </div>
-          <input type="file" id="import-btn" accept=".json" onChange={importRhythm} />
-          Import from file
-        </label>
-        <label>
+          <InputLabelContainer 
+            className="title-edit" 
+            text={rhythmTitle} 
+            editCallback={onRhythmTitleEdited}
+          />
           <button className="icon-btn">
-            <img src="/assets/svg/ui/settings.svg" alt="Rhythm settings" />
+            <img src="/assets/svg/ui/cloud-check.svg" alt="Rhythm saved in cloud" />
           </button>
-          Rhythm settings
-        </label>
-        <label>
-          <button className="icon-btn"><img src="/assets/svg/ui/library.svg" alt="Show collection" /></button>
-          Back to collection
-        </label>
-        <label>
-          <button className="icon-btn">
-            <img src="/assets/svg/ui/share.svg" alt="Share rhythm" />
-          </button>
-          Share rhythm
-        </label>
-        <label>
-          <button className="icon-btn">
-            <img src="/assets/svg/ui/user.svg" alt="Profile options" />
-          </button>
-          Profile
-        </label>
-      </nav>
-    </div>
+        </section>
+        <nav className="hamburger-menu">
+          <label>
+            <button className="icon-btn" onClick={showCreateNewRhythmModal}>
+              <img src="/assets/svg/ui/create-document.svg" alt="create rhythm" />
+            </button>
+            Create new rhythm
+          </label>
+          <label className="label-button" title="Import rhythm from file">
+            <div className="icon-btn" >
+              <img src="/assets/svg/ui/import.svg" alt="Import rhythm from file" />
+            </div>
+            <input type="file" id="import-btn" accept=".json" onChange={importRhythm} />
+            Import from file
+          </label>
+          <label>
+            <button className="icon-btn">
+              <img src="/assets/svg/ui/settings.svg" alt="Rhythm settings" />
+            </button>
+            Rhythm settings
+          </label>
+          <label>
+            <button className="icon-btn"><img src="/assets/svg/ui/library.svg" alt="Show collection" /></button>
+            Back to collection
+          </label>
+          <label>
+            <button className="icon-btn">
+              <img src="/assets/svg/ui/share.svg" alt="Share rhythm" />
+            </button>
+            Share rhythm
+          </label>
+          <label>
+            <button className="icon-btn">
+              <img src="/assets/svg/ui/user.svg" alt="Profile options" />
+            </button>
+            Profile
+          </label>
+        </nav>
+      </div>
+    </>
   )
 }
