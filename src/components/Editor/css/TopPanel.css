@@ -17,7 +17,7 @@
   width: 100%;
 }
 
-.rhythms-collection label {
+.label-button {
   display: inline-block;
 }
 
@@ -57,9 +57,38 @@
 }
 
 @media screen and (max-width: 830px) {
-  
-  .top-panel * {
+
+  .title-edit {
+  }
+
+  .top-panel {
+    width: 100%;
+    height: max-content;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .top-bar {
+    display: flex;
+    width: 100%;
+    min-height: 50px;
+    padding: 0 20px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .hamburger-menu {
+    /* display: flex when menu visible */
     display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #333;
+    padding: 10px 20px;
+  }
+
+  .top-panel.menu-visible .hamburger-menu {
+    display: flex;
   }
 
 }
