@@ -30,4 +30,8 @@
     padding-left: 10px;
   }
   
+  .edit-mode .full-score.multi-instruments::before {
+    left: -10px;
+  }
+
 }
