@@ -7,8 +7,6 @@ const SheetsContainer = React.forwardRef((props, ref) => {
   const { mode, customLayout } = props
   const layoutFromStore = useSelector(store => store.layout.layout)
 
-  console.log("Re-rendering SheetsContainer")
-
   const modeClass = {
     "editor": "edit-mode",
     "printing": "print-mode",
