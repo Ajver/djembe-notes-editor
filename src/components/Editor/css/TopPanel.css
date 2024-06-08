@@ -19,6 +19,9 @@
 
 .label-button {
   display: inline-block;
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
 }
 
 .rhythm-management {
@@ -58,14 +61,12 @@
 
 @media screen and (max-width: 830px) {
 
-  .title-edit {
-  }
-
   .top-panel {
     width: 100%;
     height: max-content;
     flex-direction: column;
     padding: 0;
+    box-shadow: 0 0 5px #666;
   }
 
   .top-bar {
@@ -77,18 +78,33 @@
     align-items: center;
   }
 
+  .title-edit {
+    width: 100%;
+    text-align: center;
+  }
+
+  .title-edit input {
+    text-align: center;
+  }
+
   .hamburger-menu {
     /* display: flex when menu visible */
     display: none;
     flex-direction: column;
+    gap: 5px;
     width: 100%;
     background-color: #fff;
-    border-bottom: 1px solid #333;
     padding: 10px 20px;
   }
 
   .top-panel.menu-visible .hamburger-menu {
     display: flex;
+  }
+
+  .hamburger-menu label {
+    display: flex;
+    align-items: center;
+    width: 100%;
   }
 
 }
