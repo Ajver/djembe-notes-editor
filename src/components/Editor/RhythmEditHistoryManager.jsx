@@ -2,8 +2,7 @@ import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { resetHistory, setChangedFromHistory, setHistoryFuture, setHistoryPast, setHistoryPresent } from "../../Redux/editorSlice"
 
-export default function UndoRedoManager() {
-  
+export default function RhythmEditHistoryManager() {
   const rhythm = useSelector(store => store.rhythm)
   const dispatch = useDispatch()
 

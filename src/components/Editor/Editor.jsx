@@ -9,7 +9,7 @@ import CreateRhythmModal from "./CreateRhythmModal"
 import Player from "./Player"
 import LayoutBuilder from "./LayoutBuilder"
 import { useDispatch } from "react-redux"
-import UndoRedoManager from "./UndoRedoManager"
+import RhythmEditHistoryManager from "./RhythmEditHistoryManager"
 import TopPanel from "./TopPanel"
 import BottomPanel from "./BottomPanel"
 
@@ -33,7 +33,7 @@ export default function Editor() {
         && <>
           <LocalStorageSaver />
           <NotesEditor />
-          <UndoRedoManager />
+          <RhythmEditHistoryManager />
           <Player />
         </>
       }
