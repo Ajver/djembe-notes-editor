@@ -4,7 +4,7 @@ import { setExportModalVisibility } from "../../Redux/modalsSlice";
 import { BeatType, NotesCount } from "../../constants/BeatDef";
 import { TIPS_PANEL_VISIBLE_KEY } from "../../constants/LocalStorage";
 import { copySelectedBeats, pasteBeatsFromClipboard } from "../../helpers/copyPasteRhythm";
-import { setBeatTypeForSelected } from "../../helpers/editSelectedNotes";
+import { setBeatTypeForSelected, setNoteForSelected } from "../../helpers/editSelectedNotes";
 import { getLocationFromNoteNumber } from "../../helpers/noteNumber";
 import { rhythmEditRedo, rhythmEditUndo } from "../../helpers/undoRedo";
 import useLocalStorage from "../../hooks/useLocalStorage";
@@ -12,6 +12,7 @@ import PlayContainer from "./PlayContainer";
 import PrintingSystem from "./PrintingSystem";
 import TipsPanel from "./TipsPanel";
 import "./css/BottomPanel.css";
+import { NoteSymbol } from "../../constants/NoteDef";
 
 export default function BottomPanel() {
   const dispatch = useDispatch()  
@@ -60,6 +61,10 @@ export default function BottomPanel() {
     setBeatTypeForSelected(selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, definition, dispatch, newBeatType)
   }
 
+  function setNote(newNoteType) {
+    setNoteForSelected(selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, definition, dispatch, newNoteType)
+  }
+
   function toggleTipsPanel() {
     setTipsVisible(!tipsVisible)
   }
@@ -102,16 +107,19 @@ export default function BottomPanel() {
           </button>
         </section>
         <section className="note-symbol-change">
-          <button className="icon-btn">
+          <button className="icon-btn" onClick={() => setNote(NoteSymbol.EMPTY)}>
+            <img src="/assets/svg/dash.svg" alt="empty" />
+          </button>
+          <button className="icon-btn" onClick={() => setNote(NoteSymbol.BASS)}>
             <img src="/assets/svg/bass.svg" alt="bass" />
           </button>
-          <button className="icon-btn">
+          <button className="icon-btn" onClick={() => setNote(NoteSymbol.TONE)}>
             <img src="/assets/svg/tone.svg" alt="tone" />
           </button>
-          <button className="icon-btn">
+          <button className="icon-btn" onClick={() => setNote(NoteSymbol.SLAP)}>
             <img src="/assets/svg/cross.svg" alt="slap" />
           </button>
-          <button className="icon-btn">
+          <button className="icon-btn" onClick={() => setNote(NoteSymbol.GHOST)}>
             <img src="/assets/svg/ghost.svg" alt="ghost" />
           </button>
         </section>
