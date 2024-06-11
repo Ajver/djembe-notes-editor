@@ -14,6 +14,11 @@ export const editorSlice = createSlice({
     selectionEndInstrument: -1,
 
     copyClipboard: [],
+
+    past: [],
+    present: {},
+    future: [],
+    isChangedFromHistory: false,
   },
   reducers: {
     singleSelect: (state, action) => {
@@ -179,6 +184,23 @@ export const editorSlice = createSlice({
     setInternalClipboardContent: (state, action) => {
       state.copyClipboard = action.payload
     },
+    resetHistory: (state, action) => {
+      state.past = []
+      state.present = action.payload
+      state.future = []
+    },
+    setHistoryPast: (state, action) => {
+      state.past = action.payload
+    },
+    setHistoryPresent: (state, action) => {
+      state.present = action.payload
+    },
+    setHistoryFuture: (state, action) => {
+      state.future = action.payload
+    },
+    setChangedFromHistory: (state, action) => {
+      state.isChangedFromHistory = action.payload
+    },
   }
 })
 
@@ -197,6 +219,11 @@ export const {
   extendSelectionUp,
   extendSelectionDown,
   setInternalClipboardContent,
+  resetHistory,
+  setHistoryPast,
+  setHistoryPresent,
+  setHistoryFuture,
+  setChangedFromHistory,
 } = editorSlice.actions 
 
 export default editorSlice.reducer

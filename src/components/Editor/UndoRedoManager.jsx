@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { overrideWholeRhythm } from "../../Redux/rhythmSlice"
+import { resetHistory, setChangedFromHistory, setHistoryFuture, setHistoryPast, setHistoryPresent } from "../../Redux/editorSlice"
+import { rhythmEditRedo, rhythmEditUndo } from "../../helpers/undoRedo"
 
 export default function UndoRedoManager() {
   const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
@@ -8,57 +9,30 @@ export default function UndoRedoManager() {
   const rhythm = useSelector(store => store.rhythm)
   const dispatch = useDispatch()
 
-  const [isChangedFromHistory, setIsChangedFromHistory] = useState(false)
-  const [past, setPast] = useState([])
-  const [present, setPresent] = useState(rhythm)
-  const [future, setFuture] = useState([])
-
-  function overrideRhythmFromHistory(newRhythm) {
-    setIsChangedFromHistory(true)
-    dispatch(overrideWholeRhythm(newRhythm))
-  }
+  const isChangedFromHistory = useSelector(store => store.editor.isChangedFromHistory)
+  const past = useSelector(store => store.editor.past)
+  const present = useSelector(store => store.editor.present)
+  const future = useSelector(store => store.editor.future)
 
   function undo() {
-    if (past.length === 0) {
-      // No past!
-      return
-    }
-
-    const previousState = past[past.length - 1]
-    const newPast = past.slice(0, past.length - 1)
-    setPast(newPast)
-    setPresent(previousState)
-    setFuture([present, ...future])
-
-    overrideRhythmFromHistory(previousState)
+    rhythmEditUndo(past, present, future, dispatch)
   }
 
   function redo() {
-    if (future.length === 0) {
-      // No future!
-      return
-    }
-
-    const nextState = future[0]
-    const newFuture = future.slice(1)
-    setPast([...past, present])
-    setPresent(nextState)
-    setFuture(newFuture)
-
-    overrideRhythmFromHistory(nextState)
+    rhythmEditRedo(past, present, future, dispatch)
   }
 
   function onRhythmChanged() {
     if (isChangedFromHistory) {
       // Don't change history this time, because history has just been changed by undo/redo
       // Reset one-time flag
-      setIsChangedFromHistory(false)
+      dispatch(setChangedFromHistory(false))
       return
     }
 
-    setPast([...past, present])
-    setPresent(rhythm)
-    setFuture([])
+    dispatch(setHistoryPast([...past, present]))
+    dispatch(setHistoryPresent(rhythm))
+    dispatch(setHistoryFuture([]))
   }
 
   function onKeyDown(event) {
@@ -80,6 +54,11 @@ export default function UndoRedoManager() {
         }
     }
   }
+
+  useEffect(() => {
+    // Initial reset
+    dispatch(resetHistory(rhythm))
+  }, [])
 
   useEffect(() => {
     onRhythmChanged()
