@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./css/BottomPanel.css"
 import PlayContainer from "./PlayContainer";
 import TipsPanel from "./TipsPanel";
@@ -12,6 +12,16 @@ export default function BottomPanel() {
   const dispatch = useDispatch()
   const [tipsVisible, setTipsVisible] = useLocalStorage(TIPS_PANEL_VISIBLE_KEY, true)
 
+  const [beatTypeCount, setBeatTypeCount] = useState(1)
+
+  function decreaseBeatType() {
+    setBeatTypeCount(beatTypeCount - 1)
+  }
+
+  function increaseBeatType() {
+    setBeatTypeCount(beatTypeCount + 1)
+  }
+
   function toggleTipsPanel() {
     setTipsVisible(!tipsVisible)
   }
@@ -24,8 +34,30 @@ export default function BottomPanel() {
     <>
       <TipsPanel visible={tipsVisible} toggleVisibility={toggleTipsPanel} />
       <section className="control-panel">
-        <section>
-          {/* Change beat type */}
+        <section className="beat-type-change">
+          <button className="icon-btn" onClick={decreaseBeatType}>
+            <img src="/assets/svg/ui/arrow-right.svg" alt="Decrease notes in beat" className="flip-h" />
+          </button>
+          <div className="beat-type-counter">
+            {beatTypeCount}
+          </div>
+          <button className="icon-btn" onClick={increaseBeatType}>
+            <img src="/assets/svg/ui/arrow-right.svg" alt="Increase notes in beat" />
+          </button>
+        </section>
+        <section className="note-symbol-change">
+          <button className="icon-btn">
+            <img src="/assets/svg/bass.svg" alt="bass" />
+          </button>
+          <button className="icon-btn">
+            <img src="/assets/svg/tone.svg" alt="tone" />
+          </button>
+          <button className="icon-btn">
+            <img src="/assets/svg/cross.svg" alt="slap" />
+          </button>
+          <button className="icon-btn">
+            <img src="/assets/svg/ghost.svg" alt="ghost" />
+          </button>
         </section>
       </section>
       <section className="bottom-panel">

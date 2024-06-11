@@ -19,6 +19,7 @@
 .bottom-panel > * {
   width: 100%;
   display: flex;
+  align-items: center;
 }
 
 .copy-paste-section,
@@ -52,6 +53,12 @@
   .control-panel {
     display: flex;
     bottom: 50px;
+  }
+
+  .beat-type-counter {
+    font-size: 32px;
+    width: 22px;
+    text-align: center;
   }
 
   .copy-paste-section,
