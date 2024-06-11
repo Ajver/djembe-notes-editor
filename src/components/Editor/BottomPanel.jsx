@@ -8,6 +8,7 @@ import useLocalStorage from "../../hooks/useLocalStorage";
 import { TIPS_PANEL_VISIBLE_KEY } from "../../constants/LocalStorage";
 import PrintingSystem from "./PrintingSystem";
 import { copySelectedBeats, pasteBeatsFromClipboard } from "../../helpers/copyPasteRhythm";
+import { rhythmEditRedo, rhythmEditUndo } from "../../helpers/undoRedo";
 
 export default function BottomPanel() {
   const dispatch = useDispatch()  
@@ -20,6 +21,9 @@ export default function BottomPanel() {
   const selectionEndIdx = useSelector(store => store.editor.selectionEndIdx)
   const selectionStartInstrument = useSelector(store => store.editor.selectionStartInstrument)
   const selectionEndInstrument = useSelector(store => store.editor.selectionEndInstrument)
+  const past = useSelector(store => store.editor.past)
+  const present = useSelector(store => store.editor.present)
+  const future = useSelector(store => store.editor.future)
   const clipboardContent = useSelector(store => store.editor.copyClipboard)
 
   function decreaseBeatType() {
@@ -36,6 +40,14 @@ export default function BottomPanel() {
 
   function showExportModal() {
     dispatch(setExportModalVisibility(true))
+  }
+
+  function handleUndo() {
+    rhythmEditUndo(past, present, future, dispatch)
+  }
+
+  function handleRedo() {
+    rhythmEditRedo(past, present, future, dispatch)
   }
 
   function handleCopy() {
@@ -83,10 +95,10 @@ export default function BottomPanel() {
           </button>
         </section>
         <section className="undo-redo-section">
-          <button className="icon-btn" title="undo">
+          <button className="icon-btn" title="undo" onClick={handleUndo}>
             <img src="/assets/svg/ui/undo.svg" alt="undo" />
           </button>
-          <button className="icon-btn" title="redo">
+          <button className="icon-btn" title="redo" onClick={handleRedo}>
             <img src="/assets/svg/ui/undo.svg" alt="redo" className="flip-h" />
           </button>
         </section>
