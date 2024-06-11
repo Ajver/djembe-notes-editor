@@ -55,6 +55,12 @@ export default function Note({noteLocation}) {
   }
 
   function handleMouseLeave(event) {
+    const wasTouch = event.nativeEvent.sourceCapabilities.firesTouchEvents
+    if (wasTouch) {
+      // Do NOT deselect on touch devices
+      return
+    }
+
     if (!event.shiftKey && event.buttons !== 1) {
       dispatch(deselectAll())
     }
