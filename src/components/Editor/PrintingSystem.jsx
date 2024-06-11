@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import buildLayout from "../../helpers/buildLayout";
 
 
-export default function PrintingSystem() {
+export default function PrintingSystem({onClickCallback}) {
   // Set this to True, to trigger printing
   const [isPrintingStage, setPrintingStage] = useState(false)
 
@@ -15,6 +15,11 @@ export default function PrintingSystem() {
 
   function endPrinting() {
     setPrintingStage(false)
+  }
+
+  function handleOnClick() {
+    onClickCallback && onClickCallback()
+    startPrinting()
   }
 
   function onKeyDown(event) {
@@ -35,7 +40,7 @@ export default function PrintingSystem() {
 
   return (
     <label>
-      <button className="icon-btn" onClick={startPrinting}>
+      <button className="icon-btn" onClick={handleOnClick}>
         <img src="/assets/svg/ui/print.svg" alt="Print rhythm" />
       </button>
       <span className="print-btn-title mobile-only">Print</span>

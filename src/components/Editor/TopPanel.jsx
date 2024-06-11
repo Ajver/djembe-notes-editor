@@ -100,15 +100,45 @@ function MobileTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleEd
     setMenuVisible(!isMenuVisible)
   }
 
-  function showExportModal() {
+  function hideMenu() {
+    setMenuVisible(false)
+  }
+
+  function onCreateRhythmClicked() {
+    hideMenu()
+    showCreateNewRhythmModal()
+  }
+
+  function onExportRhythmClicked() {
+    hideMenu()
     dispatch(setExportModalVisibility(true))
+  }
+
+  function onRhythmSettingsClicked() {
+    hideMenu()
+    // TODO
+  }
+
+  function onBackToCollectionClicked() {
+    hideMenu()
+    // TODO
+  }
+
+  function onShareRhythmClicked() {
+    hideMenu()
+    // TODO
+  }
+
+  function onProfileClicked() {
+    hideMenu()
+    // TODO
   }
 
   const menuVisibleClass = isMenuVisible ? "menu-visible" : ""
 
   return (
     <>
-      { isMenuVisible && <div className="dark-background" onClick={() => setMenuVisible(false)}></div> }
+      { isMenuVisible && <div className="dark-background" onClick={hideMenu}></div> }
       <div className={"top-panel " + menuVisibleClass}>
         <section className="top-bar">
           <button className="icon-btn" onClick={toggleMenu}>
@@ -129,12 +159,12 @@ function MobileTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleEd
         </section>
         <nav className="hamburger-menu">
           <label>
-            <button className="icon-btn" onClick={showCreateNewRhythmModal}>
+            <button className="icon-btn" onClick={onCreateRhythmClicked}>
               <img src="/assets/svg/ui/create-document.svg" alt="create rhythm" />
             </button>
             Create new rhythm
           </label>
-          <label className="label-button" title="Import rhythm from file">
+          <label className="label-button" title="Import rhythm from file" onClick={hideMenu}>
             <div className="icon-btn" >
               <img src="/assets/svg/ui/import.svg" alt="Import rhythm from file" />
             </div>
@@ -142,30 +172,32 @@ function MobileTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleEd
             Import from file
           </label>
           <label>
-            <button className="icon-btn" onClick={showExportModal}>
+            <button className="icon-btn" onClick={onExportRhythmClicked}>
               <img src="/assets/svg/ui/download.svg" alt="Download rhythm definition" />
             </button>
             Save to file
           </label>
-          <PrintingSystem />
+          <PrintingSystem onClickCallback={hideMenu} />
           <label>
-            <button className="icon-btn">
+            <button className="icon-btn" onClick={onRhythmSettingsClicked}>
               <img src="/assets/svg/ui/settings.svg" alt="Rhythm settings" />
             </button>
             Rhythm settings
           </label>
           <label>
-            <button className="icon-btn"><img src="/assets/svg/ui/library.svg" alt="Show collection" /></button>
+            <button className="icon-btn" onClick={onBackToCollectionClicked}>
+              <img src="/assets/svg/ui/library.svg" alt="Back to collection" />
+            </button>
             Back to collection
           </label>
           <label>
-            <button className="icon-btn">
+            <button className="icon-btn" onClick={onShareRhythmClicked}>
               <img src="/assets/svg/ui/share.svg" alt="Share rhythm" />
             </button>
             Share rhythm
           </label>
           <label>
-            <button className="icon-btn">
+            <button className="icon-btn" onClick={onProfileClicked}>
               <img src="/assets/svg/ui/user.svg" alt="Profile options" />
             </button>
             Profile
