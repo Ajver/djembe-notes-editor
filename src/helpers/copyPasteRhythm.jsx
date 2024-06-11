@@ -4,7 +4,10 @@ import { shortenInstrument } from "./saveRhythmToTxt"
 
 
 export function copySelectedBeats(definition, selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, dispatch) {
-  console.log("Copy HELPER")
+  if (selectionStartIdx < 0 || selectionStartInstrument < 0) {
+    // Nothing selected - nothing to copy
+    return
+  }
 
   const instrumentsToCopyList = []
 
@@ -27,11 +30,6 @@ export function copySelectedBeats(definition, selectionStartIdx, selectionEndIdx
   
   // Copy to internal clipboard (in case we don't have permission to use native one)
   dispatch(setInternalClipboardContent(strInstrumentsToCopy))
-
-  // Copy to native clipboard
-  document.body.appendChild(textArea);
-  textArea.select();
-  window.setTimeout(() => textArea.remove(), 10)
 }
 
 export function pasteBeatsFromClipboard(internalClipboardContent, startNoteIdx, startInstrument, dispatch) {
@@ -40,17 +38,8 @@ export function pasteBeatsFromClipboard(internalClipboardContent, startNoteIdx, 
     return
   }
 
+  const rhythmFragmentDef = internalClipboardContent
   const pasteStartIdx = Math.floor(startNoteIdx / 4)
   const pasteStartInstrument = startInstrument
-
-  navigator.clipboard.readText().then(clipText => {
-    console.log("Pasting from native clipboard: ", clipText)
-    const rhythmFragmentDef = clipText
-    dispatch(pasteRhythmFragment({ rhythmFragmentDef, pasteStartIdx, pasteStartInstrument }))
-  }).catch(() => {
-    console.log("Pasting from internal:", internalClipboardContent)
-    // Looks like we don't have permisions to use clipboard. Let's use internal clipboard instead!
-    const rhythmFragmentDef = internalClipboardContent
-    dispatch(pasteRhythmFragment({ rhythmFragmentDef, pasteStartIdx, pasteStartInstrument }))
-  })
+  dispatch(pasteRhythmFragment({ rhythmFragmentDef, pasteStartIdx, pasteStartInstrument }))
 }

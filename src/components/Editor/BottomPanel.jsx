@@ -2,17 +2,25 @@ import React, { useState } from "react";
 import "./css/BottomPanel.css"
 import PlayContainer from "./PlayContainer";
 import TipsPanel from "./TipsPanel";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setExportModalVisibility } from "../../Redux/modalsSlice";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { TIPS_PANEL_VISIBLE_KEY } from "../../constants/LocalStorage";
 import PrintingSystem from "./PrintingSystem";
+import { copySelectedBeats, pasteBeatsFromClipboard } from "../../helpers/copyPasteRhythm";
 
 export default function BottomPanel() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch()  
   const [tipsVisible, setTipsVisible] = useLocalStorage(TIPS_PANEL_VISIBLE_KEY, true)
 
   const [beatTypeCount, setBeatTypeCount] = useState(1)
+
+  const definition = useSelector(store => store.rhythm.definition)
+  const selectionStartIdx = useSelector(store => store.editor.selectionStartIdx)
+  const selectionEndIdx = useSelector(store => store.editor.selectionEndIdx)
+  const selectionStartInstrument = useSelector(store => store.editor.selectionStartInstrument)
+  const selectionEndInstrument = useSelector(store => store.editor.selectionEndInstrument)
+  const clipboardContent = useSelector(store => store.editor.copyClipboard)
 
   function decreaseBeatType() {
     setBeatTypeCount(beatTypeCount - 1)
@@ -28,6 +36,14 @@ export default function BottomPanel() {
 
   function showExportModal() {
     dispatch(setExportModalVisibility(true))
+  }
+
+  function handleCopy() {
+    copySelectedBeats(definition, selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, dispatch)
+  }
+
+  function handlePaste() {
+    pasteBeatsFromClipboard(clipboardContent, selectionStartIdx, selectionStartInstrument, dispatch)
   }
 
   return (
@@ -82,10 +98,10 @@ export default function BottomPanel() {
           <PrintingSystem />
         </section>
         <section className="copy-paste-section">
-          <button className="icon-btn" title="copy">
+          <button className="icon-btn" title="copy" onClick={handleCopy}>
             <img src="/assets/svg/ui/copy.svg" alt="copy" />
           </button>
-          <button className="icon-btn" title="paste">
+          <button className="icon-btn" title="paste" onClick={handlePaste}>
             <img src="/assets/svg/ui/paste.svg" alt="paste" />
           </button>
         </section>
