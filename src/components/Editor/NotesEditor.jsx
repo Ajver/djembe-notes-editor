@@ -266,7 +266,10 @@ export default function NotesEditor() {
     selectionEndInstrument, 
     beatsCount, 
     anyPopupOpened, 
-    definition
+    definition,
+    past,
+    present,
+    future,
   ])
 
   return (null)
