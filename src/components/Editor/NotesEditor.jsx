@@ -71,7 +71,6 @@ export default function NotesEditor() {
 
   function copyBeats() {
     copySelectedBeats(definition, selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, dispatch)
-    // dispatch(copySelectedBeats(definition))
   }
 
   function cutBeats() {
