@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import "./css/BottomPanel.css"
-import PlayContainer from "./PlayContainer";
-import TipsPanel from "./TipsPanel";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setExportModalVisibility } from "../../Redux/modalsSlice";
-import useLocalStorage from "../../hooks/useLocalStorage";
+import { BeatType, NotesCount } from "../../constants/BeatDef";
 import { TIPS_PANEL_VISIBLE_KEY } from "../../constants/LocalStorage";
-import PrintingSystem from "./PrintingSystem";
 import { copySelectedBeats, pasteBeatsFromClipboard } from "../../helpers/copyPasteRhythm";
+import { setBeatTypeForSelected } from "../../helpers/editSelectedNotes";
+import { getLocationFromNoteNumber } from "../../helpers/noteNumber";
 import { rhythmEditRedo, rhythmEditUndo } from "../../helpers/undoRedo";
+import useLocalStorage from "../../hooks/useLocalStorage";
+import PlayContainer from "./PlayContainer";
+import PrintingSystem from "./PrintingSystem";
+import TipsPanel from "./TipsPanel";
+import "./css/BottomPanel.css";
 
 export default function BottomPanel() {
   const dispatch = useDispatch()  
   const [tipsVisible, setTipsVisible] = useLocalStorage(TIPS_PANEL_VISIBLE_KEY, true)
-
-  const [beatTypeCount, setBeatTypeCount] = useState(1)
 
   const definition = useSelector(store => store.rhythm.definition)
   const selectionStartIdx = useSelector(store => store.editor.selectionStartIdx)
@@ -25,13 +26,37 @@ export default function BottomPanel() {
   const present = useSelector(store => store.editor.present)
   const future = useSelector(store => store.editor.future)
   const clipboardContent = useSelector(store => store.editor.copyClipboard)
+  
+  let anythingSelected = false
+  let beatTypeCount = 0
 
+  if (selectionStartIdx >= 0 && selectionStartInstrument >= 0) {
+    anythingSelected = true
+
+    const noteLocation = getLocationFromNoteNumber(selectionStartIdx)
+    const firstBeat = definition[selectionStartInstrument][noteLocation.beatIdx]
+    const firstBeatType = firstBeat.type
+    beatTypeCount = NotesCount[firstBeatType]
+  }
+    
   function decreaseBeatType() {
-    setBeatTypeCount(beatTypeCount - 1)
+    if (beatTypeCount <= 1) {
+      return
+    }
+
+    const newBeatType = Object.values(BeatType)[beatTypeCount - 2]
+    setBeatTypeForSelected(selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, definition, dispatch, newBeatType)
   }
 
   function increaseBeatType() {
-    setBeatTypeCount(beatTypeCount + 1)
+    if (beatTypeCount >= 4) {
+      return
+    }
+    
+    const newBeatType = Object.values(BeatType)[beatTypeCount]
+    setBeatTypeForSelected(selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, definition, dispatch, newBeatType)
+
+    // setBeatTypeCount(beatTypeCount + 1)
   }
 
   function toggleTipsPanel() {
