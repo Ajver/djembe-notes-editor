@@ -10,17 +10,13 @@ export default function LayoutBuilder() {
   const [containerWidth, setContainerWidth] = useState(Math.min(MOBILE_MAX_WIDTH, window.innerWidth))
 
   const toDesktop = containerWidth >= MOBILE_MAX_WIDTH
-  console.log("to desktop: ", toDesktop)
 
   window.addEventListener("resize", () => {
     const newWidth = Math.min(MOBILE_MAX_WIDTH, window.innerWidth)
     setContainerWidth(newWidth)
   })
-
-  console.log("Container width: ", containerWidth)
   
   useEffect(() => {
-    console.log("to desktop EFFECT: ", toDesktop)
     dispatch(generateLayout({rhythm, containerWidth, toDesktop}))
   }, [rhythm, dispatch, containerWidth, toDesktop])
 

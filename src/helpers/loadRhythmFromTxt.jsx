@@ -7,7 +7,6 @@ import { BeatType, NotesCount } from "../constants/BeatDef"
  */
 export default function loadRhythmFromTxt(text, dispatch) {
   const rhythmObj = JSON.parse(text)
-  console.log("LOADING", rhythmObj)
 
   switch(rhythmObj.version) {
     case "1": return load_v1(rhythmObj, dispatch)

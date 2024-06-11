@@ -22,7 +22,6 @@ export default function TopPanel() {
   }
   
   function importRhythm(event) {
-    console.log("IMPORTING: ", event)
     loadRhythmFromFile(event.target.files[0], dispatch)
   }
 
