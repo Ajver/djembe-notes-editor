@@ -27,18 +27,21 @@ export default function BottomPanel() {
   const future = useSelector(store => store.editor.future)
   const clipboardContent = useSelector(store => store.editor.copyClipboard)
   
-  let anythingSelected = false
+  let nothingSelected = true
   let beatTypeCount = 0
 
   if (selectionStartIdx >= 0 && selectionStartInstrument >= 0) {
-    anythingSelected = true
-
     const noteLocation = getLocationFromNoteNumber(selectionStartIdx)
     const firstBeat = definition[selectionStartInstrument][noteLocation.beatIdx]
-    const firstBeatType = firstBeat.type
-    beatTypeCount = NotesCount[firstBeatType]
+
+    if (firstBeat) {
+      const firstBeatType = firstBeat.type
+      beatTypeCount = NotesCount[firstBeatType]
+
+      nothingSelected = false
+    }
   }
-    
+  
   function decreaseBeatType() {
     if (beatTypeCount <= 1) {
       return
@@ -55,8 +58,6 @@ export default function BottomPanel() {
     
     const newBeatType = Object.values(BeatType)[beatTypeCount]
     setBeatTypeForSelected(selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, definition, dispatch, newBeatType)
-
-    // setBeatTypeCount(beatTypeCount + 1)
   }
 
   function toggleTipsPanel() {
@@ -83,10 +84,12 @@ export default function BottomPanel() {
     pasteBeatsFromClipboard(clipboardContent, selectionStartIdx, selectionStartInstrument, dispatch)
   }
 
+  const controlPanelDisabledClass = nothingSelected ? "disabled" : ""
+
   return (
     <>
       <TipsPanel visible={tipsVisible} toggleVisibility={toggleTipsPanel} />
-      <section className="control-panel">
+      <section className={"control-panel " + controlPanelDisabledClass}>
         <section className="beat-type-change">
           <button className="icon-btn" onClick={decreaseBeatType}>
             <img src="/assets/svg/ui/arrow-right.svg" alt="Decrease notes in beat" className="flip-h" />
