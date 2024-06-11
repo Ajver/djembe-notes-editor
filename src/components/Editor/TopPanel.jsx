@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import "./css/TopPanel.css"
-import { setCreateRhythmModalVisibility } from "../../Redux/modalsSlice"
+import { setCreateRhythmModalVisibility, setExportModalVisibility } from "../../Redux/modalsSlice"
 import loadRhythmFromFile from "../../helpers/loadRhythmFromFile"
 import { setRhythmTitle } from "../../Redux/rhythmSlice"
 import InputLabelContainer from "../Common/InputLabelContainer"
 import { MOBILE_MAX_WIDTH } from "../../constants/MobileUi"
+import PrintingSystem from './PrintingSystem'
 
 export default function TopPanel() {
   const dispatch = useDispatch()
@@ -93,9 +94,14 @@ function DesktopTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleE
 function MobileTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleEdited}) {
   const rhythmTitle = useSelector(store => store.rhythm.title)
   const [isMenuVisible, setMenuVisible] = useState(false)
+  const dispatch = useDispatch()
 
   function toggleMenu() {
     setMenuVisible(!isMenuVisible)
+  }
+
+  function showExportModal() {
+    dispatch(setExportModalVisibility(true))
   }
 
   const menuVisibleClass = isMenuVisible ? "menu-visible" : ""
@@ -135,6 +141,13 @@ function MobileTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleEd
             <input type="file" id="import-btn" accept=".json" onChange={importRhythm} />
             Import from file
           </label>
+          <label>
+            <button className="icon-btn" onClick={showExportModal}>
+              <img src="/assets/svg/ui/download.svg" alt="Download rhythm definition" />
+            </button>
+            Save to file
+          </label>
+          <PrintingSystem />
           <label>
             <button className="icon-btn">
               <img src="/assets/svg/ui/settings.svg" alt="Rhythm settings" />

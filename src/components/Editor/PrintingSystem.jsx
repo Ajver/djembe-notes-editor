@@ -34,12 +34,13 @@ export default function PrintingSystem() {
   }, [])
 
   return (
-    <div>
+    <label>
       <button className="icon-btn" onClick={startPrinting}>
         <img src="/assets/svg/ui/print.svg" alt="Print rhythm" />
       </button>
+      <span className="print-btn-title mobile-only">Print</span>
       { isPrintingStage && <PrintingContainer endPrintingCallback={endPrinting} /> }
-    </div>
+    </label>
   )
 }
 
