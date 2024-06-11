@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { decodeInstrument } from "../helpers/loadRhythmFromTxt"
 
 export const editorSlice = createSlice({
   name: "editor",
@@ -177,7 +176,7 @@ export const editorSlice = createSlice({
       state.selectionStartInstrument++
       state.selectionEndInstrument++
     },
-    setCopyClipboard: (state, action) => {
+    setInternalClipboardContent: (state, action) => {
       state.copyClipboard = action.payload
     },
   }
@@ -197,7 +196,7 @@ export const {
   extendSelectionRight,
   extendSelectionUp,
   extendSelectionDown,
-  setCopyClipboard,
+  setInternalClipboardContent,
 } = editorSlice.actions 
 
 export default editorSlice.reducer

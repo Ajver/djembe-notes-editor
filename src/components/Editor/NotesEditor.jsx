@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
-import { NoteSymbol } from "../../constants/NoteDef"
+import { deselectAll, extendSelectionDown, extendSelectionLeft, extendSelectionRight, extendSelectionUp, moveSelectionDown, moveSelectionLeft, moveSelectionRight, moveSelectionUp, selectAll } from "../../Redux/editorSlice"
+import { setBeatType, setNote } from "../../Redux/rhythmSlice"
 import { BeatType } from "../../constants/BeatDef"
-import { selectAll, deselectAll, extendSelectionLeft, extendSelectionRight, extendSelectionUp, extendSelectionDown, moveSelectionLeft, moveSelectionRight, moveSelectionUp, moveSelectionDown, setCopyClipboard } from "../../Redux/editorSlice"
-import { pasteRhythmFragment, setBeatType, setNote } from "../../Redux/rhythmSlice"
-import { playNote } from "../../helpers/playing/playing"
+import { NoteSymbol } from "../../constants/NoteDef"
+import { copySelectedBeats, pasteBeatsFromClipboard } from "../../helpers/copyPasteRhythm"
 import { calculateNoteNumber, getLocationFromNoteNumber } from "../../helpers/noteNumber"
-import { shortenInstrument } from "../../helpers/saveRhythmToTxt"
+import { playNote } from "../../helpers/playing/playing"
 
 export default function NotesEditor() {
   const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
@@ -70,36 +70,14 @@ export default function NotesEditor() {
   }
 
   function copyBeats() {
-    const instrumentsToCopyList = []
-
-    const firstBeatToCopyIdx = Math.floor(selectionStartIdx / 4)
-    const lastBeatToCopyIdx = Math.floor(selectionEndIdx / 4)
-
-    for (let instrumentIdx = selectionStartInstrument; instrumentIdx <= selectionEndInstrument; instrumentIdx++) {
-      const instrumentToCopy = definition[instrumentIdx].slice(firstBeatToCopyIdx, lastBeatToCopyIdx + 1)
-      const shortInstrumentDef = shortenInstrument(instrumentToCopy)
-      instrumentsToCopyList.push(shortInstrumentDef)
-    }
-    const strInstrumentsToCopy = instrumentsToCopyList.join("\n")
-
-    const textArea = document.createElement('textarea');
-    textArea.value = strInstrumentsToCopy;
-    
-    // Make sure the text area is not visible on the page
-    textArea.style.position = 'fixed';
-    textArea.style.left = '-9999px';
-    
-    document.body.appendChild(textArea);
-    
-    textArea.select();
-
-    dispatch(setCopyClipboard(strInstrumentsToCopy))
-    window.setTimeout(() => textArea.remove(), 10)
+    copySelectedBeats(definition, selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, dispatch)
+    // dispatch(copySelectedBeats(definition))
   }
 
   function cutBeats() {
     copyBeats()
     
+    // Clear notes
     const copyStartBeatIdx = Math.floor(selectionStartIdx / 4)
     const copyEndBeatIdx = Math.floor(selectionEndIdx / 4)
     for (let instrumentIdx = selectionStartInstrument; instrumentIdx <= selectionEndInstrument; instrumentIdx++) {
@@ -118,15 +96,7 @@ export default function NotesEditor() {
   }
 
   function pasteBeats() {
-    if (selectionStartIdx < 0 || selectionStartInstrument < 0) {
-      // Nothing selected - we can't paste when we don't know where to paste
-      return
-    }
-
-    const rhythmFragmentDef = clipboardContent
-    const pasteStartIdx = Math.floor(selectionStartIdx / 4)
-    const pasteStartInstrument = selectionStartInstrument
-    dispatch(pasteRhythmFragment({ rhythmFragmentDef, pasteStartIdx, pasteStartInstrument }))
+    pasteBeatsFromClipboard(clipboardContent, selectionStartIdx, selectionStartInstrument, dispatch)
   }
 
   function selectAllNotes() {
