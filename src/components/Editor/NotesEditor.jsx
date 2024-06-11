@@ -1,14 +1,13 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { deselectAll, extendSelectionDown, extendSelectionLeft, extendSelectionRight, extendSelectionUp, moveSelectionDown, moveSelectionLeft, moveSelectionRight, moveSelectionUp, selectAll } from "../../Redux/editorSlice"
-import { setBeatType, setNote } from "../../Redux/rhythmSlice"
+import { setNote } from "../../Redux/rhythmSlice"
 import { BeatType } from "../../constants/BeatDef"
 import { NoteSymbol } from "../../constants/NoteDef"
 import { copySelectedBeats, pasteBeatsFromClipboard } from "../../helpers/copyPasteRhythm"
-import { calculateNoteNumber, getLocationFromNoteNumber } from "../../helpers/noteNumber"
-import { playNote } from "../../helpers/playing/playing"
-import { rhythmEditRedo, rhythmEditUndo } from "../../helpers/undoRedo"
 import { setBeatTypeForSelected, setNoteForSelected } from "../../helpers/editSelectedNotes"
+import { calculateNoteNumber } from "../../helpers/noteNumber"
+import { rhythmEditRedo, rhythmEditUndo } from "../../helpers/undoRedo"
 
 export default function NotesEditor() {
   const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
