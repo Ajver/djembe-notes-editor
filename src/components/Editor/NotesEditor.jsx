@@ -7,6 +7,7 @@ import { NoteSymbol } from "../../constants/NoteDef"
 import { copySelectedBeats, pasteBeatsFromClipboard } from "../../helpers/copyPasteRhythm"
 import { calculateNoteNumber, getLocationFromNoteNumber } from "../../helpers/noteNumber"
 import { playNote } from "../../helpers/playing/playing"
+import { rhythmEditRedo, rhythmEditUndo } from "../../helpers/undoRedo"
 
 export default function NotesEditor() {
   const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
@@ -18,6 +19,9 @@ export default function NotesEditor() {
   const selectionEndIdx = useSelector(store => store.editor.selectionEndIdx)
   const selectionEndInstrument = useSelector(store => store.editor.selectionEndInstrument)
   const clipboardContent = useSelector(store => store.editor.copyClipboard)
+  const past = useSelector(store => store.editor.past)
+  const present = useSelector(store => store.editor.present)
+  const future = useSelector(store => store.editor.future)
 
   const dispatch = useDispatch()
 
@@ -110,6 +114,14 @@ export default function NotesEditor() {
     dispatch(deselectAll())
   }
 
+  function handleUndo() {
+    rhythmEditUndo(past, present, future, dispatch)
+  }
+
+  function handleRedo() {
+    rhythmEditRedo(past, present, future, dispatch)
+  }
+
   function moveNotesSelectionLeft() {
     dispatch(moveSelectionLeft())
   }
@@ -178,6 +190,24 @@ export default function NotesEditor() {
               selectAllNotes()
               event.preventDefault()
           }
+      },
+      "z": () => {
+        if (event.ctrlKey || event.metaKey) {
+          handleUndo()
+          event.preventDefault()
+        }
+      },
+      "Z": () => {
+        // Ctrl + Shift + Z
+        handleRedo()
+        event.preventDefault()
+      },
+      "y": () => {
+        if (event.ctrlKey || event.metaKey) {
+          // Ctrl + Y
+          handleRedo()
+          event.preventDefault()
+        }
       },
       "Escape": () => deselectAllNotes(),
       "ArrowLeft": () => {
