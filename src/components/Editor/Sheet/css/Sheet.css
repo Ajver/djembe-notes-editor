@@ -1,6 +1,6 @@
 
 /* Styles for sheet to print ONLY in editor! */
-.editor-mode .sheet {
+.edit-mode .sheet {
   box-shadow: 0 0 20px #000;
   margin-top: 30px;
 }
