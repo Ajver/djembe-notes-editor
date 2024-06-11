@@ -67,3 +67,12 @@
   }
 
 }
+
+@media screen and (max-width: 320px) {
+
+  .control-panel,
+  .bottom-panel {
+    padding: 0 5px;
+  }
+  
+}
