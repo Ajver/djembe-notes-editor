@@ -8,6 +8,7 @@ import { copySelectedBeats, pasteBeatsFromClipboard } from "../../helpers/copyPa
 import { calculateNoteNumber, getLocationFromNoteNumber } from "../../helpers/noteNumber"
 import { playNote } from "../../helpers/playing/playing"
 import { rhythmEditRedo, rhythmEditUndo } from "../../helpers/undoRedo"
+import { setBeatTypeForSelected, setNoteForSelected } from "../../helpers/editSelectedNotes"
 
 export default function NotesEditor() {
   const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
@@ -25,52 +26,12 @@ export default function NotesEditor() {
 
   const dispatch = useDispatch()
 
-  function forEachSelectedNote(callback) {
-    if (selectionStartInstrument < 0) {
-      // Nothing selected
-      return
-    }
-    for (let instrumentIdx = selectionStartInstrument; instrumentIdx <= selectionEndInstrument; instrumentIdx++) {
-      for (let noteNumber = selectionStartIdx; noteNumber <= selectionEndIdx; noteNumber++) {
-        const noteLocation = getLocationFromNoteNumber(noteNumber, instrumentIdx)
-        const noteExists = (
-          noteLocation.noteIdx < definition[instrumentIdx][noteLocation.beatIdx].notes.length
-        )
-        if (noteExists) {
-          callback(noteLocation)
-        }
-      }
-    }
-  }
-
   function changeNote(noteSymbol) {
-    let anythingChanged = false
-
-    forEachSelectedNote(noteLocation => {
-      dispatch(setNote({ noteLocation, noteSymbol }))
-      anythingChanged = true
-    })
-
-    if (anythingChanged) {
-      playNote(noteSymbol)
-    }
+    setNoteForSelected(selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, definition, dispatch, noteSymbol)
   }
 
   function changeBeatType(beatType) {
-    forEachSelectedNote(noteLocation => {
-      const {
-        instrumentIdx,
-        beatIdx,
-      } = noteLocation
-
-      // TODO: Optimize by updating beat type only once!
-      
-      dispatch(setBeatType({
-        instrumentIdx,
-        beatIdx,
-        newType: beatType,
-      }))
-    })
+    setBeatTypeForSelected(selectionStartIdx, selectionEndIdx, selectionStartInstrument, selectionEndInstrument, definition, dispatch, beatType)
   }
 
   function copyBeats() {
