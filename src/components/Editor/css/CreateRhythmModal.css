@@ -6,12 +6,12 @@
     display: flex;
     justify-content: center;    
     align-items: center;
-    height: 100%;
+    margin-top: 20px;
 }
 
 .preset-selection-container label {
     width: 100px;
-    margin: 0 7px;
+    margin: 7px;
     padding: 10px 0;
     background-color: #dde7f8;
     cursor: pointer;
@@ -27,9 +27,9 @@
 }
 
 .bars-in-full-score-section {
-    width: 300px;
-    margin: auto;
-    margin-bottom: 30px;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px auto;
 }
 
 .bars-in-full-score-input {
@@ -38,12 +38,8 @@
     width: 100%;
 }
 
-.modal .buttons-section {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-}
-
-.modal .buttons-section button {
-    margin: 0 5px;
+@media screen and (max-width: 500px) {
+    .preset-selection-container {
+        flex-wrap: wrap;
+    }
 }
