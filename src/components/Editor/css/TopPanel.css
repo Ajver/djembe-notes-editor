@@ -63,7 +63,7 @@
     flex-direction: column;
     padding: 0;
     box-shadow: 0 0 5px #666;
-    overflow: scroll;
+    overflow: auto;
     max-height: calc(100vh);
   }
 
