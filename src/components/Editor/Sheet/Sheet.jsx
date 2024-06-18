@@ -23,7 +23,6 @@ function _isLayoutEmpty(elements) {
 
 export default function Sheet({elements}) {
   const showCreateBarBtn = _isLayoutEmpty(elements)
-  console.log(showCreateBarBtn)
 
   return (
     <div className="sheet">
