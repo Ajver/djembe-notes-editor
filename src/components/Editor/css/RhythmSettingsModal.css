@@ -34,3 +34,8 @@
 .beats-in-bar-input {
   max-width: 60px;
 }
+
+.draggable-instrument-row {
+  display: flex;
+
+}
