@@ -11,12 +11,22 @@ import { setBeatsInBar, setDefaultBeatType } from "../../Redux/rhythmSlice";
 export default function RhythmSettingsModal() {
   const dispatch = useDispatch()
   const isVisible = useSelector(store => store.modals.rhythmSettingsModalVisible)
+  const defaultBeatType = useSelector(store => store.rhythm.defaultBeatType)
+  const defaultBeatsInBar = useSelector(store => store.rhythm.beatsInBar)
 
-  const [tempBeatType, setTempBeatType] = useState(useSelector(store => store.rhythm.defaultBeatType))
-  const [tempBeatsInBar, setTempBeatsInBar] = useState(useSelector(store => store.rhythm.beatsInBar))
+  const [tempBeatType, setTempBeatType] = useState(defaultBeatType)
+  const [tempBeatsInBar, setTempBeatsInBar] = useState(defaultBeatsInBar)
 
   function hide() {
     dispatch(setRhythmSettingsModalVisibility(false))
+  }
+
+  function cancel() {
+    // Reset settings
+    setTempBeatType(defaultBeatType)
+    setTempBeatsInBar(defaultBeatsInBar)
+
+    hide()
   }
 
   function save() {
@@ -65,7 +75,7 @@ export default function RhythmSettingsModal() {
           />
         </section>
         <section className="buttons-section">
-          <button className="cancel" type="reset" onClick={hide}>CANCEL</button>
+          <button className="cancel" type="reset" onClick={cancel}>CANCEL</button>
           <button className="submit" type="submit" onClick={save}>SAVE</button>
         </section>
       </div>
