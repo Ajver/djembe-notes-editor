@@ -232,5 +232,5 @@ export default function NotesEditor() {
     future,
   ])
 
-  return (null)
+  return null
 }

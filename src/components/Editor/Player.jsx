@@ -146,5 +146,5 @@ export default function Player() {
     }
   }, [isPlaying])
 
-  return (null)
+  return null
 }

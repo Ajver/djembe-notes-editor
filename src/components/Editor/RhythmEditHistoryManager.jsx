@@ -32,5 +32,5 @@ export default function RhythmEditHistoryManager() {
     onRhythmChanged()
   }, [rhythm])
 
-  return (null)
+  return null
 }

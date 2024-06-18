@@ -14,15 +14,14 @@ export const layoutSlice = createSlice({
         containerWidth,
         toDesktop,
       } = action.payload
-      
-      const layout = buildLayout(rhythm, containerWidth, toDesktop)
-      state.layout = layout
+
+      state.layout = buildLayout(rhythm, containerWidth, toDesktop)
     }
   }
 })
 
-export const { 
+export const {
   generateLayout,
-} = layoutSlice.actions 
+} = layoutSlice.actions
 
 export default layoutSlice.reducer

@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux"
+import {useSelector} from "react-redux"
 import saveRhythmToTxt from "../../helpers/saveRhythmToTxt"
-import { RHYTHM_KEY } from "../../constants/LocalStorage"
-import { useEffect } from "react"
+import {RHYTHM_KEY} from "../../constants/LocalStorage"
+import {useEffect} from "react"
 
 export default function LocalStorageSaver() {
   const rhythm = useSelector(store => store.rhythm)
@@ -11,5 +11,5 @@ export default function LocalStorageSaver() {
     localStorage.setItem(RHYTHM_KEY, rhythmTxt)
   }, [rhythm])
 
-  return (null)
+  return null
 }
