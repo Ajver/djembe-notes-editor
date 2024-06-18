@@ -5,8 +5,9 @@ import { useSelector } from "react-redux"
 import InjectBarBtn from "./InjectBarBtn"
 
 export default function FullScore({bars}) {
-  const multiInstruments = useSelector(store => store.rhythm.definition.length > 1)
-  
+  // Check if bars.length > 0, to only show wrapping borders when we have any bars to show
+  const multiInstruments = useSelector(store => store.rhythm.definition.length > 1) && bars.length > 0
+
   let injectBarAfterBtn = ""
   let humanBarNumber = ""
 
