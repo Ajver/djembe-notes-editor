@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux"
 import RhythmEditHistoryManager from "./RhythmEditHistoryManager"
 import TopPanel from "./TopPanel"
 import BottomPanel from "./BottomPanel"
+import RhythmSettingsModal from "./RhythmSettingsModal"
 
 export default function Editor() {
   const dispatch = useDispatch()
@@ -46,6 +47,7 @@ export default function Editor() {
       
       <ExportModal />
       <CreateRhythmModal />
+      <RhythmSettingsModal />
     </div>
   )
 }

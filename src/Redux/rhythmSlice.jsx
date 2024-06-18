@@ -18,6 +18,23 @@ export const rhythmSlice = createSlice({
     defaultBeatType: BeatType.SINGLE,
   },
   reducers: {
+    setDefaultBeatType: (state, action) => {
+      state.defaultBeatType = action.payload
+    },
+    setBeatsInBar: (state, action) => {
+      state.beatsInBar = parseInt(action.payload)
+
+      const beatsOutsideOfBar = state.beatsCount % state.beatsInBar
+
+      if (beatsOutsideOfBar > 0) {
+        const extraNeeded = state.beatsInBar - beatsOutsideOfBar
+
+        rhythmSlice.caseReducers.injectEmptyBeatsToAllInstrumentsAtIdx(state, {payload: {
+          beatIdx: state.beatsCount, // At the end
+          beatsToInjectCount: extraNeeded,
+        }})
+      }
+    },
     overrideWholeRhythm: (state, action) => {
       Object.keys(state).forEach(key => {
         state[key] = action.payload[key] || rhythmSlice.getInitialState()[key]
@@ -92,12 +109,18 @@ export const rhythmSlice = createSlice({
       rhythmSlice.caseReducers.addBar(state)
     },
     injectBarAtBeatIdx: (state, action) => {
-      const beatIdx = action.payload
+      rhythmSlice.caseReducers.injectEmptyBeatsToAllInstrumentsAtIdx(state, {payload: {
+        beatIdx: action.payload,
+        beatsToInjectCount: state.beatsInBar,
+      }})
+    },
+    injectEmptyBeatsToAllInstrumentsAtIdx: (state, action) => {
+      const { beatIdx, beatsToInjectCount } = action.payload
 
       const expectedNotesCount = NotesCount[state.defaultBeatType]
 
       state.definition.forEach(instrument => {
-        const beats = Array(state.beatsInBar).fill(0).map(_ => {
+        const beats = Array(beatsToInjectCount).fill(0).map(_ => {
           return {
             type: state.defaultBeatType,
             notes: Array(expectedNotesCount).fill(NoteSymbol.EMPTY),
@@ -105,7 +128,7 @@ export const rhythmSlice = createSlice({
         })
         instrument.splice(beatIdx, 0, ...beats)
       })
-      state.beatsCount += state.beatsInBar
+      state.beatsCount += beatsToInjectCount
     },
     addBar: state => {
       rhythmSlice.caseReducers.injectBarAtBeatIdx(state, {payload: state.beatsCount})
@@ -165,6 +188,8 @@ export const rhythmSlice = createSlice({
 })
 
 export const { 
+  setDefaultBeatType,
+  setBeatsInBar,
   overrideWholeRhythm,
   pasteRhythmFragment,
   createNewRhythm,

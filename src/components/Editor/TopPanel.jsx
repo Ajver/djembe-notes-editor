@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import "./css/TopPanel.css"
-import { setCreateRhythmModalVisibility, setExportModalVisibility } from "../../Redux/modalsSlice"
+import { setCreateRhythmModalVisibility, setExportModalVisibility, setRhythmSettingsModalVisibility } from "../../Redux/modalsSlice"
 import loadRhythmFromFile from "../../helpers/loadRhythmFromFile"
 import { setRhythmTitle } from "../../Redux/rhythmSlice"
 import InputLabelContainer from "../Common/InputLabelContainer"
@@ -20,6 +20,10 @@ export default function TopPanel() {
   function showCreateNewRhythmModal() {
     dispatch(setCreateRhythmModalVisibility(true))
   }
+
+  function showRhythmSettings() {
+    dispatch(setRhythmSettingsModalVisibility(true))
+  }
   
   function importRhythm(event) {
     loadRhythmFromFile(event.target.files[0], dispatch)
@@ -35,11 +39,13 @@ export default function TopPanel() {
         toDesktop 
         ? <DesktopTopPanel
             showCreateNewRhythmModal={showCreateNewRhythmModal}
+            showRhythmSettings={showRhythmSettings}
             importRhythm={importRhythm}
             onRhythmTitleEdited={onRhythmTitleEdited}
           />
         : <MobileTopPanel
             showCreateNewRhythmModal={showCreateNewRhythmModal}
+            showRhythmSettings={showRhythmSettings}
             importRhythm={importRhythm}
             onRhythmTitleEdited={onRhythmTitleEdited}
           /> 
@@ -48,7 +54,7 @@ export default function TopPanel() {
   )
 }
 
-function DesktopTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleEdited}) {
+function DesktopTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRhythm, onRhythmTitleEdited}) {
   const rhythmTitle = useSelector(store => store.rhythm.title)
 
   return (
@@ -65,7 +71,7 @@ function DesktopTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleE
       </section>
 
       <section className="rhythm-management">
-        <button className="icon-btn">
+        <button className="icon-btn" onClick={showRhythmSettings}>
           <img src="/assets/svg/ui/settings.svg" alt="Rhythm settings" />
         </button>
         <InputLabelContainer 
@@ -90,7 +96,7 @@ function DesktopTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleE
   )
 }
 
-function MobileTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleEdited}) {
+function MobileTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRhythm, onRhythmTitleEdited}) {
   const rhythmTitle = useSelector(store => store.rhythm.title)
   const [isMenuVisible, setMenuVisible] = useState(false)
   const dispatch = useDispatch()
@@ -115,7 +121,7 @@ function MobileTopPanel({showCreateNewRhythmModal, importRhythm, onRhythmTitleEd
 
   function onRhythmSettingsClicked() {
     hideMenu()
-    // TODO
+    showRhythmSettings()
   }
 
   function onBackToCollectionClicked() {

@@ -1,0 +1,36 @@
+
+.rhythm-settings-modal {
+  min-height: 500px;
+}
+
+.rhythm-settings-modal > section {
+  margin-bottom: 30px;
+}
+
+.beat-type-selection-container {
+  display: flex;
+  justify-content: center;    
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.beat-type-selection-container label {
+  width: 100px;
+  margin: 7px;
+  padding: 10px 0;
+  background-color: #dde7f8;
+  cursor: pointer;
+  text-align: center;
+}
+
+.choose-beat-type-btn {
+  appearance: none;
+}
+
+.beat-type-selection-container  input[type=radio]:checked + label {
+  background-color: #528cf0;
+}
+
+.beats-in-bar-input {
+  max-width: 60px;
+}
