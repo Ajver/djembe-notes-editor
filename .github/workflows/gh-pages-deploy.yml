@@ -29,8 +29,8 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Upload output/artifacts
-        uses: actions/upload-pages-artifacts@v3
+      - name: Upload output/artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           name: 'ghp-react-build'
           path: dist
