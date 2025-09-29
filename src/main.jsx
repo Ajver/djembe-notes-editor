@@ -8,11 +8,14 @@ import { BrowserRouter } from "react-router-dom"
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 
+// Needed to support /djembe-notes-editor sub-url in github pages
+const urlBasename = window.location.href.includes("github") ? "djembe-notes-editor" : ""
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={ store }>
       <DndProvider backend={ HTML5Backend }>
-        <BrowserRouter>
+        <BrowserRouter basename={urlBasename}>
           <App/>
         </BrowserRouter>
       </DndProvider>
