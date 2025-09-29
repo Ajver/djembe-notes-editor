@@ -97,60 +97,60 @@ export default function BottomPanel() {
       <section className={"control-panel " + controlPanelDisabledClass}>
         <section className="beat-type-change">
           <button className="icon-btn" onClick={decreaseBeatType}>
-            <img src="/assets/svg/ui/arrow-right.svg" alt="Decrease notes in beat" className="flip-h" />
+            <img src="assets/svg/ui/arrow-right.svg" alt="Decrease notes in beat" className="flip-h" />
           </button>
           <div className="beat-type-counter">
             {beatTypeCount}
           </div>
           <button className="icon-btn" onClick={increaseBeatType}>
-            <img src="/assets/svg/ui/arrow-right.svg" alt="Increase notes in beat" />
+            <img src="assets/svg/ui/arrow-right.svg" alt="Increase notes in beat" />
           </button>
         </section>
         <section className="note-symbol-change">
           <button className="icon-btn" onClick={() => setNote(NoteSymbol.EMPTY)}>
-            <img src="/assets/svg/dash.svg" alt="empty" />
+            <img src="assets/svg/dash.svg" alt="empty" />
           </button>
           <button className="icon-btn" onClick={() => setNote(NoteSymbol.BASS)}>
-            <img src="/assets/svg/bass.svg" alt="bass" />
+            <img src="assets/svg/bass.svg" alt="bass" />
           </button>
           <button className="icon-btn" onClick={() => setNote(NoteSymbol.TONE)}>
-            <img src="/assets/svg/tone.svg" alt="tone" />
+            <img src="assets/svg/tone.svg" alt="tone" />
           </button>
           <button className="icon-btn" onClick={() => setNote(NoteSymbol.SLAP)}>
-            <img src="/assets/svg/cross.svg" alt="slap" />
+            <img src="assets/svg/cross.svg" alt="slap" />
           </button>
           <button className="icon-btn" onClick={() => setNote(NoteSymbol.GHOST)}>
-            <img src="/assets/svg/ghost.svg" alt="ghost" />
+            <img src="assets/svg/ghost.svg" alt="ghost" />
           </button>
         </section>
       </section>
       <section className="bottom-panel">
         <section>
           <button className="icon-btn" onClick={toggleTipsPanel}>
-            <img src="/assets/svg/ui/help.svg" alt="Show or hide tips panel" />
+            <img src="assets/svg/ui/help.svg" alt="Show or hide tips panel" />
           </button>
         </section>
         <section className="undo-redo-section">
           <button className="icon-btn" title="undo" onClick={handleUndo}>
-            <img src="/assets/svg/ui/undo.svg" alt="undo" />
+            <img src="assets/svg/ui/undo.svg" alt="undo" />
           </button>
           <button className="icon-btn" title="redo" onClick={handleRedo}>
-            <img src="/assets/svg/ui/undo.svg" alt="redo" className="flip-h" />
+            <img src="assets/svg/ui/undo.svg" alt="redo" className="flip-h" />
           </button>
         </section>
         <PlayContainer />
         <section className="exporting-section">
           <button className="icon-btn" onClick={showExportModal}>
-            <img src="/assets/svg/ui/download.svg" alt="Download rhythm definition" />
+            <img src="assets/svg/ui/download.svg" alt="Download rhythm definition" />
           </button>
           <PrintingSystem />
         </section>
         <section className="copy-paste-section">
           <button className="icon-btn" title="copy" onClick={handleCopy}>
-            <img src="/assets/svg/ui/copy.svg" alt="copy" />
+            <img src="assets/svg/ui/copy.svg" alt="copy" />
           </button>
           <button className="icon-btn" title="paste" onClick={handlePaste}>
-            <img src="/assets/svg/ui/paste.svg" alt="paste" />
+            <img src="assets/svg/ui/paste.svg" alt="paste" />
           </button>
         </section>
       </section>

@@ -60,19 +60,19 @@ function DesktopTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRh
   return (
     <div className="top-panel">
       <section className="rhythms-collection">
-        <button className="icon-btn"><img src="/assets/svg/ui/library.svg" alt="Show collection" /></button>
+        <button className="icon-btn"><img src="assets/svg/ui/library.svg" alt="Show collection" /></button>
         <button className="icon-btn" onClick={showCreateNewRhythmModal}>
-          <img src="/assets/svg/ui/create-document.svg" alt="create rhythm" />
+          <img src="assets/svg/ui/create-document.svg" alt="create rhythm" />
         </button>
         <label className="label-button icon-btn" title="Import rhythm from file">
-          <img src="/assets/svg/ui/import.svg" alt="Import rhythm from file" />
+          <img src="assets/svg/ui/import.svg" alt="Import rhythm from file" />
           <input type="file" id="import-btn" accept=".json" onChange={importRhythm} />
         </label>
       </section>
 
       <section className="rhythm-management">
         <button className="icon-btn" onClick={showRhythmSettings}>
-          <img src="/assets/svg/ui/settings.svg" alt="Rhythm settings" />
+          <img src="assets/svg/ui/settings.svg" alt="Rhythm settings" />
         </button>
         <InputLabelContainer 
           className="title-edit" 
@@ -83,13 +83,13 @@ function DesktopTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRh
 
       <section className="sharing-section">
         <button className="icon-btn">
-          <img src="/assets/svg/ui/cloud-check.svg" alt="Rhythm saved in cloud" />
+          <img src="assets/svg/ui/cloud-check.svg" alt="Rhythm saved in cloud" />
         </button>
         <button className="icon-btn">
-          <img src="/assets/svg/ui/share.svg" alt="Share rhythm" />
+          <img src="assets/svg/ui/share.svg" alt="Share rhythm" />
         </button>
         <button className="icon-btn">
-          <img src="/assets/svg/ui/user.svg" alt="Profile options" />
+          <img src="assets/svg/ui/user.svg" alt="Profile options" />
         </button>
       </section>
     </div>
@@ -149,8 +149,8 @@ function MobileTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRhy
           <button className="icon-btn" onClick={toggleMenu}>
             { 
               isMenuVisible 
-              ? <img src="/assets/svg/ui/close.svg" alt="Hide main menu" />
-              : <img src="/assets/svg/ui/hamburger.svg" alt="Show main menu" />
+              ? <img src="assets/svg/ui/close.svg" alt="Hide main menu" />
+              : <img src="assets/svg/ui/hamburger.svg" alt="Show main menu" />
             }
           </button>
           <InputLabelContainer 
@@ -159,51 +159,51 @@ function MobileTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRhy
             editCallback={onRhythmTitleEdited}
           />
           <button className="icon-btn">
-            <img src="/assets/svg/ui/cloud-check.svg" alt="Rhythm saved in cloud" />
+            <img src="assets/svg/ui/cloud-check.svg" alt="Rhythm saved in cloud" />
           </button>
         </section>
         <nav className="hamburger-menu">
           <label>
             <button className="icon-btn" onClick={onCreateRhythmClicked}>
-              <img src="/assets/svg/ui/create-document.svg" alt="create rhythm" />
+              <img src="assets/svg/ui/create-document.svg" alt="create rhythm" />
             </button>
             Create new rhythm
           </label>
           <label className="label-button" title="Import rhythm from file" onClick={hideMenu}>
             <div className="icon-btn" >
-              <img src="/assets/svg/ui/import.svg" alt="Import rhythm from file" />
+              <img src="assets/svg/ui/import.svg" alt="Import rhythm from file" />
             </div>
             <input type="file" id="import-btn" accept=".json" onChange={importRhythm} />
             Import from file
           </label>
           <label>
             <button className="icon-btn" onClick={onExportRhythmClicked}>
-              <img src="/assets/svg/ui/download.svg" alt="Download rhythm definition" />
+              <img src="assets/svg/ui/download.svg" alt="Download rhythm definition" />
             </button>
             Save to file
           </label>
           <PrintingSystem onClickCallback={hideMenu} />
           <label>
             <button className="icon-btn" onClick={onRhythmSettingsClicked}>
-              <img src="/assets/svg/ui/settings.svg" alt="Rhythm settings" />
+              <img src="assets/svg/ui/settings.svg" alt="Rhythm settings" />
             </button>
             Rhythm settings
           </label>
           <label>
             <button className="icon-btn" onClick={onBackToCollectionClicked}>
-              <img src="/assets/svg/ui/library.svg" alt="Back to collection" />
+              <img src="assets/svg/ui/library.svg" alt="Back to collection" />
             </button>
             Back to collection
           </label>
           <label>
             <button className="icon-btn" onClick={onShareRhythmClicked}>
-              <img src="/assets/svg/ui/share.svg" alt="Share rhythm" />
+              <img src="assets/svg/ui/share.svg" alt="Share rhythm" />
             </button>
             Share rhythm
           </label>
           <label>
             <button className="icon-btn" onClick={onProfileClicked}>
-              <img src="/assets/svg/ui/user.svg" alt="Profile options" />
+              <img src="assets/svg/ui/user.svg" alt="Profile options" />
             </button>
             Profile
           </label>

@@ -19,12 +19,12 @@ export default function PlayContainer() {
   return (
     <div className="play-container">
       <button className={"icon-btn " + (repeat && "pressed")} onClick={toggleRepeatBtn}>
-        <img src="/assets/svg/ui/repeat.svg" alt="Repeat playing" />
+        <img src="assets/svg/ui/repeat.svg" alt="Repeat playing" />
       </button>
       <button className="icon-btn" onClick={togglePlay}>{
         isPlaying
-        ? (<img src="/assets/svg/ui/pause.svg" alt="Stop playing" />)
-        : (<img src="/assets/svg/ui/play.svg" alt="Play rhythm" />)
+        ? (<img src="assets/svg/ui/pause.svg" alt="Stop playing" />)
+        : (<img src="assets/svg/ui/play.svg" alt="Play rhythm" />)
       }</button>
     </div>
   )

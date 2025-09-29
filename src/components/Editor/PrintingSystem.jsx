@@ -41,7 +41,7 @@ export default function PrintingSystem({onClickCallback}) {
   return (
     <label>
       <button className="icon-btn" onClick={handleOnClick}>
-        <img src="/assets/svg/ui/print.svg" alt="Print rhythm" />
+        <img src="assets/svg/ui/print.svg" alt="Print rhythm" />
       </button>
       <span className="print-btn-title mobile-only">Print</span>
       { isPrintingStage && <PrintingContainer endPrintingCallback={endPrinting} /> }

@@ -11,7 +11,7 @@
 
 .create-first-bar-btn::before {
   content: "";
-  background-image: url(/assets/svg/ui/plus-circle.svg);
+  background-image: url(assets/svg/ui/plus-circle.svg);
   background-size: contain;
   display: block;
   position: absolute;

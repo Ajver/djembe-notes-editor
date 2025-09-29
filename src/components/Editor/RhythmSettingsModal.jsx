@@ -194,7 +194,7 @@ function DraggableInstrumentRow({instrumentIdx, tempIdx, toDelete, instrumentsMa
     <div className="drop-wrapper" ref={drop}>
       <div className="draggable-instrument-row" ref={ drag }>
         <button className="icon-btn" title="Delete this instrument" onClick={onDeleteBtnClicked}>
-          <img src="/assets/svg/ui/trash.svg" alt="Delete"/>
+          <img src="assets/svg/ui/trash.svg" alt="Delete"/>
         </button>
         <p style={ {fontWeight: isDragging ? "bold" : "normal"} }>Rhythm { instrumentIdx + 1 }</p>
         <div>%</div>
