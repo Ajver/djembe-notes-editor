@@ -4,6 +4,7 @@ import ModalWrapper from "./ModalWrapper"
 import { useDispatch, useSelector } from "react-redux"
 import { setExportModalVisibility } from "../../Redux/modalsSlice"
 import saveRhythmToTxt from "../../helpers/saveRhythmToTxt"
+import { compressAndBase64 } from '../../helpers/textCompressionBase64'
 
 export default function ExportModal() {
   const rhythm = useSelector(store => store.rhythm)
@@ -11,16 +12,23 @@ export default function ExportModal() {
   const [fileName, setFileName] = useState(rhythmTitle)
   const exportBtnRef = useRef()
 
+  const [exportRhythmUrl, setExportRhythmUrl] = useState("")
+  const [copyConfirmationVisible, setCopyConfirmationVisible] = useState(false)
+  
   const isVisible = useSelector(store => store.modals.exportModalVisible)
   const dispatch = useDispatch()
 
-  function generateRhythmFile() {
+  function generateRhythmFileAndUrl() {
     const rhythmTxt = saveRhythmToTxt(rhythm)
     
     const myBlob = new Blob([rhythmTxt], {type: "application/json"});
     const blobUrl = window.URL.createObjectURL(myBlob);
-
     exportBtnRef.current.href = blobUrl
+
+    const compressedRhythm = compressAndBase64(rhythmTxt)
+    console.log("Compressed rhythm:", compressedRhythm)
+    const url = window.location.origin + window.location.pathname + "?v=editor&r=" + compressedRhythm
+    setExportRhythmUrl(url)
   }
 
   useEffect(() => {
@@ -29,7 +37,7 @@ export default function ExportModal() {
     }
 
     setFileName(rhythmTitle)
-    generateRhythmFile()
+    generateRhythmFileAndUrl()
   }, [isVisible])
 
   useEffect(() => {
@@ -54,10 +62,19 @@ export default function ExportModal() {
     hide()
   }
 
+  function copyRhythmUrlToClipboard() {
+    console.log("Copying: ", exportRhythmUrl)
+    navigator.clipboard.writeText(exportRhythmUrl)
+    setCopyConfirmationVisible(true)
+    window.setTimeout(() => {
+      setCopyConfirmationVisible(false)
+    }, 2000)
+  }
+
   return (
     <ModalWrapper isVisible={isVisible}>
       <form className="export-modal modal" onSubmit={exportRhythm}>
-        <h2>Export rhythm</h2>
+        <h2>Download rhythm</h2>
         <div className="export-section">
             <p>File name:</p>
             <input 
@@ -67,10 +84,27 @@ export default function ExportModal() {
               value={fileName} 
               onChange={e => setFileName(e.target.value)} 
             />
+            <p>Or copy a sharable link:</p>
+            <div className="export-link-container">
+              <input 
+                type="text" 
+                name="export-link"
+                id="export-link-input" 
+                value={exportRhythmUrl} 
+                readOnly
+                onClick={e => e.target.select()}
+              />
+              <button type='button' className='copy-rhythm-btn' onClick={copyRhythmUrlToClipboard}>
+                <img src="assets/svg/ui/copy.svg" alt="Copy URL" />
+              </button>
+              <div className={"copy-confirmation-tost" + (copyConfirmationVisible?" visible":"")}>
+                <p>Copied to clipboard!</p>
+              </div>
+            </div>
         </div>
         <div className="buttons-section">
             <button className="cancel" id="close-export-rhythm-modal-btn" type="reset" onClick={hide}>CANCEL</button>
-            <a className="button submit" id="submit-export-rhythm-btn" ref={exportBtnRef} onClick={hide}>EXPORT</a>
+            <a className="button submit" id="submit-export-rhythm-btn" ref={exportBtnRef} onClick={hide}>DOWNLOAD</a>
         </div>
       </form>
     </ModalWrapper>
