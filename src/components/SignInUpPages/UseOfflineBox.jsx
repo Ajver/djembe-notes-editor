@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import Link from "../Common/Link";
 import "./css/UseOfflineBox.css"
 
 export default function UseOfflineBox() {

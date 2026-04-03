@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import Link from "../Common/Link"
 import "./css/SignInUpPageCommon.css"
 
 export default function ResetPassword() {

@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import UseOfflineBox from "./UseOfflineBox";
 import "./css/SignInUpPageCommon.css"
-import { Link } from "react-router-dom";
+import Link from "../Common/Link";
 
 export default function SignUpPage() {
   return (
