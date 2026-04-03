@@ -11,13 +11,19 @@
 
 .create-first-bar-btn::before {
   content: "";
-  background-image: url(assets/svg/ui/plus-circle.svg);
-  background-size: contain;
   display: block;
   position: absolute;
   left: 10px;
   width: 30px;
   height: 30px;
+}
+
+.create-first-bar-btn > img {
+  height: 60%;
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 @media screen and (max-width: 830px) {

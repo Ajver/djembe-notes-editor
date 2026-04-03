@@ -11,6 +11,8 @@ export default function InjectBarBtn({ beatIdxToInject }) {
   }
 
   return (
-    <div className="inject-bar-btn editor-only" onClick={injectBar}></div>
+    <div className="inject-bar-btn editor-only" onClick={injectBar}>
+      <img src="assets/svg/ui/plus-circle.svg" alt="Inject bar" />
+    </div>
   )
 }

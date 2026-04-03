@@ -11,6 +11,8 @@ export default function DeleteBarBtn({beatIdxDeleteFrom}) {
   }
 
   return (
-    <button className="delete-bar-btn editor-only" onClick={handleBarDeletion}></button>
+    <button className="delete-bar-btn editor-only" onClick={handleBarDeletion}>
+      <img src="assets/svg/ui/trash.svg" alt="Delete bar" />
+    </button>
   )
 }

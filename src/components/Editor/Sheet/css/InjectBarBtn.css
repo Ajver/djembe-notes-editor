@@ -11,9 +11,17 @@
   z-index: 10;
 }
 
+.inject-bar-btn > img {
+  width: 100%;
+  position: absolute;
+  display: none;
+}
+
 .inject-bar-btn:hover {
   background-color: #78d18165;
-  background-image: url(assets/svg/ui/plus-circle.svg);
+}
+.inject-bar-btn:hover > img {
+  display: block;
 }
 
 .full-score > .inject-bar-btn {

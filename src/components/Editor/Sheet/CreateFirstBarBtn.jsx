@@ -13,6 +13,7 @@ export default function CreateFirstBarBtn() {
 
   return (
     <button className="create-first-bar-btn editor-only" onClick={createBar}>
+      <img src="assets/svg/ui/plus-circle.svg" alt="Create bar" />
       add first bar
     </button>
   )
