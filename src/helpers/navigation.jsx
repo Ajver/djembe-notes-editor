@@ -1,9 +1,10 @@
-// Navigation utility for URL parameter-based routing
+const DEFAULT_VIEW = 'login';
+
 export const navigateTo = (view) => {
     const url = new URL(window.location);
 
     if (view === '') {
-        view = 'login';
+        view = DEFAULT_VIEW;
     }
     
     url.searchParams.set('v', view);
@@ -15,5 +16,5 @@ export const navigateTo = (view) => {
 
 export const getCurrentView = () => {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get('v') || 'login';
+    return urlParams.get('v') || DEFAULT_VIEW;
 };
