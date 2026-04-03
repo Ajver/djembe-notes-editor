@@ -16,3 +16,8 @@
 .page-not-found-container a {
   color: #3a581b;
 }
+
+.page-not-found-image {
+  width: 300px;
+  max-width: 100%;
+}

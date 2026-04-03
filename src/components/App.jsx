@@ -27,12 +27,14 @@ function App() {
 
   const renderCurrentView = () => {
     switch (currentView) {
-      case 'login':
-        return <LoginPage />;
-      case 'signup':
-        return <SignUpPage />;
-      case 'reset-password':
-        return <ResetPassword />;
+      // This views are not yet implemented:
+
+      // case 'login':
+      //   return <LoginPage />;
+      // case 'signup':
+      //   return <SignUpPage />;
+      // case 'reset-password':
+      //   return <ResetPassword />;
       case 'editor':
         return <Editor />;
       default:

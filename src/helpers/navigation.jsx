@@ -1,4 +1,4 @@
-const DEFAULT_VIEW = 'login';
+const DEFAULT_VIEW = 'editor';
 
 export const navigateTo = (view) => {
     const url = new URL(window.location);

@@ -4,9 +4,9 @@ import "./css/PageNotFound.css"
 export default function PageNotFound() {
   return (
     <div className="page-not-found-container">
-      <h1>404</h1>
-      <p>Page not found</p>
-      <Link to="/">Return to home page</Link>
+      <h3>404</h3>
+      <img src="assets/img/broken-djembe.png" alt="Page not found" className="page-not-found-image" />
+      <p>Page not found. <Link to="/">Return to editor</Link></p>
     </div>
   )
 }
