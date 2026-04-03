@@ -54,8 +54,14 @@ export default function TopPanel() {
   )
 }
 
-function DesktopTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRhythm, onRhythmTitleEdited}) {
+function DesktopTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRhythm, onRhythmTitleEdited, onShareRhythmClicked}) {
+  const dispatch = useDispatch()
+
   const rhythmTitle = useSelector(store => store.rhythm.title)
+
+  function onShareRhythmClicked() {
+    dispatch(setExportModalVisibility(true))
+  }
 
   return (
     <div className="top-panel">
@@ -85,7 +91,7 @@ function DesktopTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRh
         <button className="icon-btn">
           <img src="assets/svg/ui/cloud-check.svg" alt="Rhythm saved in cloud" />
         </button>
-        <button className="icon-btn">
+        <button className="icon-btn" onClick={onShareRhythmClicked}>
           <img src="assets/svg/ui/share.svg" alt="Share rhythm" />
         </button>
         <button className="icon-btn">
@@ -131,7 +137,7 @@ function MobileTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRhy
 
   function onShareRhythmClicked() {
     hideMenu()
-    // TODO
+    dispatch(setExportModalVisibility(true))
   }
 
   function onProfileClicked() {
