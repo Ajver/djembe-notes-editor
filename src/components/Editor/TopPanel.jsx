@@ -66,7 +66,7 @@ function DesktopTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRh
   return (
     <div className="top-panel">
       <section className="rhythms-collection">
-        <button className="icon-btn"><img src="assets/svg/ui/library.svg" alt="Show collection" /></button>
+        {/* <button className="icon-btn"><img src="assets/svg/ui/library.svg" alt="Show collection" /></button> */}
         <button className="icon-btn" onClick={showCreateNewRhythmModal}>
           <img src="assets/svg/ui/create-document.svg" alt="create rhythm" />
         </button>
@@ -88,15 +88,15 @@ function DesktopTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRh
       </section>
 
       <section className="sharing-section">
-        <button className="icon-btn">
+        {/* <button className="icon-btn">
           <img src="assets/svg/ui/cloud-check.svg" alt="Rhythm saved in cloud" />
-        </button>
+        </button> */}
         <button className="icon-btn" onClick={onShareRhythmClicked}>
           <img src="assets/svg/ui/share.svg" alt="Share rhythm" />
         </button>
-        <button className="icon-btn">
+        {/* <button className="icon-btn">
           <img src="assets/svg/ui/user.svg" alt="Profile options" />
-        </button>
+        </button> */}
       </section>
     </div>
   )
@@ -164,9 +164,9 @@ function MobileTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRhy
             text={rhythmTitle} 
             editCallback={onRhythmTitleEdited}
           />
-          <button className="icon-btn">
+          {/* <button className="icon-btn">
             <img src="assets/svg/ui/cloud-check.svg" alt="Rhythm saved in cloud" />
-          </button>
+          </button> */}
         </section>
         <nav className="hamburger-menu">
           <label>
@@ -195,24 +195,24 @@ function MobileTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRhy
             </button>
             Rhythm settings
           </label>
-          <label>
+          {/* <label>
             <button className="icon-btn" onClick={onBackToCollectionClicked}>
               <img src="assets/svg/ui/library.svg" alt="Back to collection" />
             </button>
             Back to collection
-          </label>
+          </label> */}
           <label>
             <button className="icon-btn" onClick={onShareRhythmClicked}>
               <img src="assets/svg/ui/share.svg" alt="Share rhythm" />
             </button>
             Share rhythm
           </label>
-          <label>
+          {/* <label>
             <button className="icon-btn" onClick={onProfileClicked}>
               <img src="assets/svg/ui/user.svg" alt="Profile options" />
             </button>
             Profile
-          </label>
+          </label> */}
         </nav>
       </div>
     </>
