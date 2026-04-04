@@ -6,9 +6,12 @@ import { setNote } from "../../../Redux/rhythmSlice"
 import { NoteSymbol } from "../../../constants/NoteDef"
 import { playNote } from "../../../helpers/playing/playing"
 import { calculateNoteNumber } from "../../../helpers/noteNumber"
+import { MOBILE_MAX_WIDTH } from "../../../constants/MobileUi"
 
 export default function Note({noteLocation}) {
   const { instrumentIdx, beatIdx, noteIdx } = noteLocation
+
+  const isDesktopVersion = window.innerWidth > MOBILE_MAX_WIDTH
 
   const selectionStartIdx  = useSelector(store => store.editor.selectionStartIdx)
   const selectionStartInstrument  = useSelector(store => store.editor.selectionStartInstrument)
@@ -23,17 +26,23 @@ export default function Note({noteLocation}) {
   const noteNumberInInstrument = calculateNoteNumber(beatIdx, noteIdx)
 
   function handleClick(event) {
-    const symbols = Object.values(NoteSymbol)
-    const currentIdx = symbols.findIndex(s => s == noteSymbol)
-    const nextIdx = (currentIdx + 1) % symbols.length
-    const nextSymbol = symbols[nextIdx]
+    if (isDesktopVersion) {
+      const symbols = Object.values(NoteSymbol)
+      const currentIdx = symbols.findIndex(s => s == noteSymbol)
+      const nextIdx = (currentIdx + 1) % symbols.length
+      const nextSymbol = symbols[nextIdx]
 
-    dispatch(setNote({
-      noteLocation,
-      noteSymbol: nextSymbol,
-    }))
+      dispatch(setNote({
+        noteLocation,
+        noteSymbol: nextSymbol,
+      }))
 
-    playNote(nextSymbol)
+      playNote(nextSymbol)
+    } else {
+      // On mobile clicking simply selects the note
+      // let's play the current note to give any feedback
+      playNote(noteSymbol)
+    }
   }
 
   function handleRightClick(event) {
