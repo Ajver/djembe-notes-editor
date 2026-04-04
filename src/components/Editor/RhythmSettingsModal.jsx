@@ -88,7 +88,7 @@ function RhythmManagementSection() {
   const [{isOver}, drop] = useDrop({
     accept: "instrument",
     drop: (item, monitor) => {
-      console.log(item)
+      // console.log(item)
     },
     collect: monitor => ({
       isOver: monitor.isOver(),
@@ -97,10 +97,10 @@ function RhythmManagementSection() {
   const definition = useSelector(store => store.rhythm.definition)
 
   const [tempOrder, setTempOrder] = useState([])
-  console.log(tempOrder)
+  // console.log(tempOrder)
 
   const [instrumentsToDelete, setInstrumentsToDelete] = useState([])
-  console.log("To delete: ", instrumentsToDelete)
+  // console.log("To delete: ", instrumentsToDelete)
 
   useEffect(() => setTempOrder(Array.from({length: definition.length}, (_, i) => i)), [definition])
   
@@ -176,7 +176,7 @@ function DraggableInstrumentRow({instrumentIdx, tempIdx, toDelete, instrumentsMa
   const [, drop] = useDrop({
     accept: "instrument",
     hover: (item, monitor) => {
-      console.log(tempIdx, item, monitor)
+      // console.log(tempIdx, item, monitor)
       instrumentsManagement.moveInstrumentAtPosition(item.tempIdx, tempIdx)
       item.tempIdx = tempIdx
     }
