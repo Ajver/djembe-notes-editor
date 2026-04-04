@@ -22,7 +22,6 @@ export default function SelectionHandles() {
   const startHandleRef = useRef(null)
   const endHandleRef = useRef(null)
 
-
   const halfSize = 15
 
   function positionHandlerOnNote(note, start) {
@@ -38,7 +37,7 @@ export default function SelectionHandles() {
       } else {
         setEndPos({
           top: -bodyRect.top + rect.top + rect.height / 2,
-          left: -bodyRect.left + rect.left + rect.width,
+          left: -bodyRect.left + rect.left + rect.width - 6,
         })
       }
     }

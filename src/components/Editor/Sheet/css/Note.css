@@ -29,6 +29,7 @@
 
   border-left: 1px solid #777777;
   border-top: 3px solid #777777;
+  box-sizing: border-box;
 }
 
 .note.selected {
