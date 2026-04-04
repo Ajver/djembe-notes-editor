@@ -3,11 +3,11 @@
   position: relative;
   display: flex;
   align-items: flex-start;
-  margin-top: 50px;
+  margin-top: 25px;
 }
 
 .beat:first-child {
-  margin-top: 30px;
+  margin-top: 5px;
 }
 
 .beat[beat-type=triplet]::after {
@@ -15,5 +15,5 @@
   font-size: 15px;
   position: absolute;
   left: 30px;
-  top: -40px;
+  top: -15px;
 }

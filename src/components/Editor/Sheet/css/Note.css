@@ -2,13 +2,10 @@
 .note {
   position: relative;
   width: 20px;
-  height: 20px;
+  height: 45px;
   cursor: pointer;
   box-sizing: content-box;
   margin-right: 10px;
-  background-size: 16px 16px;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 .note img {
@@ -16,7 +13,7 @@
   position: absolute;
   width: 16px;
   height: 16px;
-  top: 2px;
+  top: 27px;
   left: 2px;
 }
 
@@ -25,9 +22,10 @@
 
   position: absolute;
   left: 50%;
-  bottom: 20px;
+  top: 5px;
 
   height: 17px;
+  z-index: 1;
 
   border-left: 1px solid #777777;
   border-top: 3px solid #777777;
@@ -37,11 +35,9 @@
   background-color: #a5cfac;
 }
 
+.beat[beat-type=single] .note::before,
 .note:last-child::before {
   border-top: none;
-}
-
-.beat[beat-type=single] .note::before {
   height: 20px;
 }
 
@@ -71,6 +67,7 @@
   position: absolute;
   left: 50%;
   bottom: 20px;
+  z-index: 1;
 
   height: 12px;
   width: 20px;

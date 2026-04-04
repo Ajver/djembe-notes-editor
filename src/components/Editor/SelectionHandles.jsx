@@ -32,12 +32,12 @@ export default function SelectionHandles() {
       
       if (start) {
         setStartPos({
-          top: -bodyRect.top + rect.top + rect.height / 2 - 10,
+          top: -bodyRect.top + rect.top + rect.height / 2,
           left: -bodyRect.left + rect.left - halfSize*2,
         })
       } else {
         setEndPos({
-          top: -bodyRect.top + rect.top + rect.height / 2 - 10,
+          top: -bodyRect.top + rect.top + rect.height / 2,
           left: -bodyRect.left + rect.left + rect.width,
         })
       }
@@ -72,7 +72,7 @@ export default function SelectionHandles() {
       }
   }
 
-  const handleStartDrag = (event) => {
+  const handleStartDrag = () => {
     const handleMove = (moveEvent) => {
       moveEvent.preventDefault()
       const moveTouch = moveEvent.touches[0]
@@ -116,7 +116,7 @@ export default function SelectionHandles() {
     document.addEventListener('touchend', handleEnd)
   }
 
-  const handleEndDrag = (event) => {
+  const handleEndDrag = () => {
     const handleMove = (moveEvent) => {
       moveEvent.preventDefault()
       const moveTouch = moveEvent.touches[0]
