@@ -47,7 +47,12 @@ export default function Note({noteLocation}) {
 
   function handleRightClick(event) {
     event.preventDefault()
-    dispatch(setNote({ noteLocation, noteSymbol: NoteSymbol.EMPTY }))
+
+    if (isDesktopVersion) {
+      dispatch(setNote({ noteLocation, noteSymbol: NoteSymbol.EMPTY }))
+    } else {
+      // On mobile right-clicking (or holding for longer) should NOT delete the note
+    }
   }
 
   function handleMouseEnter(event) {
