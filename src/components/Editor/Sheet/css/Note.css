@@ -26,6 +26,7 @@
 
   height: 17px;
   z-index: 1;
+  pointer-events: none;
 
   border-left: 1px solid #777777;
   border-top: 3px solid #777777;
@@ -69,6 +70,7 @@
   left: 50%;
   bottom: 20px;
   z-index: 1;
+  pointer-events: none;
 
   height: 12px;
   width: 20px;
