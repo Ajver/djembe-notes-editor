@@ -93,6 +93,13 @@ export default function SelectionHandles() {
             selectionEndIdx,
             selectionEndInstrument,
           }))
+        }else {
+          dispatch(rangeSelect({
+            selectionStartIdx: noteNumber,
+            selectionStartInstrument: instrumentIdx,
+            selectionEndIdx: noteNumber,
+            selectionEndInstrument: instrumentIdx,
+          }))
         }
       }
     }
@@ -128,6 +135,13 @@ export default function SelectionHandles() {
           dispatch(rangeSelect({
             selectionStartIdx,
             selectionStartInstrument,
+            selectionEndIdx: noteNumber,
+            selectionEndInstrument: instrumentIdx,
+          }))
+        }else {
+          dispatch(rangeSelect({
+            selectionStartIdx: noteNumber,
+            selectionStartInstrument: instrumentIdx,
             selectionEndIdx: noteNumber,
             selectionEndInstrument: instrumentIdx,
           }))
