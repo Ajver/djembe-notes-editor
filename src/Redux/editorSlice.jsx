@@ -13,6 +13,9 @@ export const editorSlice = createSlice({
     selectionEndIdx: -1,
     selectionEndInstrument: -1,
 
+    // Only for mobile - is drag-selecting?
+    isMobileMultiSelecting: false,
+
     copyClipboard: [],
 
     past: [],
@@ -29,6 +32,7 @@ export const editorSlice = createSlice({
       state.selectionStartInstrument = instrument
       state.selectionEndIdx = idx
       state.selectionEndInstrument = instrument
+      state.isMobileMultiSelecting = false
     },
     addToSelection: (state, action) => {
       const { idx, instrument } = action.payload
@@ -61,6 +65,23 @@ export const editorSlice = createSlice({
       state.selectionStartInstrument = selectionStartInstrument
       state.selectionEndIdx = selectionEndIdx
       state.selectionEndInstrument = selectionEndInstrument
+    },
+    rangeSelectMobile: (state, action) => {
+      const { 
+        selectionStartIdx, 
+        selectionStartInstrument,
+        selectionEndIdx,
+        selectionEndInstrument,
+      } = action.payload
+
+      state.selectionStartIdx = selectionStartIdx
+      state.selectionStartInstrument = selectionStartInstrument
+      state.selectionEndIdx = selectionEndIdx
+      state.selectionEndInstrument = selectionEndInstrument
+      state.isMobileMultiSelecting = true
+    },
+    mobileMultiselectEnd: (state, action) => {
+      state.isMobileMultiSelecting = false
     },
     extendSelectionLeft: state => {
       if (
@@ -142,6 +163,7 @@ export const editorSlice = createSlice({
       state.selectionStartInstrument = -1
       state.selectionEndIdx = -1
       state.selectionEndInstrument = -1
+      state.isMobileMultiSelecting = false
     },
     moveSelectionLeft: state => {
       if (state.selectionStartIdx <= 0) {
@@ -207,6 +229,8 @@ export const editorSlice = createSlice({
 export const { 
   addToSelection, 
   rangeSelect,
+  rangeSelectMobile,
+  mobileMultiselectEnd,
   singleSelect,
   selectAll,
   deselectAll,

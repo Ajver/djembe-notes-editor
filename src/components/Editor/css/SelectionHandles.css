@@ -1,0 +1,17 @@
+.selection-handle {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  z-index: 100;
+  cursor: grab;
+  touch-action: none;
+}
+
+.selection-handle img {
+  width: 100%;
+  height: 100%;
+}
+
+.selection-handle-start img {
+  transform: scaleX(-1);
+}

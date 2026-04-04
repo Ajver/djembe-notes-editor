@@ -8,6 +8,7 @@ import { copySelectedBeats, pasteBeatsFromClipboard } from "../../helpers/copyPa
 import { setBeatTypeForSelected, setNoteForSelected } from "../../helpers/editSelectedNotes"
 import { calculateNoteNumber } from "../../helpers/noteNumber"
 import { rhythmEditRedo, rhythmEditUndo } from "../../helpers/undoRedo"
+import SelectionHandles from './SelectionHandles'
 
 export default function NotesEditor() {
   const anyPopupOpened = useSelector(store => store.modals.anyPopupOpened)
@@ -232,5 +233,7 @@ export default function NotesEditor() {
     future,
   ])
 
-  return null
+  return (
+    <SelectionHandles />
+  )
 }

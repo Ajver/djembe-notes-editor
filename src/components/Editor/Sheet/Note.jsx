@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import "./css/Note.css"
 import { useDispatch, useSelector } from "react-redux"
-import { singleSelect, deselectAll, addToSelection } from "../../../Redux/editorSlice"
+import { singleSelect, deselectAll, addToSelection, rangeSelectMobile, mobileMultiselectEnd } from "../../../Redux/editorSlice"
 import { setNote } from "../../../Redux/rhythmSlice"
 import { NoteSymbol } from "../../../constants/NoteDef"
 import { playNote } from "../../../helpers/playing/playing"
@@ -42,6 +42,9 @@ export default function Note({noteLocation}) {
       // On mobile clicking simply selects the note
       // let's play the current note to give any feedback
       playNote(noteSymbol)
+      
+      // If anything was multi-selected before, let's remove the multi selection and start a normal selection
+      dispatch(mobileMultiselectEnd())
     }
   }
 
@@ -51,7 +54,16 @@ export default function Note({noteLocation}) {
     if (isDesktopVersion) {
       dispatch(setNote({ noteLocation, noteSymbol: NoteSymbol.EMPTY }))
     } else {
-      // On mobile right-clicking (or holding for longer) should NOT delete the note
+      // On mobile right-clicking (or holding for longer) should NOT delete the note.
+      // Instead - we start a mobile multi selection
+      console.log("start multi select mob")
+      const selectionData = {
+        selectionStartIdx: noteNumberInInstrument, 
+        selectionStartInstrument: instrumentIdx,
+        selectionEndIdx: noteNumberInInstrument,
+        selectionEndInstrument: instrumentIdx,
+      }
+      dispatch(rangeSelectMobile(selectionData))
     }
   }
 
@@ -87,7 +99,12 @@ export default function Note({noteLocation}) {
     && instrumentIdx <= selectionEndInstrument
   )
 
-  const hoverClass = isSelected ? "selected": ""
+  const isSelectionStart = noteNumberInInstrument === selectionStartIdx && instrumentIdx === selectionStartInstrument
+  const isSelectionEnd = noteNumberInInstrument === selectionEndIdx && instrumentIdx === selectionEndInstrument
+
+  const hoverClass = isSelected ? "selected" : ""
+  const startClass = isSelectionStart ? "selection-start" : ""
+  const endClass = isSelectionEnd ? "selection-end" : ""
 
   const imgSrc = {
     "-": "assets/svg/dash.svg",
@@ -99,15 +116,17 @@ export default function Note({noteLocation}) {
 
   return (
     <div 
-      className={["note", hoverClass].join(" ")} 
+      className={["note", hoverClass, startClass, endClass].join(" ")} 
       onClick={handleClick}
       onContextMenu={handleRightClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onDragStart={(e) => e.preventDefault()}
+      data-instrument-idx={instrumentIdx}
+      data-beat-idx={beatIdx}
+      data-note-idx={noteIdx}
     >
       <img src={imgSrc} alt={noteSymbol} />
-      {/* <span style={{fontSize: 15}}>{noteNumberInInstrument}</span> */}
     </div>
   )
 }
