@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { setExportModalVisibility } from "../../Redux/modalsSlice"
 import saveRhythmToTxt from "../../helpers/saveRhythmToTxt"
 import { compressAndBase64 } from '../../helpers/textCompressionBase64'
+import { QRCodeSVG } from 'qrcode.react';
 
 export default function ExportModal() {
   const rhythm = useSelector(store => store.rhythm)
@@ -17,6 +18,9 @@ export default function ExportModal() {
   
   const isVisible = useSelector(store => store.modals.exportModalVisible)
   const dispatch = useDispatch()
+
+  const [qrCodeVisible, setQrCodeVisible] = useState(false)
+  const qrCodeSize = window.innerWidth > 270 ? 256 : 128
 
   function generateRhythmFileAndUrl() {
     const rhythmTxt = saveRhythmToTxt(rhythm)
@@ -37,6 +41,7 @@ export default function ExportModal() {
     }
 
     setFileName(rhythmTitle)
+    setQrCodeVisible(false)
     generateRhythmFileAndUrl()
   }, [isVisible])
 
@@ -100,6 +105,22 @@ export default function ExportModal() {
               <div className={"copy-confirmation-tost" + (copyConfirmationVisible?" visible":"")}>
                 <p>Copied to clipboard!</p>
               </div>
+            </div>
+            <div className="qr-code-section">
+              <button type="button" className="show-qr-code-btn" onClick={() => setQrCodeVisible(true)}>
+                <img src="assets/img/qr-code-icon.png" alt="QR code" />
+                show qr code
+              </button>
+              {qrCodeVisible &&
+              <div className="qr-code-container">
+                <div style={{ background: 'white' }}>
+                  <QRCodeSVG
+                    value={exportRhythmUrl} 
+                    size={qrCodeSize}
+                    level="M" // Error correction level: L, M, Q, H
+                  />
+                </div>
+              </div>}
             </div>
         </div>
         <div className="buttons-section">

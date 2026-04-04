@@ -13,6 +13,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "fflate": "^0.8.2",
+    "qrcode.react": "^4.2.0",
     "react": "^18.2.0",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",

@@ -11,7 +11,7 @@
   gap: 4px;
   align-items: center;
   position: relative;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .copy-rhythm-btn {
@@ -50,4 +50,37 @@
 
 .copy-confirmation-tost p {
   margin: 0 !important;
+}
+
+.qr-code-section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.show-qr-code-btn {
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #222;
+  font-size: 14px;
+  min-width: 0;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  border: 1px solid #222;
+}
+
+.show-qr-code-btn:hover {
+  border: 1px solid #222;
+}
+
+.show-qr-code-btn img {
+  width: 16px;
+}
+
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
