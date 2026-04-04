@@ -8,11 +8,15 @@
   left: 0;
   padding: 0 20px;
   background-color: #fff;
-  border-top: 1px solid #333;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 100;
+}
+
+.control-panel {
+  bottom: 50px;
+  border-top: 1px solid #333;
 }
 
 .control-panel > *,
@@ -26,7 +30,7 @@
 .undo-redo-section,
 .control-panel {
   /* Hide on desktop, show on mobile */
-  display: none;
+  /* display: none; */
 }
 
 .exporting-section {
@@ -40,19 +44,9 @@
     width: auto;
   }
 
-  .exporting-section {
-    /* On mobile we show exporting section in hamburger menu */
-    display: none;
-  }
-
   .bottom-panel {
     /* border-top: 1px solid #aaa; */
     border-top: none;
-  }
-
-  .control-panel {
-    display: flex;
-    bottom: 50px;
   }
 
   .control-panel.disabled::after {

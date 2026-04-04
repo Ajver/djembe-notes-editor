@@ -94,6 +94,7 @@ function DesktopTopPanel({showCreateNewRhythmModal, showRhythmSettings, importRh
         <button className="icon-btn" onClick={onShareRhythmClicked}>
           <img src="assets/svg/ui/share.svg" alt="Share rhythm" />
         </button>
+        <PrintingSystem />
         {/* <button className="icon-btn">
           <img src="assets/svg/ui/user.svg" alt="Profile options" />
         </button> */}

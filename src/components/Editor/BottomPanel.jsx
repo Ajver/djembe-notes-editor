@@ -69,10 +69,6 @@ export default function BottomPanel() {
     setTipsVisible(!tipsVisible)
   }
 
-  function showExportModal() {
-    dispatch(setExportModalVisibility(true))
-  }
-
   function handleUndo() {
     rhythmEditUndo(past, present, future, dispatch)
   }
@@ -139,12 +135,6 @@ export default function BottomPanel() {
           </button>
         </section>
         <PlayContainer />
-        <section className="exporting-section">
-          <button className="icon-btn" onClick={showExportModal}>
-            <img src="assets/svg/ui/download.svg" alt="Download rhythm definition" />
-          </button>
-          <PrintingSystem />
-        </section>
         <section className="copy-paste-section">
           <button className="icon-btn" title="copy" onClick={handleCopy}>
             <img src="assets/svg/ui/copy.svg" alt="copy" />
